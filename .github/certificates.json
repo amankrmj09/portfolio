@@ -1,19 +1,19 @@
 [
   {
-  "name": "MongoDB Developer's Toolkit: CRUD Mastery with Node.js, Java, Python, C#",
-  "description": "Covers essential MongoDB skills including CRUD operations, indexing, aggregation, data modeling, and integration with various programming languages.",
-  "url": "https://www.geeksforgeeks.org/certificate/33e98d03ae754b8ab2de4b0e2e24c63e",
-  "images": [
-    "certificates/MongoDB_developer_toolkit.jpg"
-  ],
-  "largeDescription": "This certificate confirms that Aman Kumar Maurya completed the course 'MongoDB Developer's Toolkit: CRUD Mastery with Node.js, Java, Python, C#' from GeeksforGeeks. The curriculum covered MongoDB architecture, replication and sharding, CRUD operations, aggregation framework, advanced querying, and NoSQL database integration across multiple programming environments.",
-  "issuingOrganization": "GeeksforGeeks",
-  "issueDate": "July 2025",
-  "skills": [
-    "MongoDB",
-	"NoSQL"
-  ],
-  "type": "jpg"
+    "name": "MongoDB Developer's Toolkit: CRUD Mastery with Node.js, Java, Python, C#",
+    "description": "Covers essential MongoDB skills including CRUD operations, indexing, aggregation, data modeling, and integration with various programming languages.",
+    "url": "https://www.geeksforgeeks.org/certificate/33e98d03ae754b8ab2de4b0e2e24c63e",
+    "images": [
+      "certificates/MongoDB_developer_toolkit.jpg"
+    ],
+    "largeDescription": "This certificate confirms that Aman Kumar Maurya completed the course 'MongoDB Developer's Toolkit: CRUD Mastery with Node.js, Java, Python, C#' from GeeksforGeeks. The curriculum covered MongoDB architecture, replication and sharding, CRUD operations, aggregation framework, advanced querying, and NoSQL database integration across multiple programming environments.",
+    "issuingOrganization": "GeeksforGeeks",
+    "issueDate": "2025-07",
+    "skills": [
+      "MongoDB",
+      "NoSQL"
+    ],
+    "type": "jpg"
   },
   {
     "name": "Database Management and SQL",
@@ -24,7 +24,7 @@
     ],
     "largeDescription": "This certificate confirms that Aman Kumar Maurya completed the course 'Database Management and SQL' on Newton School. The course focused on core relational database principles, including normalization, querying using SQL, schema design, and data integrity constraints. It provided learners with practical skills to manage structured data and execute queries using real-world scenarios.",
     "issuingOrganization": "Newton School",
-    "issueDate": "May 2025",
+    "issueDate": "2025-05",
     "skills": [
       "Database Design",
       "Relational Models",
@@ -40,13 +40,13 @@
     "images": [
       "certificates/udemy_mysql_certificate.jpg"
     ],
-    "largeDescription": "This certificate confirms that Aman Kumar Maurya completed the course 'Mastering MYSQL: Database Creation, Management & SQL Queries' on 05/28/2025, instructed by Maria EduCare on Udemy. The course covered 35 lectures and 4.5 video hours focused on practical SQL usage for creating, managing, and querying MySQL databases.",
+    "largeDescription": "This certificate confirms that Aman Kumar Maurya completed the course 'Mastering MYSQL: Database Creation, Management & SQL Queries' on 2025-05-28, instructed by Maria EduCare on Udemy. The course covered 35 lectures and 4.5 video hours focused on practical SQL usage for creating, managing, and querying MySQL databases.",
     "issuingOrganization": "Udemy",
-    "issueDate": "May 2025",
+    "issueDate": "2025-05-28",
     "skills": [
       "MySQL",
       "Database Design",
-      "SQL Queries",
+      "SQL Queries"
     ],
     "type": "jpg"
   },
@@ -59,7 +59,7 @@
     ],
     "largeDescription": "This certificate confirms that Aman Kumar Maurya completed the course 'Mastering Git: Version Control for Modern Development' on Infosys Springboard. The course, created by Thom Parkin and delivered by IIHT, included 10 modules totaling 2 hours and 49 minutes. It provided hands-on learning in Git fundamentals, including advanced topics like rebasing, bisecting, and commit message practices to enhance collaboration and code management.",
     "issuingOrganization": "Infosys Springboard",
-    "issueDate": "April 2025",
+    "issueDate": "2025-04",
     "skills": [
       "Git",
       "Version Control"
@@ -75,7 +75,7 @@
     ],
     "largeDescription": "This certificate confirms that Aman Kumar Maurya completed the course 'Programming using Java' on Infosys Springboard. The course, guided by Prateem Chakraborty and team, comprised 36 modules and 113 hours of beginner-friendly content. It introduced Java syntax, control structures, classes, encapsulation, inheritance, abstract methods, exception handling, and unit testing—building a strong foundation in object-oriented development with real-world Java applications.",
     "issuingOrganization": "Infosys Springboard",
-    "issueDate": "April 2025",
+    "issueDate": "2025-04",
     "skills": [
       "Java",
       "OOP",
@@ -92,7 +92,7 @@
     ],
     "largeDescription": "This certificate verifies that Aman Kumar Maurya completed the course 'Software Engineering and Agile software development' on Infosys Springboard. Targeted toward individuals in software engineering and Agile development roles, this course focuses on building communication effectiveness, empathy, team dynamics, and personality growth. It empowers professionals to thrive in collaborative, cross-functional teams by aligning interpersonal development with Agile mindsets and engineering excellence.",
     "issuingOrganization": "Infosys Springboard",
-    "issueDate": "April 2025",
+    "issueDate": "2025-04",
     "skills": [
       "Software Engineering",
       "Agile Collaboration"
@@ -108,7 +108,7 @@
     ],
     "largeDescription": "This certificate confirms that Aman Kumar Maurya completed the course 'Time Management' on Infosys Springboard. Curated by Gaurab Mukhopadhyay and Moumita, the course includes focused content on the importance of time management at work and in life, how to prioritize tasks, and the impact of poor time management. It equips learners with practical behavioral skills to enhance productivity and goal achievement in both academic and professional settings.",
     "issuingOrganization": "Infosys Springboard",
-    "issueDate": "April 2025",
+    "issueDate": "2025-04",
     "skills": [
       "Time Management",
       "Prioritization",
@@ -127,7 +127,7 @@
     ],
     "largeDescription": "This certificate verifies core Java skills including classes, data structures, inheritance, exception handling, and more. Candidates are expected to be proficient in either Java 7 or Java 8.",
     "issuingOrganization": "HackerRank",
-    "issueDate": "April 2025",
+    "issueDate": "2025-04",
     "skills": [
       "Java",
       "Data Structures",
@@ -144,7 +144,7 @@
     ],
     "largeDescription": "This certificate validates foundational knowledge required for a software engineer role, including analytical problem solving, basic SQL database operations, and understanding of RESTful APIs.",
     "issuingOrganization": "HackerRank",
-    "issueDate": "April 2025",
+    "issueDate": "2025-04",
     "skills": [
       "SQL",
       "REST APIs",
@@ -162,7 +162,7 @@
     ],
     "largeDescription": "This certificate confirms that Aman Kumar Maurya successfully completed the 5-week course 'API Bootcamp: Summer Edition – Sponsored by Postman' from GeeksforGeeks. Led by industry experts and endorsed by Postman, the program focused on designing, building, and testing APIs using modern backend tools and REST principles—equipping learners with hands-on skills for real-world software development.",
     "issuingOrganization": "GeeksforGeeks",
-    "issueDate": "August 2024",
+    "issueDate": "2024-08",
     "skills": [
       "Postman",
       "API Testing"
