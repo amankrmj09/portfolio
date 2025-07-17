@@ -1,5 +1,21 @@
 [
   {
+  "name": "MongoDB Developer's Toolkit: CRUD Mastery with Node.js, Java, Python, C#",
+  "description": "Covers essential MongoDB skills including CRUD operations, indexing, aggregation, data modeling, and integration with various programming languages.",
+  "url": "https://www.geeksforgeeks.org/certificate/33e98d03ae754b8ab2de4b0e2e24c63e",
+  "images": [
+    "certificates/MongoDB_developer_toolkit.jpg"
+  ],
+  "largeDescription": "This certificate confirms that Aman Kumar Maurya completed the course 'MongoDB Developer's Toolkit: CRUD Mastery with Node.js, Java, Python, C#' from GeeksforGeeks. The curriculum covered MongoDB architecture, replication and sharding, CRUD operations, aggregation framework, advanced querying, and NoSQL database integration across multiple programming environments.",
+  "issuingOrganization": "GeeksforGeeks",
+  "issueDate": "July 2025",
+  "skills": [
+    "MongoDB",
+	"NoSQL"
+  ],
+  "type": "jpg"
+  },
+  {
     "name": "Database Management and SQL",
     "description": "Covers fundamental concepts of database architecture, relational models, and practical SQL usage for data handling and manipulation.",
     "url": "https://my.newtonschool.co/course/bogvoyasvo/certificate/ocqnvd3qbjb1/verify",
@@ -13,10 +29,7 @@
       "Database Design",
       "Relational Models",
       "SQL",
-      "Normalization",
-      "Query Optimization",
       "Schema Design",
-      "Data Integrity"
     ],
     "type": "jpg"
   },
@@ -34,10 +47,6 @@
       "MySQL",
       "Database Design",
       "SQL Queries",
-      "Data Manipulation",
-      "Joins",
-      "Indexes",
-      "Schema Design"
     ],
     "type": "jpg"
   },
