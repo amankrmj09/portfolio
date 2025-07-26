@@ -126,6 +126,7 @@ class FooterScreen extends GetView<FooterController> {
     final homeController = Get.find<HomeController>();
     return Container(
       alignment: Alignment.centerLeft,
+      height: 80,
       width: 200,
       child: AnimatedNavigateButton(
         borderRadius: 16,
@@ -145,6 +146,7 @@ class FooterScreen extends GetView<FooterController> {
   Container contactButton() {
     return Container(
       alignment: Alignment.centerLeft,
+      height: 80,
       width: 250,
       child: Builder(
         builder: (context) => AnimatedNavigateButton(

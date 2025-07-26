@@ -126,7 +126,7 @@ Widget navigateButtonAndSocialLinks(HomeController controller) {
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          width: 210,
+          width: 240,
           child: AnimatedNavigateButton(
             borderRadius: 20,
             label: 'See My Works',
