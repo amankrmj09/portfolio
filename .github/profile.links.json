@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Hackerrank",
+    "url": "https://www.hackerrank.com/profile/amankrmj01",
+    "icon": "svg_icons/hackerrank.svg",
+    "color1": "0xFF0e141e",
+    "color2": "0xFF00ea64"
+  },
+  {
+    "name": "LinkedIn",
+    "url": "https://www.linkedin.com/in/amankrmj01/",
+    "icon": "svg_icons/linkedin.svg",
+    "color1": "0xFF0a66c2",
+    "color2": "0xFFffffff"
+  },
+  {
+    "name": "GitHub",
+    "url": "",
+    "icon": "svg_icons/github.svg",
+    "color1": "0xFF3e75c3",
+    "color2": "0xFFffffff"
+  },
+  {
+    "name": "LeetCode",
+    "url": "",
+    "icon": "svg_icons/leetcode.svg",
+    "color1": "0xFFffc200",
+    "color2": "0xFF000000"
+  },
+  {
+    "name": "X",
+    "url": "https://x.com/amankrmj01",
+    "icon": "svg_icons/x.svg",
+    "color1": "0xFF1da1f2",
+    "color2": "0xFFffffff"
+  },
+  {
+    "name": "Instagram",
+    "url": "https://www.instagram.com/amankrmj01/",
+    "icon": "svg_icons/instagram.svg",
+    "color1": "0xFFff4d95",
+    "color2": "0xFFffffff"
+  }
+]
