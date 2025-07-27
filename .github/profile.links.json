@@ -9,14 +9,14 @@
   {
     "name": "LinkedIn",
     "url": "https://www.linkedin.com/in/amankrmj01",
-    "icon": "svg_icons/linkedin.svg",
+    "icon": "svg_icons/linkedin_color.svg",
     "color1": "0xFF0a66c2",
     "color2": "0xFFffffff"
   },
   {
     "name": "GitHub",
     "url": "https://github.com/amankrmj01",
-    "icon": "svg_icons/github.svg",
+    "icon": "svg_icons/github_color.svg",
     "color1": "0xFF3e75c3",
     "color2": "0xFFffffff"
   },
@@ -37,7 +37,7 @@
   {
     "name": "Instagram",
     "url": "https://www.instagram.com/amankrmj.01",
-    "icon": "svg_icons/instagram.svg",
+    "icon": "svg_icons/instagram_color.svg",
     "color1": "0xFFff4d95",
     "color2": "0xFFffffff"
   }
