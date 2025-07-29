@@ -24,9 +24,12 @@ class KCertificateScrollList extends StatelessWidget {
         Get.find<InfoFetchController>();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
     if (items.isEmpty) {
+      Future.microtask(
+        () => Get.find<InfoFetchController>().fetchCertificates(),
+      );
       return const Center(
         child: Text(
-          'Fixing!!',
+          'Loading projects... Please wait.',
           style: TextStyle(color: Colors.black, fontSize: 24),
         ),
       );
