@@ -1,26 +1,48 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 typedef DialogBuilder = Widget Function(BuildContext context);
 
-dynamic showBlurredGeneralDialog({
+Future<T?> showBlurredGeneralDialog<T>({
   required BuildContext context,
   required DialogBuilder builder,
   String barrierLabel = 'Dialog',
   Color barrierColor = const Color(0x66000000),
+  double blurSigma = 4,
+  Duration transitionDuration = const Duration(milliseconds: 400),
+  bool barrierDismissible = true,
 }) {
-  return showGeneralDialog(
+  return showGeneralDialog<T>(
     context: context,
-    barrierDismissible: true,
+    barrierDismissible: barrierDismissible,
     barrierLabel: barrierLabel,
-    barrierColor: Colors.black.withAlpha((255 * 0.5).toInt()),
-    transitionDuration: Duration(milliseconds: 600),
+    barrierColor: barrierColor,
+    transitionDuration: transitionDuration,
     pageBuilder: (context, anim1, anim2) {
-      return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => Navigator.of(context).pop(),
-        child: GestureDetector(
-          onTap: () {}, // Prevents pop when tapping the child
-          child: builder(context),
+      // Layer 1: BackdropFilter + ModalBarrier for blur
+      return SafeArea(
+        child: Stack(
+          children: [
+            // Blurred background under the dialog
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
+              child: const SizedBox.expand(),
+            ),
+            // Dismiss handler & dialog
+            Center(
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (barrierDismissible) Navigator.of(context).pop();
+                },
+                child: GestureDetector(
+                  behavior: HitTestBehavior.deferToChild,
+                  onTap: () {}, // Prevent tap-through on dialog content
+                  child: builder(context),
+                ),
+              ),
+            ),
+          ],
         ),
       );
     },

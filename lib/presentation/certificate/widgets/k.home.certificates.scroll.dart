@@ -23,17 +23,6 @@ class KCertificateScrollList extends StatelessWidget {
     final InfoFetchController infoFetchController =
         Get.find<InfoFetchController>();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
-    if (items.isEmpty) {
-      Future.microtask(
-        () => Get.find<InfoFetchController>().fetchCertificates(),
-      );
-      return const Center(
-        child: Text(
-          'Loading Certificates... Please wait.',
-          style: TextStyle(color: Colors.black, fontSize: 24),
-        ),
-      );
-    }
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(
         dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},

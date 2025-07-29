@@ -35,11 +35,6 @@ class AboutMeScreen extends GetView<AboutMeController> {
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
     return SafeArea(
       child: SizedBox(
-        height: isMobile
-            ? height * 0.85
-            : height * 0.70 > 656
-            ? height * 0.70
-            : 656,
         width: double.infinity,
         child: Container(
           margin: const EdgeInsets.only(
@@ -74,39 +69,51 @@ class AboutMeScreen extends GetView<AboutMeController> {
             () => (controller.isLoading.value || controller.isExpLoading.value)
                 ? const Center(child: CircularProgressIndicator())
                 : width > 1100
-                ? Row(
-                    children: [
-                      Flexible(
-                        flex: 4,
-                        child: AboutMeDetailsColumn(
-                          summary: controller.aboutMeInfo.value?.summary ?? '',
-                          profession:
-                              controller.aboutMeInfo.value?.profession ?? '',
-                          education:
-                              controller.aboutMeInfo.value?.education ?? '',
-                          experience:
-                              controller.aboutMeInfo.value?.experience ?? '',
-                          email: controller.aboutMeInfo.value?.email ?? '',
-                          interests:
-                              controller.aboutMeInfo.value?.interests ?? [],
-                          technicalInterests:
-                              controller
-                                  .aboutMeInfo
-                                  .value
-                                  ?.technicalInterests ??
-                              [],
+                ? SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 4,
+                              child: AboutMeDetailsColumn(
+                                summary:
+                                    controller.aboutMeInfo.value?.summary ?? '',
+                                profession:
+                                    controller.aboutMeInfo.value?.profession ??
+                                    '',
+                                education:
+                                    controller.aboutMeInfo.value?.education ??
+                                    '',
+                                experience:
+                                    controller.aboutMeInfo.value?.experience ??
+                                    '',
+                                email:
+                                    controller.aboutMeInfo.value?.email ?? '',
+                                interests:
+                                    controller.aboutMeInfo.value?.interests ??
+                                    [],
+                                technicalInterests:
+                                    controller
+                                        .aboutMeInfo
+                                        .value
+                                        ?.technicalInterests ??
+                                    [],
+                              ),
+                            ),
+                            const SizedBox(width: 60),
+                            Flexible(
+                              flex: 3,
+                              child: AboutMeToolsColumn(
+                                profiles: controller.profiles,
+                                tools: controller.tools,
+                                experiences: controller.experiences,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(width: 60),
-                      Flexible(
-                        flex: 3,
-                        child: AboutMeToolsColumn(
-                          profiles: controller.profiles,
-                          tools: controller.tools,
-                          experiences: controller.experiences,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   )
                 : ScrollConfiguration(
                     behavior: const ScrollBehavior().copyWith(

@@ -26,7 +26,7 @@ class CertificateScreen extends GetView<CertificateController> {
       return SizedBox(
         height: isMobile
             ? MediaQuery.of(context).size.height * 0.85
-            : max(MediaQuery.of(context).size.height - 100, 656),
+            : max(MediaQuery.of(context).size.height - 100, 756),
         child: KCertificateScrollList(
           items: controller.certificates,
           onCardTap: (cert, context) {
