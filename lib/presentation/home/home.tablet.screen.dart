@@ -2,14 +2,13 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/presentation/home/widgets/widgets.dart';
+import './widgets/export.home.widget.dart';
 import '../../infrastructure/navigation/routes.dart';
 import '../../widgets/k.pretty.animated.dart';
 import '../../widgets/mesh.background.dart';
 import 'controllers/home.controller.dart';
-import '../home/views/home_bar_view.dart';
+import '../home/views/home_floating_menu_bar.dart';
 import '../screens.dart';
-import 'widgets/code.block.dart';
 
 class HomeTabletScreen extends GetView<HomeController> {
   const HomeTabletScreen({super.key});
@@ -166,7 +165,7 @@ class HomeTabletScreen extends GetView<HomeController> {
           alignment: controller.isScrolling.value
               ? const Alignment(0, -5.5)
               : Alignment.bottomCenter,
-          child: HomeBarView(),
+          child: HomeFloatingMenuBar(),
         ),
       ),
     );

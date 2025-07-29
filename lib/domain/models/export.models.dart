@@ -1,0 +1,9 @@
+export './about_me_info_model/about.me.info.model.dart';
+export './certificate_model/certificate.model.dart';
+export './experience_model/experience.model.dart';
+export './profile_links_model/profile.links.model.dart';
+export './project_model/project.model.dart';
+export './quote_model/quote.model.dart';
+export './social_links_model/social.links.model.dart';
+export './tools_model/tools.model.dart';
+export './contact_details_model/contact.details.model.dart';

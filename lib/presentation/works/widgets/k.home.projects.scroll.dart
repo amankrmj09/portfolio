@@ -27,7 +27,7 @@ class KProjectsScrollList extends StatelessWidget {
     if (items.isEmpty) {
       return const Center(
         child: Text(
-          'No data found.',
+          'Fixing!!',
           style: TextStyle(color: Colors.black, fontSize: 24),
         ),
       );
@@ -48,10 +48,14 @@ class KProjectsScrollList extends StatelessWidget {
             final item = items[index];
             return LayoutBuilder(
               builder: (context, constraints) {
-                return KProjectCard(
-                  project: item,
-                  onTap: () => onCardTap(item, context),
+                return SizedBox(
                   height: constraints.maxHeight,
+                  child: KProjectCard(
+                    isHome: false,
+                    project: item,
+                    onTap: () => onCardTap(item, context),
+                    height: constraints.maxHeight - 60,
+                  ),
                 );
               },
             );

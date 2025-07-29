@@ -8,7 +8,7 @@ import '../../../domain/models/certificate_model/certificate.model.dart';
 import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import '../../../infrastructure/navigation/routes.dart';
 
-class KCertificateScrollList extends StatefulWidget {
+class KCertificateScrollList extends StatelessWidget {
   final List<CertificateModel> items;
   final void Function(CertificateModel project, BuildContext context) onCardTap;
 
@@ -19,15 +19,18 @@ class KCertificateScrollList extends StatefulWidget {
   });
 
   @override
-  State<KCertificateScrollList> createState() => _KCertificateScrollListState();
-}
-
-class _KCertificateScrollListState extends State<KCertificateScrollList> {
-  @override
   Widget build(BuildContext context) {
     final InfoFetchController infoFetchController =
         Get.find<InfoFetchController>();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
+    if (items.isEmpty) {
+      return const Center(
+        child: Text(
+          'Fixing!!',
+          style: TextStyle(color: Colors.black, fontSize: 24),
+        ),
+      );
+    }
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(
         dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
@@ -36,23 +39,21 @@ class _KCertificateScrollListState extends State<KCertificateScrollList> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         physics: const BouncingScrollPhysics(),
-        itemCount:
-            (widget.items.length < 4 ? widget.items.length : 4) +
-            (isMobile ? 1 : 0),
+        itemCount: (items.length < 4 ? items.length : 4) + (isMobile ? 1 : 0),
         separatorBuilder: (context, index) => const SizedBox(width: 24),
         itemBuilder: (context, index) {
-          final int maxItems = widget.items.length < 4
-              ? widget.items.length
-              : 4;
+          final int maxItems = items.length < 4 ? items.length : 4;
           if (index < maxItems) {
-            final item = widget.items[index];
+            final item = items[index];
             return LayoutBuilder(
               builder: (context, constraints) {
-                return KCertificateCard(
-                  onHome: true,
-                  certificate: item,
-                  onTap: () => widget.onCardTap(item, context),
-                  height: constraints.maxHeight,
+                return SizedBox(
+                  child: KCertificateCard(
+                    isHome: false,
+                    certificate: item,
+                    onTap: () => onCardTap(item, context),
+                    height: constraints.maxHeight - 60,
+                  ),
                 );
               },
             );

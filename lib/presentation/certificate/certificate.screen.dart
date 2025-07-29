@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import 'package:portfolio/presentation/certificate/views/certificate_mobile_view.dart';
 import 'package:portfolio/presentation/certificate/views/certificate_view.dart';
@@ -22,7 +24,9 @@ class CertificateScreen extends GetView<CertificateController> {
         return const Center(child: CircularProgressIndicator());
       }
       return SizedBox(
-        height: isMobile ? MediaQuery.of(context).size.height * 0.85 : 656,
+        height: isMobile
+            ? MediaQuery.of(context).size.height * 0.85
+            : max(MediaQuery.of(context).size.height - 100, 656),
         child: KCertificateScrollList(
           items: controller.certificates,
           onCardTap: (cert, context) {

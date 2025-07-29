@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:portfolio/presentation/works/views/work_mobile_view.dart';
 import 'package:portfolio/presentation/works/views/work_view.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,9 @@ class WorksScreen extends GetView<WorksController> {
         return const Center(child: CircularProgressIndicator());
       }
       return SizedBox(
-        height: isMobile ? MediaQuery.of(context).size.height * 0.85 : 656,
+        height: isMobile
+            ? MediaQuery.of(context).size.height * 0.85
+            : max(MediaQuery.of(context).size.height - 100, 656),
         child: KProjectsScrollList(
           items: controller.projects,
           onCardTap: (project, context) {

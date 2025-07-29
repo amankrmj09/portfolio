@@ -2,16 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home.controller.dart';
 
-// Color palette
-final class KColor {
-  static Color secondaryColor = const Color(0xFFF66435);
-  static Color secondarySecondColor = const Color(0xFF9D1F15);
-  static Color primaryColor = const Color(0xFFF4EFCA);
-  static Color primarySecondColor = const Color(0xFFFBF7BA);
-}
-
-class HomeBarView extends GetView<HomeController> {
-  HomeBarView({super.key});
+class HomeFloatingMenuBar extends GetView<HomeController> {
+  HomeFloatingMenuBar({super.key});
 
   final List<String> labels = ['Home', 'Works', 'Certificates', 'About Me'];
 

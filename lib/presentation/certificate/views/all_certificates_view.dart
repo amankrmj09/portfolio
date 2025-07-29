@@ -39,7 +39,7 @@ class AllCertificatesView extends GetView<CertificateController> {
         buildCard: (certificate, onTap) => KCertificateCard(
           certificate: certificate,
           onTap: onTap,
-          onHome: false,
+          isHome: false,
           expandToContentHeight: true,
         ),
       ),

@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/infrastructure/navigation/routes.dart';
 import 'package:portfolio/presentation/about_me/about_me.screen.dart';
-import 'package:portfolio/presentation/home/views/home_bar_view.dart';
-import 'package:portfolio/presentation/home/widgets/code.block.dart';
-import 'package:portfolio/presentation/home/widgets/widgets.dart';
+import 'package:portfolio/presentation/home/views/home_floating_menu_bar.dart';
 
+import './widgets/export.home.widget.dart';
 import '../../widgets/k.pretty.animated.dart';
 import '../../widgets/mesh.background.dart';
 import '../certificate/certificate.screen.dart';
@@ -161,7 +160,7 @@ class HomeDesktopScreen extends GetView<HomeController> {
           alignment: controller.isScrolling.value
               ? const Alignment(0, -5.5)
               : Alignment.bottomCenter,
-          child: HomeBarView(),
+          child: HomeFloatingMenuBar(),
         ),
       ),
     );

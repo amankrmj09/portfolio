@@ -1,16 +1,26 @@
 import 'dart:ui';
 
+import 'package:atlas_icons/atlas_icons.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:portfolio/infrastructure/navigation/routes.dart';
+import 'package:portfolio/presentation/about_me/views/profiles_view.dart';
+import 'package:portfolio/presentation/about_me/views/tools_view.dart';
 import 'package:portfolio/presentation/about_me/widgets/animated.experience.card.dart';
+import 'package:portfolio/presentation/about_me/widgets/animated.profil.widget.dart';
 import 'package:portfolio/presentation/about_me/widgets/animated.tools.widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/utils/k.showGeneralDialog.dart';
 
 import '../../domain/models/experience_model/experience.model.dart';
+import '../../domain/models/profile_links_model/profile.links.model.dart';
 import '../../domain/models/tools_model/tools.model.dart';
 import '../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import '../../utils/launch.url.dart';
+import '../../widgets/animated.navigate.button.dart';
 import '../experience/controllers/experience.controller.dart';
+import '../home/controllers/home.controller.dart';
 import 'controllers/about_me.controller.dart';
 
 class AboutMeScreen extends GetView<AboutMeController> {
@@ -91,6 +101,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                       Flexible(
                         flex: 3,
                         child: AboutMeToolsColumn(
+                          profiles: controller.profiles,
                           tools: controller.tools,
                           experiences: controller.experiences,
                         ),
@@ -147,6 +158,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                             AboutMeToolsColumn(
                               tools: controller.tools,
                               experiences: controller.experiences,
+                              profiles: controller.profiles,
                             ),
                           ],
                         ),
@@ -244,8 +256,12 @@ class AboutMeDetailsColumn extends StatelessWidget {
         const SizedBox(height: 16),
         if (interests.isNotEmpty)
           const Text(
-            'Interests:',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            'What I love to do:',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'ShantellSans',
+            ),
           ),
         if (interests.isNotEmpty) const SizedBox(height: 8),
         if (interests.isNotEmpty)
@@ -263,9 +279,20 @@ class AboutMeDetailsColumn extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.white60),
                     ),
-                    child: Text(
-                      interest.toString(),
-                      style: const TextStyle(color: Colors.blue),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          interest.toString(),
+                          style: const TextStyle(color: Colors.blue),
+                        ),
+                        // const SizedBox(width: 8),
+                        // Icon(
+                        //   Atlas.settings_laptop_bold,
+                        //   color: Colors.red,
+                        //   size: 16,
+                        // ),
+                      ],
                     ),
                   ),
                 )
@@ -275,13 +302,17 @@ class AboutMeDetailsColumn extends StatelessWidget {
         if (technicalInterests.isNotEmpty)
           const Text(
             'Technical Interest:',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'ShantellSans',
+            ),
           ),
         if (technicalInterests.isNotEmpty) const SizedBox(height: 8),
         if (technicalInterests.isNotEmpty)
           Wrap(
             spacing: 8,
-            runSpacing: 4,
+            runSpacing: 8,
             children: technicalInterests
                 .map(
                   (technicalInterest) => Container(
@@ -310,9 +341,11 @@ class AboutMeDetailsColumn extends StatelessWidget {
 class AboutMeToolsColumn extends StatelessWidget {
   final List<ToolsModel> tools;
   final List<ExperienceModel> experiences;
+  final List<ProfileLinksModel> profiles;
 
   const AboutMeToolsColumn({
     super.key,
+    required this.profiles,
     required this.tools,
     required this.experiences,
   });
@@ -327,12 +360,67 @@ class AboutMeToolsColumn extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '   Tools I Use:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Text(
+                  '   Tools I Use:',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'ShantellSans',
+                  ),
+                ),
+                IconButton(
+                  tooltip: 'View All',
+                  onPressed: () {
+                    showBlurredGeneralDialog(
+                      context: context,
+                      builder: (context) {
+                        return const ToolsView();
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.dashboard),
+                ),
+              ],
             ),
             const SizedBox(height: 12),
             AnimatedToolsWidget(tools: tools),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  '   Find me on:',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'ShantellSans',
+                  ),
+                ),
+                IconButton(
+                  tooltip: 'View All',
+                  onPressed: () {
+                    showBlurredGeneralDialog(
+                      context: context,
+                      builder: (context) {
+                        return const ProfilesView();
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.dashboard),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            AnimatedProfileWidget(profiles: profiles),
           ],
         ),
         InkWell(
@@ -349,7 +437,33 @@ class AboutMeToolsColumn extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(
+          height: 120,
+          width: double.infinity,
+          child: viewResumeButton(),
+        ),
       ],
+    );
+  }
+
+  Container viewResumeButton() {
+    final homeController = Get.find<HomeController>();
+    return Container(
+      alignment: Alignment.center,
+      height: 140,
+      width: 200,
+      child: AnimatedNavigateButton(
+        borderRadius: 16,
+        label: "View Resume",
+        onTap: () =>
+            launchUrlExternal(homeController.socialLinks.value?.resume ?? ''),
+        icon: SvgPicture.asset(
+          'assets/icons/resume.svg',
+          width: 28,
+          height: 28,
+        ),
+        width: 200,
+      ),
     );
   }
 }

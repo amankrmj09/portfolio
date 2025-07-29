@@ -9,10 +9,12 @@ class AnimatedNavigateButton extends StatefulWidget {
   final double? width;
   final double? height;
   final bool? isHovered;
+  final bool? reset;
   final double? borderRadius;
 
   const AnimatedNavigateButton({
     super.key,
+    this.reset = false,
     required this.label,
     required this.onTap,
     this.icon,
@@ -71,9 +73,12 @@ class _AnimatedNavigateButtonState extends State<AnimatedNavigateButton> {
         } else {
           setState(() => _isHovered = false);
         }
-        _resetOffset();
+        if (widget.reset == true) {
+          _resetOffset();
+        }
       },
       onHover: _updateOffset,
+      cursor: SystemMouseCursors.click,
       child: TweenAnimationBuilder<double>(
         tween: Tween<double>(begin: 1.0, end: isHovered ? 0.94 : 1.0),
         duration: const Duration(milliseconds: 800),

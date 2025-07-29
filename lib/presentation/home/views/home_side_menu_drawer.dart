@@ -7,8 +7,8 @@ import '../../../widgets/animated.navigate.button.dart';
 import '../../footer/views/contact_me_view.dart';
 import '../controllers/home.controller.dart';
 
-class HomeMenuBarView extends StatelessWidget {
-  const HomeMenuBarView({super.key});
+class HomeSideMenuDrawer extends StatelessWidget {
+  const HomeSideMenuDrawer({super.key});
 
   final List<String> labels = const [
     'Home',

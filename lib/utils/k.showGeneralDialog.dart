@@ -12,25 +12,24 @@ dynamic showBlurredGeneralDialog({
     context: context,
     barrierDismissible: true,
     barrierLabel: barrierLabel,
-    barrierColor: barrierColor,
+    barrierColor: Colors.black.withAlpha((255 * 0.5).toInt()),
+    transitionDuration: Duration(milliseconds: 600),
     pageBuilder: (context, anim1, anim2) {
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => Navigator.of(context).pop(),
-        child: Container(
-          color: Colors.black.withAlpha((255 * 0.5).toInt()),
-          child: GestureDetector(
-            onTap: () {}, // Prevents pop when tapping the child
-            child: builder(context),
-          ),
+        child: GestureDetector(
+          onTap: () {}, // Prevents pop when tapping the child
+          child: builder(context),
         ),
       );
     },
     transitionBuilder: (context, anim1, anim2, child) {
+      final animation = CurvedAnimation(parent: anim1, curve: Curves.easeInOut);
       return RepaintBoundary(
         child: FadeTransition(
-          opacity: CurvedAnimation(parent: anim1, curve: Curves.easeInOut),
-          child: child,
+          opacity: animation,
+          child: ScaleTransition(scale: animation, child: child),
         ),
       );
     },

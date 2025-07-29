@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/domain/models/profile_links_model/profile.links.model.dart';
 import 'package:portfolio/domain/models/tools_model/tools.model.dart';
 import '../../../domain/models/about_me_info_model/about.me.info.model.dart';
 import '../../../domain/models/experience_model/experience.model.dart';
@@ -15,10 +16,12 @@ class AboutMeController extends GetxController {
   late var aboutMeInfo = Rxn<AboutMeInfoModel>();
   late var tools = <ToolsModel>[].obs;
   late var experiences = <ExperienceModel>[].obs;
+  late var profiles = <ProfileLinksModel>[].obs;
 
   late var isLoading = true.obs;
   late var isExpLoading = true.obs;
   late var isToolsLoading = true.obs;
+  late var isProfilesLoading = true.obs;
 
   @override
   void onInit() {
@@ -26,11 +29,19 @@ class AboutMeController extends GetxController {
     isLoading.value = infoFetchController.isAboutMeInfoLoading.value;
     isExpLoading.value = infoFetchController.isExperienceLoading.value;
     isToolsLoading.value = infoFetchController.isToolsLoading.value;
+    isProfilesLoading.value = infoFetchController.isProfileLinksLoading.value;
 
     aboutMeInfo.value = infoFetchController.aboutMeInfo.value;
     experiences.value = infoFetchController.experiences;
     tools.value = infoFetchController.tools;
+    profiles.value = infoFetchController.profiles;
 
+    ever(infoFetchController.isProfileLinksLoading, (val) {
+      isProfilesLoading.value = val;
+    });
+    ever(infoFetchController.profiles, (val) {
+      profiles.value = val;
+    });
     ever(infoFetchController.isAboutMeInfoLoading, (val) {
       isLoading.value = val;
     });
@@ -40,7 +51,6 @@ class AboutMeController extends GetxController {
     ever(infoFetchController.isToolsLoading, (val) {
       isToolsLoading.value = val;
     });
-
     ever(infoFetchController.experiences, (val) {
       experiences.value = val;
     });

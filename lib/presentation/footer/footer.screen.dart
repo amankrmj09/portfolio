@@ -1,4 +1,3 @@
-import 'package:flutter_svg/svg.dart';
 import 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import 'package:portfolio/presentation/footer/views/contact_me_view.dart';
 import 'package:portfolio/widgets/animated.navigate.button.dart';
@@ -8,9 +7,7 @@ import 'package:get/get.dart';
 
 import '../../infrastructure/theme/colors.dart';
 import '../../utils/k.showGeneralDialog.dart';
-import '../../utils/launch.url.dart';
 import 'controllers/footer.controller.dart';
-import '../home/controllers/home.controller.dart';
 
 class FooterScreen extends GetView<FooterController> {
   const FooterScreen({super.key});
@@ -106,65 +103,33 @@ class FooterScreen extends GetView<FooterController> {
   }
 
   Widget _footerSocial({required bool swap}) {
-    return swap
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Flexible(child: viewResumeButton()),
-              Flexible(child: contactButton()),
-            ],
-          )
-        : Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [viewResumeButton(), contactButton()],
-          );
+    return contactButton();
   }
 
-  Container viewResumeButton() {
-    final homeController = Get.find<HomeController>();
-    return Container(
-      alignment: Alignment.centerLeft,
-      height: 80,
-      width: 200,
-      child: AnimatedNavigateButton(
-        borderRadius: 16,
-        label: "View Resume",
-        onTap: () =>
-            launchUrlExternal(homeController.socialLinks.value?.resume ?? ''),
-        icon: SvgPicture.asset(
-          'assets/icons/resume.svg',
-          width: 28,
-          height: 28,
-        ),
-        width: 200,
-      ),
-    );
-  }
-
-  Container contactButton() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      height: 80,
-      width: 250,
-      child: Builder(
-        builder: (context) => AnimatedNavigateButton(
-          borderRadius: 16,
-          label: "Send Me a Message",
-          onTap: () {
-            showBlurredGeneralDialog(
-              context: context,
-              builder: (context) => ContactMeView(),
-            );
-          },
-          icon: Image.asset(
-            'assets/icons/contact_me.png',
-            width: 28,
-            height: 28,
-            fit: BoxFit.fitHeight,
+  Widget contactButton() {
+    return LayoutBuilder(
+      builder: (context, constraints) => Container(
+        alignment: Alignment.centerLeft,
+        height: constraints.maxHeight - 80,
+        width: 250,
+        child: Builder(
+          builder: (context) => AnimatedNavigateButton(
+            borderRadius: 16,
+            label: "Send Me a Message",
+            onTap: () {
+              showBlurredGeneralDialog(
+                context: context,
+                builder: (context) => ContactMeView(),
+              );
+            },
+            icon: Image.asset(
+              'assets/icons/contact_me.png',
+              width: 28,
+              height: 28,
+              fit: BoxFit.fitHeight,
+            ),
+            width: 250,
           ),
-          width: 250,
         ),
       ),
     );
@@ -230,7 +195,6 @@ class FooterScreen extends GetView<FooterController> {
                                     children: [
                                       _footerWelcomePart(isMobile: isMobile),
                                       const SizedBox(height: 20, width: 20),
-                                      viewResumeButton(),
                                     ],
                                   )
                                 : Row(

@@ -1,22 +1,7 @@
 import 'dart:developer';
 import 'package:get/get.dart';
-
-import '../../../../domain/models/about_me_info_model/about.me.info.model.dart';
-
-import '../../../../domain/models/certificate_model/certificate.model.dart';
-import '../../../../domain/models/experience_model/experience.model.dart';
-import '../../../../domain/models/project_model/project.model.dart';
-import '../../../../domain/models/quote_model/quote.model.dart';
-import '../../../../domain/models/social_links_model/social.links.model.dart';
-import '../../../../domain/models/tools_model/tools.model.dart';
-
-import '../../../dal/services/about.me.info.fetch.service.dart';
-import '../../../dal/services/certificates.fetch.service.dart';
-import '../../../dal/services/experiences.info.fetch.service.dart';
-import '../../../dal/services/projects.fetch.service.dart';
-import '../../../dal/services/quotes.fetch.service.dart';
-import '../../../dal/services/social.links.fetch.service.dart';
-import '../../../dal/services/tools.fetch.service.dart';
+import '../../../../domain/models/export.models.dart';
+import '../../../dal/services/export.service.dart';
 
 // ignore: constant_identifier_names
 enum Device { Desktop, Tablet, Mobile }
@@ -29,6 +14,7 @@ class InfoFetchController extends GetxController {
   final isCertificatesLoading = true.obs;
   final isProjectsLoading = true.obs;
   final isToolsLoading = true.obs;
+  final isProfileLinksLoading = true.obs;
 
   final quotes = <QuoteModel>[].obs;
   final aboutMeInfo = Rxn<AboutMeInfoModel>();
@@ -37,18 +23,40 @@ class InfoFetchController extends GetxController {
   final certificates = <CertificateModel>[].obs;
   final projects = <ProjectModel>[].obs;
   final tools = <ToolsModel>[].obs;
+  final profiles = <ProfileLinksModel>[].obs;
+
+  Future<void> fetchProfileLinks() async {
+    isProjectsLoading.value = true;
+    try {
+      final service = ProfileLinksFetchService();
+      final data = await service.fetchData();
+      if (isClosed) return;
+      profiles.assignAll(data);
+      log(
+        'Fetched profile links: ${profiles.length}',
+        name: 'ProfileLinksFetchService',
+      );
+    } catch (e) {
+      log(
+        'Error fetching profile links: ${e.toString()}',
+        name: 'ProfileLinksFetchService',
+      );
+      profiles.clear();
+    } finally {
+      isProjectsLoading.value = false;
+    }
+  }
 
   Future<void> fetchQuotes() async {
     isQuotesLoading.value = true;
     try {
       final service = QuotesFetchService();
       final data = await service.fetchData();
+      if (isClosed) return;
       quotes.assignAll(data);
+      log('Fetched quotes: ${quotes.length}', name: 'QuotesFetchService');
     } catch (e) {
-      log(
-        'Error fetching quotes: \${e.toString()}',
-        name: 'QuotesFetchService',
-      );
+      log('Error fetching quotes: ${e.toString()}', name: 'QuotesFetchService');
       quotes.clear();
     } finally {
       isQuotesLoading.value = false;
@@ -62,8 +70,9 @@ class InfoFetchController extends GetxController {
       final data = await service.fetchData();
       if (isClosed) return;
       tools.assignAll(data);
+      log('Fetched tools: ${tools.length}', name: 'ToolsFetchService');
     } catch (e) {
-      log('Error fetching tools: \${e.toString()}', name: 'ToolsFetchService');
+      log('Error fetching tools: ${e.toString()}', name: 'ToolsFetchService');
       tools.clear();
     } finally {
       isToolsLoading.value = false;
@@ -77,6 +86,10 @@ class InfoFetchController extends GetxController {
       final links = await service.fetchData();
       if (isClosed) return;
       aboutMeInfo.value = links.first as AboutMeInfoModel?;
+      log(
+        'Fetched about me info: ${aboutMeInfo.value?.name}',
+        name: 'AboutMeInfoFetchService',
+      );
     } catch (e) {
       log(
         'Error fetching about me info: ${e.toString()}',
@@ -94,9 +107,13 @@ class InfoFetchController extends GetxController {
       final data = await service.fetchData();
       if (isClosed) return;
       experiences.assignAll(data);
+      log(
+        'Fetched experiences: ${experiences.length}',
+        name: 'ExperienceInfoFetchService',
+      );
     } catch (e) {
       log(
-        'Error fetching experiences: \\${e.toString()}',
+        'Error fetching experiences: ${e.toString()}',
         name: 'ExperienceInfoFetchService',
       );
       experiences.assignAll([]);
@@ -112,9 +129,13 @@ class InfoFetchController extends GetxController {
       final links = await service.fetchData();
       if (isClosed) return;
       socialLinks.value = links.first;
+      log(
+        'Fetched social links: ${socialLinks.value?.github}',
+        name: 'SocialLinksFetchService',
+      );
     } catch (e) {
       log(
-        'Error fetching social links: \${e.toString()}',
+        'Error fetching social links: ${e.toString()}',
         name: 'SocialLinksFetchService',
       );
       socialLinks.value = SocialLinksModel(
@@ -144,7 +165,7 @@ class InfoFetchController extends GetxController {
       certificates.assignAll(data);
     } catch (e) {
       log(
-        'Error fetching certificates: \${e.toString()}',
+        'Error fetching certificates: ${e.toString()}',
         name: 'CertificatesFetchService',
       );
       certificates.assignAll([]);
@@ -161,7 +182,7 @@ class InfoFetchController extends GetxController {
       projects.assignAll(data);
     } catch (e) {
       log(
-        'Error fetching projects: \${e.toString()}',
+        'Error fetching projects: ${e.toString()}',
         name: 'ProjectsFetchService',
       );
       projects.assignAll([]);
@@ -185,6 +206,7 @@ class InfoFetchController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    fetchProfileLinks();
     fetchQuotes();
     fetchAboutMeInfo();
     fetchTools();

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/presentation/home/views/home_menu_bar_view.dart';
-import 'package:portfolio/presentation/home/widgets/widgets.dart';
+
+import './widgets/export.home.widget.dart';
+import 'package:portfolio/presentation/home/views/home_side_menu_drawer.dart';
 import '../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import '../../widgets/k.pretty.animated.dart';
 import '../../widgets/mesh.background.dart';
 import 'controllers/home.controller.dart';
 import '../screens.dart';
-import 'widgets/code.block.dart';
 
 class HomeMobileScreen extends GetView<HomeController> {
   const HomeMobileScreen({super.key});
@@ -21,7 +21,7 @@ class HomeMobileScreen extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(backgroundColor: const Color(0xFF1A1A2E)),
 
-      drawer: HomeMenuBarView(),
+      drawer: HomeSideMenuDrawer(),
       backgroundColor: const Color(0xFF1A1A2E),
       body: Stack(
         alignment: Alignment.center,

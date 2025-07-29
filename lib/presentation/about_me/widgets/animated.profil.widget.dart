@@ -2,24 +2,23 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfolio/configs/constant_strings.dart';
+import 'package:portfolio/domain/models/export.models.dart';
 
-import '../../../domain/models/tools_model/tools.model.dart';
-
-class AnimatedToolsWidget extends StatefulWidget {
-  final List<ToolsModel> tools;
+class AnimatedProfileWidget extends StatefulWidget {
+  final List<ProfileLinksModel> profiles;
   final Duration duration;
 
-  const AnimatedToolsWidget({
+  const AnimatedProfileWidget({
     super.key,
-    required this.tools,
+    required this.profiles,
     this.duration = const Duration(seconds: 2),
   });
 
   @override
-  State<AnimatedToolsWidget> createState() => _AnimatedToolsWidgetState();
+  State<AnimatedProfileWidget> createState() => _AnimatedProfileWidgetState();
 }
 
-class _AnimatedToolsWidgetState extends State<AnimatedToolsWidget>
+class _AnimatedProfileWidgetState extends State<AnimatedProfileWidget>
     with TickerProviderStateMixin {
   int _currentIndex = 0;
   int _nextIndex = 0;
@@ -48,7 +47,7 @@ class _AnimatedToolsWidgetState extends State<AnimatedToolsWidget>
 
     _timer = Timer.periodic(widget.duration, (_) {
       setState(() {
-        _nextIndex = (_currentIndex + 1) % widget.tools.length;
+        _nextIndex = (_currentIndex + 1) % widget.profiles.length;
         _showNext = false;
       });
       _controller.forward(from: 0).then((_) {
@@ -79,14 +78,15 @@ class _AnimatedToolsWidgetState extends State<AnimatedToolsWidget>
 
   @override
   Widget build(BuildContext context) {
-    final tool = widget.tools[_currentIndex];
-    final color = Color(int.parse(tool.color));
+    final profile = widget.profiles[_currentIndex];
+    final color1 = Color(int.parse(profile.color1));
+    final color2 = Color(int.parse(profile.color2));
     TextStyle textStyle = TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.bold,
-      color: Color.lerp(color, Colors.white, 0.3),
+      color: Color.lerp(color1, Colors.white, 0.3),
     );
-    final textWidth = _calculateTextWidth(tool.name, textStyle);
+    final textWidth = _calculateTextWidth(profile.name, textStyle);
     return Stack(
       fit: StackFit.loose,
       alignment: Alignment.centerLeft,
@@ -100,7 +100,7 @@ class _AnimatedToolsWidgetState extends State<AnimatedToolsWidget>
             margin: EdgeInsets.only(left: 36),
             padding: EdgeInsets.only(left: 40, right: 10),
             decoration: BoxDecoration(
-              color: Color.lerp(color, Colors.transparent, 0.3),
+              color: Color.lerp(color1, Colors.transparent, 0.3),
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
@@ -126,7 +126,7 @@ class _AnimatedToolsWidgetState extends State<AnimatedToolsWidget>
                       child: Opacity(
                         opacity: _opacityAnim.value,
                         child: Text(
-                          tool.name,
+                          profile.name,
                           style: textStyle,
                           textAlign: TextAlign.left,
                         ),
@@ -138,7 +138,7 @@ class _AnimatedToolsWidgetState extends State<AnimatedToolsWidget>
                       child: Opacity(
                         opacity: 1 - _controller.value,
                         child: Text(
-                          tool.name,
+                          profile.name,
                           style: textStyle,
                           textAlign: TextAlign.left,
                         ),
@@ -160,7 +160,7 @@ class _AnimatedToolsWidgetState extends State<AnimatedToolsWidget>
           padding: EdgeInsets.all(10),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Color.lerp(color, Colors.transparent, 0.3),
+            color: Color.lerp(color1, Colors.transparent, 0.3),
             shape: BoxShape.circle,
           ),
           child: AnimatedBuilder(
@@ -172,7 +172,7 @@ class _AnimatedToolsWidgetState extends State<AnimatedToolsWidget>
                   child: Opacity(
                     opacity: _opacityAnim.value,
                     child: SvgPicture.network(
-                      assetGithubUrl + tool.image,
+                      assetGithubUrl + profile.icon,
                       width: 48,
                       height: 48,
                       placeholderBuilder: (context) => const SizedBox.shrink(),
@@ -191,7 +191,7 @@ class _AnimatedToolsWidgetState extends State<AnimatedToolsWidget>
                   child: Opacity(
                     opacity: 1 - _controller.value,
                     child: SvgPicture.network(
-                      assetGithubUrl + tool.image,
+                      assetGithubUrl + profile.icon,
                       width: 48,
                       height: 48,
                       placeholderBuilder: (context) => const SizedBox.shrink(),
