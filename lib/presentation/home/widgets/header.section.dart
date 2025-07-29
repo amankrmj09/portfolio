@@ -59,6 +59,7 @@ class HeaderSection extends StatelessWidget {
                     width: 190,
                     child: AnimatedNavigateButton(
                       label: "Browse All",
+                      reset: true,
                       icon: const Icon(Icons.arrow_forward),
                       borderRadius: 12,
                       onTap: () => isMobile ? {} : Get.toNamed(route!),

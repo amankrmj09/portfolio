@@ -8,6 +8,127 @@ import '../../../domain/models/certificate_model/certificate.model.dart';
 import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import '../../../widgets/k.image.dart';
 
+// --- Extracted sub-widgets for optimization ---
+
+class SkillChips extends StatelessWidget {
+  final List<String> skills;
+  final int maxChipsToShow; // -1 for all
+
+  const SkillChips({super.key, required this.skills, this.maxChipsToShow = 3});
+
+  @override
+  Widget build(BuildContext context) {
+    final displaySkills = maxChipsToShow < 0
+        ? skills
+        : skills.take(maxChipsToShow).toList();
+    return Wrap(
+      spacing: 6,
+      runSpacing: 4,
+      children: displaySkills.map((skill) => Chip(label: Text(skill))).toList(),
+    );
+  }
+}
+
+class CertificateDetailsCompact extends StatelessWidget {
+  final CertificateModel certificate;
+
+  const CertificateDetailsCompact({super.key, required this.certificate});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        const SizedBox(height: 2),
+        Text(
+          certificate.name,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontFamily: "Poppins",
+            decoration: TextDecoration.none,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          certificate.description,
+          style: const TextStyle(
+            fontSize: 15,
+            color: Colors.white70,
+            fontFamily: "Poppins",
+            decoration: TextDecoration.none,
+          ),
+          maxLines: 2,
+          softWrap: true,
+        ),
+        const SizedBox(height: 10),
+        SkillChips(skills: certificate.skills, maxChipsToShow: 3),
+      ],
+    );
+  }
+}
+
+class CertificateDetailsExpanded extends StatelessWidget {
+  final CertificateModel certificate;
+  final bool isMobile;
+
+  const CertificateDetailsExpanded({
+    super.key,
+    required this.certificate,
+    required this.isMobile,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          certificate.name,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontFamily: "Poppins",
+            decoration: TextDecoration.none,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          certificate.description,
+          textAlign: TextAlign.justify,
+          style: const TextStyle(
+            fontSize: 15,
+            color: Colors.white70,
+            fontFamily: "Poppins",
+            decoration: TextDecoration.none,
+          ),
+          softWrap: true,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          certificate.largeDescription,
+          textAlign: TextAlign.justify,
+          style: const TextStyle(
+            fontSize: 13,
+            color: Colors.white70,
+            fontFamily: "Poppins",
+            decoration: TextDecoration.none,
+          ),
+          maxLines: isMobile ? 4 : 8,
+          softWrap: true,
+        ),
+        const SizedBox(height: 10),
+        SkillChips(skills: certificate.skills, maxChipsToShow: -1),
+      ],
+    );
+  }
+}
+
+// --- Main Card Widget ---
+
 class KCertificateCard extends StatefulWidget {
   final CertificateModel certificate;
   final VoidCallback? onTap;
@@ -36,38 +157,15 @@ class _KCertificateCard extends State<KCertificateCard> {
   final GlobalKey _containerKey = GlobalKey();
   Offset _offset = Offset.zero;
   Offset _center = Offset.zero;
-  late List<AuraSpot> _auraSpots;
 
-  void _updateOffset(PointerEvent details) {
-    final RenderBox? box =
-        _containerKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box != null) {
-      final position = box.localToGlobal(Offset.zero);
-      final size = box.size;
-      setState(() {
-        _center = position + Offset(size.width / 2, size.height / 2);
-        _offset = details.position - _center;
-      });
-    } else {
-      setState(() {
-        _offset = Offset.zero;
-      });
-    }
-  }
-
-  void _resetOffset() {
-    setState(() {
-      _offset = Offset.zero;
-    });
-  }
+  late final List<AuraSpot> _auraSpots;
+  final Random _random = Random();
 
   @override
   void initState() {
-    _auraSpots = randomizeAuraSpots();
     super.initState();
+    _auraSpots = randomizeAuraSpots();
   }
-
-  final Random _random = Random();
 
   List<AuraSpot> randomizeAuraSpots() {
     // Minimum values
@@ -108,12 +206,52 @@ class _KCertificateCard extends State<KCertificateCard> {
     });
   }
 
+  void _updateOffset(PointerEvent details) {
+    final RenderBox? box =
+        _containerKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box != null) {
+      final position = box.localToGlobal(Offset.zero);
+      final size = box.size;
+      final Offset newCenter =
+          position + Offset(size.width / 2, size.height / 2);
+      final Offset newOffset = details.position - newCenter;
+      if (newOffset != _offset || newCenter != _center) {
+        setState(() {
+          _center = newCenter;
+          _offset = newOffset;
+        });
+      }
+    } else if (_offset != Offset.zero) {
+      setState(() {
+        _offset = Offset.zero;
+      });
+    }
+  }
+
+  void _resetOffset() {
+    if (_offset != Offset.zero) {
+      setState(() {
+        _offset = Offset.zero;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final InfoFetchController infoFetchController =
         Get.find<InfoFetchController>();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
-    final bool expandToContent = widget.expandToContentHeight;
+    final expandToContent = widget.expandToContentHeight;
+
+    final mediaWidth = MediaQuery.of(context).size.width;
+    final double cardWidth = isMobile
+        ? (mediaWidth * 0.45 > 340 ? mediaWidth * 0.45 : 340)
+        : widget.width ?? 500;
+
+    final double? cardHeight = widget.height;
+    final double contentHeight =
+        (cardHeight ?? 500) - (isMobile ? 320 : 380) - 52;
+
     return MouseRegion(
       cursor: isHover ? SystemMouseCursors.click : SystemMouseCursors.basic,
       onEnter: (_) => setState(() => isHover = true),
@@ -130,8 +268,8 @@ class _KCertificateCard extends State<KCertificateCard> {
           scale: scale,
           child: AnimatedAlign(
             alignment: Alignment(
-              (_offset.dx / ((widget.width ?? 500) / 2)).clamp(-1.0, 1.0),
-              (_offset.dy / ((widget.height ?? 500) / 2)).clamp(-1.0, 1.0),
+              (_offset.dx / (cardWidth / 2)).clamp(-1.0, 1.0),
+              (_offset.dy / ((cardHeight ?? 500) / 2)).clamp(-1.0, 1.0),
             ),
             duration: const Duration(milliseconds: 600),
             curve: Curves.easeOut,
@@ -141,12 +279,8 @@ class _KCertificateCard extends State<KCertificateCard> {
                 key: _containerKey,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 margin: const EdgeInsets.all(8),
-                width: isMobile
-                    ? (MediaQuery.of(context).size.width * 0.45 > 340
-                          ? MediaQuery.of(context).size.width * 0.45
-                          : 340)
-                    : widget.width,
-                height: expandToContent ? null : widget.height,
+                width: cardWidth,
+                height: expandToContent ? null : cardHeight,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Color.lerp(Colors.white, Colors.black, 0.5)!,
@@ -162,7 +296,7 @@ class _KCertificateCard extends State<KCertificateCard> {
                 child: RepaintBoundary(
                   child: AuraBox(
                     spots: _auraSpots,
-                    decoration: BoxDecoration(color: Colors.transparent),
+                    decoration: const BoxDecoration(color: Colors.transparent),
                     child: Column(
                       mainAxisSize: expandToContent
                           ? MainAxisSize.min
@@ -176,107 +310,12 @@ class _KCertificateCard extends State<KCertificateCard> {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: expandToContent
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      widget.certificate.name,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontFamily: "Poppins",
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      widget.certificate.description,
-                                      textAlign: TextAlign.justify,
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white70,
-                                        fontFamily: "Poppins",
-                                        decoration: TextDecoration.none,
-                                      ),
-                                      softWrap: true,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      widget.certificate.largeDescription,
-                                      textAlign: TextAlign.justify,
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.white70,
-                                        fontFamily: "Poppins",
-                                        decoration: TextDecoration.none,
-                                      ),
-                                      maxLines: isMobile ? 4 : 8,
-                                      softWrap: true,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Wrap(
-                                      spacing: 6,
-                                      runSpacing: 2,
-                                      runAlignment: WrapAlignment.end,
-                                      children: List<Widget>.from(
-                                        widget.certificate.skills.map(
-                                          (tech) => Chip(label: Text(tech)),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                              ? CertificateDetailsExpanded(
+                                  certificate: widget.certificate,
+                                  isMobile: isMobile,
                                 )
-                              : SizedBox(
-                                  height:
-                                      (widget.height ?? 500) -
-                                      (isMobile ? 320 : 380) -
-                                      52,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        widget.certificate.name,
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontFamily: "Poppins",
-                                          decoration: TextDecoration.none,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        widget.certificate.description,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.white70,
-                                          fontFamily: "Poppins",
-                                          decoration: TextDecoration.none,
-                                        ),
-                                        maxLines: 2,
-                                        softWrap: true,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Wrap(
-                                        spacing: 6,
-                                        runSpacing: 4,
-                                        crossAxisAlignment:
-                                            WrapCrossAlignment.start,
-                                        runAlignment: WrapAlignment.end,
-                                        children: List<Widget>.from(
-                                          widget.certificate.skills
-                                              .take(3)
-                                              .map(
-                                                (tech) =>
-                                                    Chip(label: Text(tech)),
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                              : CertificateDetailsCompact(
+                                  certificate: widget.certificate,
                                 ),
                         ),
                       ],

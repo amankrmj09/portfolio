@@ -8,6 +8,134 @@ import '../../../domain/models/project_model/project.model.dart';
 import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import '../../../widgets/k.image.dart';
 
+// --- Sub-widgets extracted for optimization ---
+
+class ProjectDetailsExpanded extends StatelessWidget {
+  final ProjectModel project;
+  final bool fixedHeight;
+
+  const ProjectDetailsExpanded({
+    super.key,
+    required this.project,
+    required this.fixedHeight,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          project.name,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontFamily: "Poppins",
+            decoration: TextDecoration.none,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          project.description,
+          style: const TextStyle(
+            fontSize: 15,
+            color: Colors.white70,
+            fontFamily: "Poppins",
+            decoration: TextDecoration.none,
+          ),
+          maxLines: fixedHeight ? 2 : null,
+          overflow: fixedHeight ? TextOverflow.ellipsis : null,
+          softWrap: true,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          project.largeDescription,
+          textAlign: TextAlign.justify,
+          style: const TextStyle(
+            fontSize: 13,
+            color: Colors.white70,
+            fontFamily: "Poppins",
+            decoration: TextDecoration.none,
+          ),
+          maxLines: fixedHeight ? 5 : null,
+          overflow: fixedHeight ? TextOverflow.ellipsis : null,
+          softWrap: true,
+        ),
+      ],
+    );
+  }
+}
+
+class ProjectDetailsCompact extends StatelessWidget {
+  final ProjectModel project;
+  final double height;
+  final bool fixedHeight;
+  final bool isHome;
+
+  const ProjectDetailsCompact({
+    super.key,
+    required this.project,
+    required this.height,
+    required this.fixedHeight,
+    required this.isHome,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const SizedBox(height: 2),
+          Text(
+            project.name,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontFamily: "Poppins",
+              decoration: TextDecoration.none,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            project.description,
+            style: const TextStyle(
+              fontSize: 15,
+              color: Colors.white70,
+              fontFamily: "Poppins",
+              decoration: TextDecoration.none,
+            ),
+            maxLines: fixedHeight ? 2 : null,
+            overflow: fixedHeight ? TextOverflow.ellipsis : null,
+            softWrap: true,
+          ),
+          const SizedBox(height: 8),
+          if (isHome)
+            Text(
+              project.largeDescription,
+              textAlign: TextAlign.justify,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Colors.white70,
+                fontFamily: "Poppins",
+                decoration: TextDecoration.none,
+              ),
+              maxLines: fixedHeight ? 5 : null,
+              overflow: fixedHeight ? TextOverflow.ellipsis : null,
+              softWrap: true,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+// --- Main Widget ---
+
 class KProjectCard extends StatefulWidget {
   final ProjectModel project;
   final VoidCallback? onTap;
@@ -38,38 +166,15 @@ class _KProjectCard extends State<KProjectCard> {
   final GlobalKey _containerKey = GlobalKey();
   Offset _offset = Offset.zero;
   Offset _center = Offset.zero;
-  late List<AuraSpot> _auraSpots;
 
-  void _updateOffset(PointerEvent details) {
-    final RenderBox? box =
-        _containerKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box != null) {
-      final position = box.localToGlobal(Offset.zero);
-      final size = box.size;
-      setState(() {
-        _center = position + Offset(size.width / 2, size.height / 2);
-        _offset = details.position - _center;
-      });
-    } else {
-      setState(() {
-        _offset = Offset.zero;
-      });
-    }
-  }
-
-  void _resetOffset() {
-    setState(() {
-      _offset = Offset.zero;
-    });
-  }
+  late final List<AuraSpot> _auraSpots;
+  final Random _random = Random();
 
   @override
   void initState() {
-    _auraSpots = randomizeAuraSpots();
     super.initState();
+    _auraSpots = randomizeAuraSpots();
   }
-
-  final Random _random = Random();
 
   List<AuraSpot> randomizeAuraSpots() {
     // Minimum values
@@ -110,12 +215,53 @@ class _KProjectCard extends State<KProjectCard> {
     });
   }
 
+  void _updateOffset(PointerEvent details) {
+    final RenderBox? box =
+        _containerKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box != null) {
+      final position = box.localToGlobal(Offset.zero);
+      final size = box.size;
+      final Offset newCenter =
+          position + Offset(size.width / 2, size.height / 2);
+      final Offset newOffset = details.position - newCenter;
+      if (newOffset != _offset || newCenter != _center) {
+        setState(() {
+          _center = newCenter;
+          _offset = newOffset;
+        });
+      }
+    } else if (_offset != Offset.zero) {
+      setState(() {
+        _offset = Offset.zero;
+      });
+    }
+  }
+
+  void _resetOffset() {
+    if (_offset != Offset.zero) {
+      setState(() {
+        _offset = Offset.zero;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final InfoFetchController infoFetchController =
         Get.find<InfoFetchController>();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
-    final bool expandToContent = widget.expandToContentHeight;
+    final expandToContent = widget.expandToContentHeight;
+    final bool isHomeCard = widget.isHome ?? false;
+    final bool fixedHeight = widget.fixedHeight ?? true;
+
+    final mediaWidth = MediaQuery.of(context).size.width;
+    final double cardWidth = isMobile
+        ? (mediaWidth * 0.45 > 340 ? mediaWidth * 0.45 : 340)
+        : widget.width ?? 500;
+    final double? cardHeight = widget.height;
+    final double contentHeight =
+        (cardHeight ?? 500) - (isMobile ? 320 : 380) - 52;
+
     return MouseRegion(
       cursor: isHover ? SystemMouseCursors.click : SystemMouseCursors.basic,
       onEnter: (_) => setState(() => isHover = true),
@@ -132,8 +278,8 @@ class _KProjectCard extends State<KProjectCard> {
           scale: scale,
           child: AnimatedAlign(
             alignment: Alignment(
-              (_offset.dx / ((widget.width ?? 500) / 2)).clamp(-1.0, 1.0),
-              (_offset.dy / ((widget.height ?? 500) / 2)).clamp(-1.0, 1.0),
+              (_offset.dx / (cardWidth / 2)).clamp(-1.0, 1.0),
+              (_offset.dy / ((cardHeight ?? 500) / 2)).clamp(-1.0, 1.0),
             ),
             duration: const Duration(milliseconds: 600),
             curve: Curves.easeOut,
@@ -143,12 +289,8 @@ class _KProjectCard extends State<KProjectCard> {
                 key: _containerKey,
                 clipBehavior: Clip.hardEdge,
                 margin: const EdgeInsets.all(8),
-                width: isMobile
-                    ? (MediaQuery.of(context).size.width * 0.45 > 340
-                          ? MediaQuery.of(context).size.width * 0.45
-                          : 340)
-                    : widget.width,
-                height: expandToContent ? null : widget.height,
+                width: cardWidth,
+                height: expandToContent ? null : cardHeight,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Color.lerp(Colors.white, Colors.black, 0.5)!,
@@ -164,7 +306,7 @@ class _KProjectCard extends State<KProjectCard> {
                 child: RepaintBoundary(
                   child: AuraBox(
                     spots: _auraSpots,
-                    decoration: BoxDecoration(color: Colors.transparent),
+                    decoration: const BoxDecoration(color: Colors.transparent),
                     child: Column(
                       mainAxisSize: expandToContent
                           ? MainAxisSize.min
@@ -178,113 +320,15 @@ class _KProjectCard extends State<KProjectCard> {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: expandToContent
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      widget.project.name,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontFamily: "Poppins",
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      widget.project.description,
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white70,
-                                        fontFamily: "Poppins",
-                                        decoration: TextDecoration.none,
-                                      ),
-                                      maxLines: widget.fixedHeight == true
-                                          ? 2
-                                          : null,
-                                      overflow: widget.fixedHeight == true
-                                          ? TextOverflow.ellipsis
-                                          : null,
-                                      softWrap: true,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      widget.project.largeDescription,
-                                      textAlign: TextAlign.justify,
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.white70,
-                                        fontFamily: "Poppins",
-                                        decoration: TextDecoration.none,
-                                      ),
-                                      maxLines: widget.fixedHeight == true
-                                          ? 5
-                                          : null,
-                                      overflow: widget.fixedHeight == true
-                                          ? TextOverflow.ellipsis
-                                          : null,
-                                      softWrap: true,
-                                    ),
-                                  ],
+                              ? ProjectDetailsExpanded(
+                                  project: widget.project,
+                                  fixedHeight: fixedHeight,
                                 )
-                              : SizedBox(
-                                  height:
-                                      (widget.height ?? 500) -
-                                      (isMobile ? 320 : 380) -
-                                      52,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget.project.name,
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontFamily: "Poppins",
-                                          decoration: TextDecoration.none,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        widget.project.description,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.white70,
-                                          fontFamily: "Poppins",
-                                          decoration: TextDecoration.none,
-                                        ),
-                                        maxLines: widget.fixedHeight == true
-                                            ? 2
-                                            : null,
-                                        overflow: widget.fixedHeight == true
-                                            ? TextOverflow.ellipsis
-                                            : null,
-                                        softWrap: true,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      if (widget.isHome == true)
-                                        Text(
-                                          widget.project.largeDescription,
-                                          textAlign: TextAlign.justify,
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.white70,
-                                            fontFamily: "Poppins",
-                                            decoration: TextDecoration.none,
-                                          ),
-                                          maxLines: widget.fixedHeight == true
-                                              ? 5
-                                              : null,
-                                          overflow: widget.fixedHeight == true
-                                              ? TextOverflow.ellipsis
-                                              : TextOverflow.ellipsis,
-                                          softWrap: true,
-                                        ),
-                                    ],
-                                  ),
+                              : ProjectDetailsCompact(
+                                  project: widget.project,
+                                  height: contentHeight,
+                                  fixedHeight: fixedHeight,
+                                  isHome: isHomeCard,
                                 ),
                         ),
                       ],
