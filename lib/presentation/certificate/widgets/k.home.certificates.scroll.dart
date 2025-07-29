@@ -29,7 +29,7 @@ class KCertificateScrollList extends StatelessWidget {
       );
       return const Center(
         child: Text(
-          'Loading projects... Please wait.',
+          'Loading Certificates... Please wait.',
           style: TextStyle(color: Colors.black, fontSize: 24),
         ),
       );
