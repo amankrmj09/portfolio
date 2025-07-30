@@ -20,7 +20,7 @@ class CertificateScreen extends GetView<CertificateController> {
         Get.find<InfoFetchController>();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
     return Obx(() {
-      if (controller.isLoading.value) {
+      if (controller.isLoading.value || controller.certificates.isEmpty) {
         return const Center(child: CircularProgressIndicator());
       }
       return SizedBox(

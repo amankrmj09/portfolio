@@ -193,26 +193,27 @@ class InfoFetchController extends GetxController {
 
   final Rx<Device> currentDevice = Device.Desktop.obs;
 
-  void updateDevice(double width) {
-    if (width < 900) {
-      currentDevice.value = Device.Mobile;
-    } else if (width < 1300) {
-      currentDevice.value = Device.Tablet;
-    } else {
-      currentDevice.value = Device.Desktop;
-    }
-  }
-
   @override
   void onInit() {
     super.onInit();
-    fetchProfileLinks();
-    fetchQuotes();
-    fetchAboutMeInfo();
-    fetchTools();
-    fetchExperiences();
+    _fetchAll();
+  }
+
+  Future<void> _fetchAll() async {
     fetchSocialLinks();
+    await Future.delayed(const Duration(milliseconds: 200));
     fetchCertificates();
+    await Future.delayed(const Duration(milliseconds: 200));
     fetchProjects();
+    await Future.delayed(const Duration(milliseconds: 200));
+    fetchProfileLinks();
+    await Future.delayed(const Duration(milliseconds: 200));
+    fetchQuotes();
+    await Future.delayed(const Duration(milliseconds: 200));
+    fetchAboutMeInfo();
+    await Future.delayed(const Duration(milliseconds: 200));
+    fetchTools();
+    await Future.delayed(const Duration(milliseconds: 200));
+    fetchExperiences();
   }
 }

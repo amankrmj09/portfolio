@@ -19,7 +19,7 @@ class WorksScreen extends GetView<WorksController> {
         Get.find<InfoFetchController>();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
     return Obx(() {
-      if (controller.isLoading.value) {
+      if (controller.isLoading.value || controller.projects.isEmpty) {
         return const Center(child: CircularProgressIndicator());
       }
       return SizedBox(
