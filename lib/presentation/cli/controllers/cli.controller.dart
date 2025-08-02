@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 
 class CliHistoryEntry {
   final String prompt;
@@ -17,360 +21,366 @@ class CliHistoryEntry {
 enum CliHistoryType { user, output, error }
 
 class CliController extends GetxController {
-  final RxList<CliHistoryEntry> displayHistory =
-      <CliHistoryEntry>[].obs; // For display (all lines)
-  final RxList<String> commandHistory = <String>[].obs; // Only user commands
+  final RxList<CliHistoryEntry> displayHistory = <CliHistoryEntry>[].obs;
+  final RxList<String> commandHistory = <String>[].obs;
   final inputController = TextEditingController();
+  final scrollController = ScrollController();
+  final inputFocusNode = FocusNode();
 
-  final ScrollController scrollController = ScrollController();
+  final InfoFetchController infoFetchController =
+      Get.find<InfoFetchController>();
 
+  // --- State Variables ---
   late final String userName;
+  final RxList<String> currentPath = <String>[].obs;
+  int historyIndex = -1;
 
-  final List<String> commands = [
-    'help',
-    'about',
-    'ls',
-    'smile',
-    'clear',
-    'exit',
-  ];
+  // --- Simulated File System ---
+  late final Map<String, dynamic> rootDirectory;
+  final List<String> projects = ['portfolio_cli', 'weather_app', 'todo_list'];
+  final List<String> skills = ['flutter', 'dart', 'firebase', 'getx', 'python'];
+  final Map<String, String> contact = {
+    'email': 'example@email.com',
+    'phone': '+1234567890',
+  };
+  final Map<String, String> profileLinks = {
+    'github': 'https://github.com/example',
+    'linkedin': 'https://linkedin.com/in/example',
+  };
 
-  final help = [
-    'use help <command> for more details',
-    'available commands:',
-    'about - Show information about the portfolio',
-    'ls - List directories and files',
-    'history - Show command history',
-    'text format - Format text output in the CLI',
-    'clear - Clear the terminal screen',
-    'exit - Exit the terminal',
-  ];
+  // --- Command Definitions ---
+  final Map<String, List<String>> commandHelp = {
+    'help': ['Shows this help message.'],
+    'about': ['Displays information about this portfolio.'],
+    'ls': ['Lists files and directories.'],
+    'cd <dir>': ['Changes the current directory.'],
+    'history': ['Shows your command history.'],
+    'smile': ['Makes you smile. :)'],
+    'clear': ['Clears the terminal screen.'],
+    'exit': ['Exits the terminal.'],
+  };
 
-  void lsCommand() {
-    displayHistory.add(
-      CliHistoryEntry(
-        prompt: prompt,
-        text: 'projects/\nskills/\ncontact/',
-        type: CliHistoryType.output,
-      ),
-    );
-  }
+  final aboutText = [
+    'This is a portfolio CLI application built with Flutter & GetX.',
+    'It showcases my projects, skills, and contact information.',
+    'Feel free to explore using the available commands.',
+  ].join('\n');
 
-  final textFormatHelp = [
-    'text format -c <color>  | Available colors: blue, white, green, orange, brown, pink',
-    'text format -s <size>   | Font size (min: 24, max: 40)',
-    'text format -f <family> | Font family (use -f and provide a family, see list)',
-  ];
-
-  final aboutCommand = [
-    'This is a portfolio CLI application.',
-    'It showcases various projects and skills.',
-    'Developed using Flutter and GetX.',
-    'Feel free to explore the commands.',
-  ];
-
-  final exitMessage = ['Thank you for using the portfolio CLI!', 'Goodbye!'];
+  final exitMessage = 'Thank you for using the portfolio CLI! Goodbye!';
 
   final List<String> userNameList = [
     'eren_yeager',
     'mikasa_ackerman',
     'armin_arlert',
     'levi_ackerman',
-    'erwin_smith',
-    'jean_kirstein',
-    'sasha_blouse',
-    'connie_springer',
-    'historia_reiss',
-    'reiner_braun',
-    'annie_leonhart',
-    'bertolt_hoover',
     'hange_zoe',
-    'zeke_yeager',
-    'ymir',
-    'pieck_finger',
-    'porco_galliard',
-    'gabi_braun',
-    'falco_grice',
-    'kenny_ackerman',
-    'marco_bott',
-    'moblit_berner',
-    'petra_ral',
-    'mike_zacharias',
-    'dot_pixis',
-    'nile_dok',
-    'floch_forster',
-    'rico_brzenska',
-    'ilse_langnar',
-    'hitch_dreyse',
-    'mina_carolina',
-    'marlowe_freudenberg',
-    'gunther_schultz',
-    'olu_bozado',
-    'eld_jinn',
-    'franz_kefka',
-    'hannes',
-    'carla_yeager',
-    'grisha_yeager',
-    'faye_yeager',
-    'rod_reiss',
-    'uri_reiss',
-    'frieda_reiss',
-    'kiyomi_azumabito',
-    'niccolo',
-    'yelena',
-    'onyankopon',
-    'lara_tybur',
-    'willy_tybur',
-    'theo_magath',
-    'colt_grice',
-    'samuel',
-    'daz',
-    'sina',
-    'moses_braun',
-    'mina_carolina',
-    'thomas_wagner',
-    'hugo',
-    'boris_feulner',
-    'ian_dietrich',
-    'mitabi_jarnach',
-    'hitch_dreyse',
-    'marlowe_freudenberg',
-    'nifa',
-    'sannes',
-    'ralph',
-    'gross',
-    'kiyomi_azumabito',
-    'kiyomi_azumabito',
-    'kiyomi_azumabito',
   ];
 
-  String get prompt =>
-      'user@[32m${userNameList[0]}\u001b[0m ~ \u001b[36m\$[0m';
+  // --- Getters for dynamic parts of the UI ---
+  String get currentPathString =>
+      currentPath.isEmpty ? '~' : '~/${currentPath.join('/')}';
 
-  final FocusNode inputFocusNode = FocusNode();
-  int historyIndex = -1;
+  String get prompt => 'user@$userName:$currentPathString\$ ';
+
+  Map<String, dynamic> get currentDirectoryMap {
+    Map<String, dynamic> dir = rootDirectory;
+    for (final part in currentPath) {
+      if (dir.containsKey(part) && dir[part] is Map<String, dynamic>) {
+        dir = dir[part];
+      } else {
+        // This case should ideally not be reached if cd is implemented correctly
+        return {};
+      }
+    }
+    return dir;
+  }
 
   @override
   void onInit() {
     super.onInit();
     userNameList.shuffle();
     userName = userNameList.first;
-    welcomeMessage();
+    _showWelcomeMessage();
+    _getProjectsData();
+    // Use everAll to reactively update projects when infoFetchController.projects changes
+    _initializeFileSystem();
+    everAll([infoFetchController.projects], (_) => _getProjectsData());
   }
 
-  void helpCommand() {
+  void _getProjectsData() {
+    projects.clear();
+    projects.addAll(
+      infoFetchController.projects.map((project) => project.name).toList(),
+    );
+    // Update rootDirectory in-place instead of re-initializing
+    // rootDirectory['projects'] = {for (var item in projects) item: {}};
+    for (final project in projects) {
+      rootDirectory['projects'][project] = {};
+      log('Added project: $project', name: 'CliController');
+    }
+    log('Fetched projects: ${projects.length}', name: 'CliController');
+  }
+
+  void _initializeFileSystem() {
+    rootDirectory = {
+      'projects': {for (var item in projects) item: {}},
+      'skills': {for (var item in skills) item: {}},
+      'contact': contact,
+      'profile_links': profileLinks,
+    };
+  }
+
+  void _showWelcomeMessage() {
     displayHistory.add(
       CliHistoryEntry(
-        prompt: prompt,
-        text: help.join('\n'),
+        prompt: '',
+        text:
+            'Welcome to the portfolio CLI, $userName!\nType "help" for a list of commands.',
         type: CliHistoryType.output,
       ),
     );
   }
 
-  void historyCommand() {
-    if (commandHistory.isEmpty) {
-      displayHistory.add(
-        CliHistoryEntry(
-          prompt: prompt,
-          text: 'No command history available.',
-          type: CliHistoryType.output,
-        ),
-      );
+  // --- Command Handlers ---
+
+  void _executeHelp() {
+    final helpText = commandHelp.entries
+        .map((e) => '${e.key.padRight(12)} - ${e.value.join('\n')}')
+        .join('\n');
+    _addOutput(helpText);
+  }
+
+  void _executeLs() {
+    final dir = currentDirectoryMap;
+    if (dir.isEmpty) {
+      _addOutput('(empty)');
+      return;
+    }
+
+    final entries = dir.keys.map((key) {
+      // Add a slash to directories for better visual representation
+      return dir[key] is Map ? '$key/' : key;
+    }).toList();
+
+    _addOutput(entries.join('  '));
+  }
+
+  void _executeCd(List<String> args) {
+    if (args.isEmpty || args.first == '~' || args.first == '~/') {
+      currentPath.clear();
+      return;
+    }
+
+    final targetPath = args.first;
+    List<String> newPathSegments = targetPath.startsWith('/')
+        ? []
+        : List<String>.from(currentPath);
+
+    final segments = targetPath
+        .split('/')
+        .where((s) => s.isNotEmpty && s != '.');
+
+    for (final segment in segments) {
+      if (segment == '..') {
+        if (newPathSegments.isNotEmpty) {
+          newPathSegments.removeLast();
+        }
+      } else {
+        newPathSegments.add(segment);
+      }
+    }
+
+    // Validate the final path
+    Map<String, dynamic> currentDir = rootDirectory;
+    bool isValid = true;
+    for (final segment in newPathSegments) {
+      if (currentDir.containsKey(segment) && currentDir[segment] is Map) {
+        currentDir = currentDir[segment];
+      } else {
+        isValid = false;
+        break;
+      }
+    }
+
+    if (isValid) {
+      currentPath.assignAll(newPathSegments);
     } else {
-      displayHistory.add(
-        CliHistoryEntry(
-          prompt: prompt,
-          text: commandHistory.join('\n'),
-          type: CliHistoryType.output,
-        ),
-      );
+      _addError('cd: no such directory: $targetPath');
     }
   }
 
-  void exitCommand() {
-    displayHistory.add(
-      CliHistoryEntry(
-        prompt: prompt,
-        text: exitMessage.join('\n'),
-        type: CliHistoryType.output,
-      ),
-    );
-    // Future.delayed(const Duration(seconds: 2), () {
-    //   Get.back();
-    // });
+  void _executeHistory() {
+    if (commandHistory.isEmpty) {
+      _addOutput('No command history.');
+    } else {
+      _addOutput(commandHistory.join('\n'));
+    }
   }
 
-  void smileCommand(BuildContext context) {
+  void _executeSmile(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    // Only generate a circle of diameter width/4
-    final int diameter =
-        ((width / 4).clamp(13, 60).toInt() | 1); // ensure odd, allow larger
+    final int diameter = (width / 4).clamp(15, 55).toInt() | 1; // Ensure odd
     final int radius = diameter ~/ 2;
     final List<String> lines = [];
-    // Use a scaling factor to make the circle more visually round in ASCII
-    final double yScale = 0.38;
+    const double yScale = 0.45; // Aspect ratio correction for characters
 
     for (int y = 0; y < diameter; y++) {
       StringBuffer line = StringBuffer();
       for (int x = 0; x < diameter; x++) {
         final dx = x - radius;
-        final dy = ((y - radius) / yScale);
+        final dy = (y - radius) / yScale;
         final dist = dx * dx + dy * dy;
         final r2 = radius * radius;
-        // Draw the circle border (tighter threshold)
-        if ((dist - r2).abs() < radius * 0.5) {
-          line.write('.');
+        if ((dist - r2).abs() < radius) {
+          line.write('*');
         } else {
           line.write(' ');
         }
       }
       lines.add(line.toString());
     }
+    _addOutput(lines.join('\n'));
+  }
+
+  void _executeHome() {
+    currentPath.clear();
+  }
+
+  void _executeTree() {
+    final dir = currentDirectoryMap;
+    final buffer = StringBuffer();
+    void printTree(Map<String, dynamic> node, String prefix) {
+      final keys = node.keys.toList();
+      for (int i = 0; i < keys.length; i++) {
+        final key = keys[i];
+        final isLast = i == keys.length - 1;
+        buffer.writeln('$prefix${isLast ? '└──' : '├──'} $key');
+        if (node[key] is Map<String, dynamic> &&
+            (node[key] as Map).isNotEmpty) {
+          printTree(node[key], prefix + (isLast ? '    ' : '│   '));
+        }
+      }
+    }
+
+    printTree(dir, '');
+    _addOutput(buffer.isEmpty ? '(empty)' : buffer.toString());
+  }
+
+  // --- Helper methods for updating history ---
+
+  void _addUserInput(String text) {
     displayHistory.add(
-      CliHistoryEntry(
-        prompt: prompt,
-        text: lines.join('\n'),
-        type: CliHistoryType.output,
-      ),
+      CliHistoryEntry(prompt: prompt, text: text, type: CliHistoryType.user),
     );
   }
 
-  void welcomeMessage() {
+  void _addOutput(String text) {
     displayHistory.add(
-      CliHistoryEntry(
-        prompt: prompt,
-        text:
-            'Welcome to the portfolio CLI, $userName! \nType "help" for commands.',
-        type: CliHistoryType.output,
-      ),
+      CliHistoryEntry(prompt: '', text: text, type: CliHistoryType.output),
     );
   }
+
+  void _addError(String text) {
+    displayHistory.add(
+      CliHistoryEntry(prompt: '', text: text, type: CliHistoryType.error),
+    );
+  }
+
+  // --- Main Input Handlers ---
 
   void onCommandSubmitted(String value, BuildContext context) {
-    if (value.isEmpty) return;
-    commandHistory.add(value);
-    displayHistory.add(
-      CliHistoryEntry(
-        prompt: 'user@${userName} ~ \$ ',
-        text: value,
-        type: CliHistoryType.user,
-      ),
-    );
+    final trimmedValue = value.trim();
+    if (trimmedValue.isEmpty) return;
+
+    _addUserInput(trimmedValue);
+    if (commandHistory.isEmpty || commandHistory.last != trimmedValue) {
+      commandHistory.add(trimmedValue);
+    }
+
     inputController.clear();
     historyIndex = -1;
     inputFocusNode.requestFocus();
-    if (commands.contains(value)) {
-      switch (value) {
-        case 'help':
-          helpCommand();
-          break;
-        case 'about':
-          for (final line in aboutCommand) {
-            displayHistory.add(
-              CliHistoryEntry(
-                prompt: '',
-                text: line,
-                type: CliHistoryType.output,
-              ),
-            );
-          }
-          break;
-        case 'projects':
-          displayHistory.add(
-            CliHistoryEntry(
-              prompt: '',
-              text: 'List of projects...',
-              type: CliHistoryType.output,
-            ),
-          );
-          break;
-        case 'skills':
-          displayHistory.add(
-            CliHistoryEntry(
-              prompt: '',
-              text: 'List of skills...',
-              type: CliHistoryType.output,
-            ),
-          );
-          break;
-        case 'history':
-          historyCommand();
-          break;
-        case 'contact':
-          displayHistory.add(
-            CliHistoryEntry(
-              prompt: '',
-              text: 'Contact information...',
-              type: CliHistoryType.output,
-            ),
-          );
-          break;
-        case 'clear':
-          displayHistory.clear();
-          break;
-        case 'smile':
-          smileCommand(context);
-          break;
-        case 'exit':
-          exitCommand();
-          break;
-      }
-    } else {
-      displayHistory.add(
-        CliHistoryEntry(
-          prompt: '',
-          text: 'Command not found: $value',
-          type: CliHistoryType.error,
-        ),
-      );
+
+    final parts = trimmedValue.split(RegExp(r'\s+'));
+    final command = parts.first.toLowerCase();
+    final args = parts.sublist(1);
+
+    switch (command) {
+      case 'help':
+        _executeHelp();
+        break;
+      case 'ls':
+        _executeLs();
+        break;
+      case 'cd':
+        _executeCd(args);
+        break;
+      case 'about':
+        _addOutput(aboutText);
+        break;
+      case 'history':
+        _executeHistory();
+        break;
+      case 'clear':
+        displayHistory.clear();
+        _showWelcomeMessage();
+        break;
+      case 'smile':
+        _executeSmile(context);
+        break;
+      case 'home':
+        _executeHome();
+        break;
+      case 'tree':
+        _executeTree();
+        break;
+      case 'exit':
+        _addOutput(exitMessage);
+        break;
+      default:
+        _addError('Command not found: $command');
+        break;
     }
+
+    // Scroll to the bottom after the UI updates
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
-      );
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        );
+      }
     });
   }
 
   void onInputKeyEvent(KeyEvent event) {
-    if (event is KeyDownEvent) {
-      if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        if (commandHistory.isNotEmpty &&
-            historyIndex < commandHistory.length - 1) {
-          historyIndex++;
-          inputController.text =
-              commandHistory[commandHistory.length - 1 - historyIndex];
-          inputController.selection = TextSelection.fromPosition(
-            TextPosition(offset: inputController.text.length),
-          );
-        }
-      } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-        if (commandHistory.isNotEmpty && historyIndex > 0) {
-          historyIndex--;
-          inputController.text =
-              commandHistory[commandHistory.length - 1 - historyIndex];
-          inputController.selection = TextSelection.fromPosition(
-            TextPosition(offset: inputController.text.length),
-          );
-        } else if (historyIndex == 0) {
-          historyIndex = -1;
-          inputController.clear();
-        }
+    if (event is! KeyDownEvent) return;
+
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      if (commandHistory.isNotEmpty &&
+          historyIndex < commandHistory.length - 1) {
+        historyIndex++;
+        final historicCommand =
+            commandHistory[commandHistory.length - 1 - historyIndex];
+        inputController.text = historicCommand;
+        inputController.selection = TextSelection.fromPosition(
+          TextPosition(offset: historicCommand.length),
+        );
+      }
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      if (historyIndex > 0) {
+        historyIndex--;
+        final historicCommand =
+            commandHistory[commandHistory.length - 1 - historyIndex];
+        inputController.text = historicCommand;
+        inputController.selection = TextSelection.fromPosition(
+          TextPosition(offset: historicCommand.length),
+        );
+      } else {
+        historyIndex = -1;
+        inputController.clear();
       }
     }
   }
-}
-
-class ColoredTextLine {
-  final String text;
-  final Color color;
-  final bool nextLine;
-
-  ColoredTextLine({
-    required this.text,
-    required this.color,
-    required this.nextLine,
-  });
 }
