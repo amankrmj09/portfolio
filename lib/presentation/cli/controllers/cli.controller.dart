@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/utils/launch.url.dart';
 
 import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 
@@ -37,7 +38,9 @@ class CliController extends GetxController {
 
   // --- Simulated File System ---
   late final Map<String, dynamic> rootDirectory;
-  final List<String> projects = ['portfolio_cli', 'weather_app', 'todo_list'];
+  final List<String> projects = [];
+  final List<String> projectsDescription = [];
+  final List<String> projectsUrl = [];
   final List<String> skills = ['flutter', 'dart', 'firebase', 'getx', 'python'];
   final Map<String, String> contact = {
     'email': 'example@email.com',
@@ -102,8 +105,8 @@ class CliController extends GetxController {
     userName = userNameList.first;
     _showWelcomeMessage();
     _getProjectsData();
-    // Use everAll to reactively update projects when infoFetchController.projects changes
     _initializeFileSystem();
+    // Use everAll to reactively update projects when infoFetchController.projects changes
     everAll([infoFetchController.projects], (_) => _getProjectsData());
   }
 
@@ -112,13 +115,47 @@ class CliController extends GetxController {
     projects.addAll(
       infoFetchController.projects.map((project) => project.name).toList(),
     );
+    projectsDescription.clear();
+    projectsDescription.addAll(
+      infoFetchController.projects
+          .map((project) => project.description)
+          .toList(),
+    );
+    projectsUrl.clear();
+    projectsUrl.addAll(
+      infoFetchController.projects.map((project) => project.url).toList(),
+    );
     // Update rootDirectory in-place instead of re-initializing
     // rootDirectory['projects'] = {for (var item in projects) item: {}};
     for (final project in projects) {
-      rootDirectory['projects'][project] = {};
+      rootDirectory['projects']['${project.toLowerCase().split(' ').join('_')}.run'] =
+          {
+            'about': projectsDescription[projects.indexOf(project)],
+            'url': projectsUrl[projects.indexOf(project)],
+          };
       log('Added project: $project', name: 'CliController');
     }
     log('Fetched projects: ${projects.length}', name: 'CliController');
+  }
+
+  void _run(String command, String file) {
+    final dir = currentDirectoryMap;
+    // Only allow commands for files ending with .run
+    if (!file.endsWith('.run')) {
+      _addError('Unknown file: $file');
+      return;
+    }
+    if (command == 'about') {
+      _addOutput(dir[file]['about'] ?? 'No description available.');
+    } else if (command == 'run') {
+      _addOutput(dir[file]['url'] ?? 'No URL available.');
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _addOutput('Launching URL... ${dir[file]['url']}');
+      });
+      launchUrlExternal(dir[file]['url'] ?? '');
+    } else {
+      _addError('Unknown command: $command');
+    }
   }
 
   void _initializeFileSystem() {
@@ -159,7 +196,10 @@ class CliController extends GetxController {
 
     final entries = dir.keys.map((key) {
       // Add a slash to directories for better visual representation
-      return dir[key] is Map ? '$key/' : key;
+      if (key.contains('.')) {
+        return dir[key] is Map ? '$key\n' : key;
+      }
+      return dir[key] is Map ? '$key/\n' : key;
     }).toList();
 
     _addOutput(entries.join('  '));
@@ -172,6 +212,14 @@ class CliController extends GetxController {
     }
 
     final targetPath = args.first;
+    // Prevent cd into folders with a dot in the name
+    if (targetPath
+        .split('/')
+        .any((segment) => segment.contains('.') && segment != '..')) {
+      _addError('cd: cannot change directory into a file.');
+      return;
+    }
+
     List<String> newPathSegments = targetPath.startsWith('/')
         ? []
         : List<String>.from(currentPath);
@@ -316,7 +364,18 @@ class CliController extends GetxController {
         _executeCd(args);
         break;
       case 'about':
-        _addOutput(aboutText);
+        if (args.isNotEmpty && args.first.endsWith('.run')) {
+          _run('about', args.first);
+        } else {
+          _addOutput(aboutText);
+        }
+        break;
+      case 'run':
+        if (args.isNotEmpty && args.first.endsWith('.run')) {
+          _run('run', args.first);
+        } else {
+          _addError('Usage: run <file.run>');
+        }
         break;
       case 'history':
         _executeHistory();
