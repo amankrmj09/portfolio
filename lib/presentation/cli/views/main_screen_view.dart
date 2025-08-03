@@ -199,7 +199,7 @@ class _MacTerminalAppBar extends StatelessWidget {
                 _MacDot(
                   color: Color(0xFFFF5F56),
                   onTap: () {
-                    Get.offAllNamed('/home');
+                    Get.back();
                   },
                 ),
                 SizedBox(width: 8),

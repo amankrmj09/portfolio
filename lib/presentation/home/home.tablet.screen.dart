@@ -68,18 +68,18 @@ class HomeTabletScreen extends GetView<HomeController> {
                               context: context,
                               title: 'Recent Works',
                               route: Routes.ALL_PROJECTS,
-                              sectionKey: HomeController.recentWorksKey,
+                              sectionKey: controller.recentWorksKey,
                             ),
                             const WorksScreen(),
                             HeaderSection(
                               context: context,
                               title: 'Recent Certificates',
                               route: Routes.ALL_CERTIFICATES,
-                              sectionKey: HomeController.recentCertificatesKey,
+                              sectionKey: controller.recentCertificatesKey,
                             ),
                             const CertificateScreen(),
                             SizedBox(
-                              key: HomeController.aboutMeKey,
+                              key: controller.aboutMeKey,
                               height: MediaQuery.of(context).size.height,
                               child: const AboutMeScreen(),
                             ),
@@ -112,7 +112,7 @@ class HomeTabletScreen extends GetView<HomeController> {
     var minHeight = MediaQuery.of(context).size.height;
     return Center(
       child: SizedBox(
-        key: HomeController.homeKey,
+        key: controller.homeKey,
         height: minHeight,
         width: double.infinity,
         child: Padding(

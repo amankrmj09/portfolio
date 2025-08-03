@@ -132,7 +132,7 @@ Widget navigateButtonAndSocialLinks(HomeController controller) {
             label: 'See My Works',
             icon: const Icon(Icons.arrow_forward, size: 24),
             onTap: () {
-              final ctx = HomeController.recentWorksKey.currentContext;
+              final ctx = controller.recentWorksKey.currentContext;
               if (ctx != null) {
                 Scrollable.ensureVisible(
                   ctx,

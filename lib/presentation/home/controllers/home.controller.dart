@@ -20,18 +20,21 @@ class HomeController extends GetxController {
       Get.find<InfoFetchController>();
   final RxInt selectedTabIndex = 0.obs;
 
-  // Section keys for navigation
-  static final GlobalKey recentWorksKey = GlobalKey();
-  static final GlobalKey recentCertificatesKey = GlobalKey();
-  static final GlobalKey aboutMeKey = GlobalKey();
-  static final GlobalKey homeKey = GlobalKey();
+  // Section keys for navigation - converted from static to instance variables
+  final GlobalKey recentWorksKey = GlobalKey(debugLabel: 'recentWorksKey');
+  final GlobalKey recentCertificatesKey = GlobalKey(
+    debugLabel: 'recentCertificatesKey',
+  );
+  final GlobalKey aboutMeKey = GlobalKey(debugLabel: 'aboutMeKey');
+  final GlobalKey homeKey = GlobalKey(debugLabel: 'homeKey');
 
-  static final List<GlobalKey> sectionKeys = [
-    homeKey,
-    recentWorksKey,
-    recentCertificatesKey,
-    aboutMeKey,
-  ];
+  // Updated to use instance keys instead of static keys
+  late final List<GlobalKey> sectionKeys;
+
+  // Constructor initializes the keys
+  HomeController() {
+    sectionKeys = [homeKey, recentWorksKey, recentCertificatesKey, aboutMeKey];
+  }
 
   // Navigation actions: scrolls to section and updates selected tab
   List<VoidCallback> get onTapActions => List.generate(

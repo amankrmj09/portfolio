@@ -43,7 +43,7 @@ class HomeMobileScreen extends GetView<HomeController> {
                     HeaderSection(
                       context: context,
                       title: 'Recent Works',
-                      sectionKey: HomeController.recentWorksKey,
+                      sectionKey: controller.recentWorksKey,
                     ),
                     const SizedBox(height: 10),
                     const WorksScreen(),
@@ -52,13 +52,13 @@ class HomeMobileScreen extends GetView<HomeController> {
                     HeaderSection(
                       context: context,
                       title: 'Recent Certificates',
-                      sectionKey: HomeController.recentCertificatesKey,
+                      sectionKey: controller.recentCertificatesKey,
                     ),
                     const SizedBox(height: 10),
                     const CertificateScreen(),
                     const SizedBox(height: 20),
                     SizedBox(
-                      key: HomeController.aboutMeKey,
+                      key: controller.aboutMeKey,
                       height: MediaQuery.of(context).size.height,
                       child: const AboutMeScreen(),
                     ),
@@ -79,7 +79,7 @@ class HomeMobileScreen extends GetView<HomeController> {
   Widget _mainSection(BuildContext context) {
     return Center(
       child: SizedBox(
-        key: HomeController.homeKey,
+        key: controller.homeKey,
         height: MediaQuery.of(context).size.height - kToolbarHeight,
         width: double.infinity,
         child: Padding(

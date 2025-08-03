@@ -481,7 +481,7 @@ class CliController extends GetxController {
       case 'exit':
         _addOutput(exitMessage);
         Future.delayed(const Duration(seconds: 2), () {
-          Get.offAllNamed('/home');
+          Get.back();
         });
         break;
       default:
