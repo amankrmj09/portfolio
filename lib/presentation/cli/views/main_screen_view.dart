@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/cli/controllers/cli.controller.dart';
@@ -22,7 +21,7 @@ class MainScreenView extends GetView<CliController> {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withAlpha((0.3 * 255).toInt()),
                 blurRadius: 24,
                 offset: const Offset(0, 8),
               ),
@@ -66,7 +65,10 @@ class _MacDot extends StatelessWidget {
         decoration: BoxDecoration(
           color: color,
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.black.withOpacity(0.15), width: 1),
+          border: Border.all(
+            color: Colors.black.withAlpha((0.15 * 255).toInt()),
+            width: 1,
+          ),
         ),
       ),
     );
@@ -129,29 +131,15 @@ class _CliContent extends StatelessWidget {
           ),
           Row(
             children: [
-              Text(
-                'user@${controller.userName}',
-                style: const TextStyle(
-                  color: Color(0xFF6A9955),
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'monospace',
-                  fontSize: 16,
-                ),
-              ),
-              const Text(
-                ' ~ ',
-                style: TextStyle(
-                  color: Color(0xFF9CDCFE),
-                  fontFamily: 'monospace',
-                  fontSize: 16,
-                ),
-              ),
-              const Text(
-                '\$',
-                style: TextStyle(
-                  color: Color(0xFFD4D4D4),
-                  fontFamily: 'monospace',
-                  fontSize: 16,
+              Obx(
+                () => Text(
+                  controller.prompt,
+                  style: const TextStyle(
+                    color: Color(0xFF6A9955),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'monospace',
+                    fontSize: 16,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -165,7 +153,6 @@ class _CliContent extends StatelessWidget {
                     showCursor: true,
                     cursorWidth: 8,
                     onTapOutside: (_) {},
-
                     style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'monospace',

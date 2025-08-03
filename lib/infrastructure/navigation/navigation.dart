@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+
 import 'package:portfolio/presentation/admin/views/contact_screen_view.dart';
 
 import '../../config.dart';
@@ -94,6 +95,11 @@ class Nav {
       transition: Transition.rightToLeftWithFade,
       transitionDuration: const Duration(milliseconds: 500),
       preventDuplicates: true,
+    ),
+    GetPage(
+      name: Routes.CLI,
+      page: () => const CliScreen(),
+      binding: CliControllerBinding(),
     ),
   ];
 }
