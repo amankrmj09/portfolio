@@ -1,6 +1,6 @@
 [
   {
-    "name": "MongoDB Developer's Toolkit: CRUD Mastery with Node.js, Java, Python, C#",
+    "name": "MongoDB Developer's Toolkit",
     "description": "Covers essential MongoDB skills including CRUD operations, indexing, aggregation, data modeling, and integration with various programming languages.",
     "url": "https://www.geeksforgeeks.org/certificate/33e98d03ae754b8ab2de4b0e2e24c63e",
     "images": [
@@ -34,7 +34,7 @@
     "type": "jpg"
   },
   {
-    "name": "Mastering MYSQL: Database Creation, Management & SQL Queries",
+    "name": "Mastering MYSQL",
     "description": "Covers MySQL fundamentals including database design, management, and SQL queries.",
     "url": "https://www.udemy.com/certificate/UC-c40c65d1-cccf-4ec3-9616-09c5d0e5a746/",
     "images": [
@@ -51,7 +51,7 @@
     "type": "jpg"
   },
   {
-    "name": "Mastering Git: Version Control for Modern Development",
+    "name": "Mastering Git",
     "description": "Covers Git fundamentals including workflow management, branching, merging, and collaboration best practices.",
     "url": "",
     "images": [
@@ -119,7 +119,7 @@
     "type": "jpg"
   },
   {
-    "name": "Java (Basic) Certificate",
+    "name": "Java Certificate",
     "description": "Covers fundamental concepts of the Java programming language.",
     "url": "https://www.hackerrank.com/certificates/eac8d632729b",
     "images": [
