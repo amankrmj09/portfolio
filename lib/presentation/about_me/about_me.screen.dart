@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:atlas_icons/atlas_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:portfolio/infrastructure/navigation/routes.dart';
 import 'package:portfolio/presentation/about_me/views/profiles_view.dart';
@@ -30,9 +29,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final InfoFetchController infoFetchController =
-        Get.find<InfoFetchController>();
-    final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
+    Get.find<InfoFetchController>();
     return SafeArea(
       child: SizedBox(
         width: double.infinity,

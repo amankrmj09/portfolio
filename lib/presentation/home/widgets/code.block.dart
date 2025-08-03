@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'animated_typer_text.dart';
 
 class CodeBlock extends StatefulWidget {
@@ -63,71 +64,76 @@ class Editor extends StatelessWidget {
   Widget build(BuildContext context) {
     return FittedBox(
       fit: BoxFit.scaleDown,
-      child: Container(
-        width: 400,
-        height: 250,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
-          border: Border.all(width: 1, color: Colors.black12),
-          color: Colors.black,
-        ),
-        padding: const EdgeInsets.all(12.0),
-        margin: const EdgeInsets.only(left: 25.0, top: 25.0, bottom: 25.0),
-        child: isBackground
-            ? SizedBox()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ...btnColors.map(
-                        (color) => Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.circle, size: 14, color: color),
-                            SizedBox(width: 10),
-                          ],
+      child: InkWell(
+        onTap: () {
+          Get.toNamed('/cli');
+        },
+        child: Container(
+          width: 400,
+          height: 250,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            border: Border.all(width: 1, color: Colors.black12),
+            color: Colors.black,
+          ),
+          padding: const EdgeInsets.all(12.0),
+          margin: const EdgeInsets.only(left: 25.0, top: 25.0, bottom: 25.0),
+          child: isBackground
+              ? SizedBox()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ...btnColors.map(
+                          (color) => Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.circle, size: 14, color: color),
+                              SizedBox(width: 10),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  AnimatedTyperText(
-                    lines: [
-                      '\$ find / name -"life.dart"\n',
-                      '> Searching . . .\n',
-                      '> Error: No life is found!\n',
-                      '> Since you are a programmer, you have no life!',
-                    ],
-                    styles: [
-                      Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: 'ShantellSans',
-                      ),
-                      TextStyle(
-                        color: Colors.yellow,
-                        fontSize: 16,
-                        fontFamily: 'ShantellSans',
-                      ),
-                      TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontFamily: 'ShantellSans',
-                        fontWeight: FontWeight.bold,
-                      ),
-                      TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontFamily: 'ShantellSans',
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ],
-                    width: 400,
-                    speed: const Duration(milliseconds: 60),
-                  ),
-                ],
-              ),
+                      ],
+                    ),
+                    AnimatedTyperText(
+                      lines: [
+                        '\$ find / name -"life.dart"\n',
+                        '> Searching . . .\n',
+                        '> Error: No life is found!\n',
+                        '> Since you are a programmer, you have no life!',
+                      ],
+                      styles: [
+                        Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'ShantellSans',
+                        ),
+                        TextStyle(
+                          color: Colors.yellow,
+                          fontSize: 16,
+                          fontFamily: 'ShantellSans',
+                        ),
+                        TextStyle(
+                          color: Colors.red,
+                          fontSize: 16,
+                          fontFamily: 'ShantellSans',
+                          fontWeight: FontWeight.bold,
+                        ),
+                        TextStyle(
+                          color: Colors.red,
+                          fontSize: 16,
+                          fontFamily: 'ShantellSans',
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ],
+                      width: 400,
+                      speed: const Duration(milliseconds: 60),
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }

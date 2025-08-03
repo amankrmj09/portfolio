@@ -10,39 +10,35 @@ class MainScreenView extends GetView<CliController> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: const Color(0xFF1E1E1E),
-      body: Center(
-        child: Container(
-          width: width * 0.8,
-          height: height * 0.8,
-          decoration: BoxDecoration(
-            color: const Color(0xFF232323),
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha((0.3 * 255).toInt()),
-                blurRadius: 24,
-                offset: const Offset(0, 8),
-              ),
-            ],
-            border: Border.all(color: const Color(0xFF444444), width: 2),
+    return Container(
+      width: width * 0.8,
+      height: height * 0.8,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha((0.3 * 255).toInt()),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Custom Mac-style app bar
-              const _MacTerminalAppBar(),
-              // CLI content
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: _CliContent(),
-                ),
-              ),
-            ],
+        ],
+        border: Border.all(color: const Color(0xFF444444), width: 2),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Custom Mac-style app bar
+          const _MacTerminalAppBar(),
+          // CLI content
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: _CliContent(),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -192,34 +188,38 @@ class _MacTerminalAppBar extends StatelessWidget {
         border: Border(bottom: BorderSide(color: Color(0xFF444444), width: 2)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          // Mac window dots with InkWell
-          Row(
-            children: [
-              _MacDot(
-                color: Color(0xFFFF5F56),
-                onTap: () {
-                  // Close action (optional: Navigator maybe)
-                },
-              ),
-              SizedBox(width: 8),
-              _MacDot(
-                color: Color(0xFFFFBD2E),
-                onTap: () {
-                  // Minimize action (optional)
-                },
-              ),
-              SizedBox(width: 8),
-              _MacDot(
-                color: Color(0xFF27C93F),
-                onTap: () {
-                  // Maximize action (optional)
-                },
-              ),
-            ],
+          // Left-aligned Mac window dots
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                _MacDot(
+                  color: Color(0xFFFF5F56),
+                  onTap: () {
+                    Get.offAllNamed('/home');
+                  },
+                ),
+                SizedBox(width: 8),
+                _MacDot(
+                  color: Color(0xFFFFBD2E),
+                  onTap: () {
+                    // Minimize action (optional)
+                  },
+                ),
+                SizedBox(width: 8),
+                _MacDot(
+                  color: Color(0xFF27C93F),
+                  onTap: () {
+                    // Maximize action (optional)
+                  },
+                ),
+              ],
+            ),
           ),
-          const Spacer(),
+          // Centered terminal text
           const Text(
             'Terminal',
             style: TextStyle(
@@ -229,7 +229,6 @@ class _MacTerminalAppBar extends StatelessWidget {
               letterSpacing: 1.2,
             ),
           ),
-          const Spacer(),
         ],
       ),
     );

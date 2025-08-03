@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/cli/views/main_screen_view.dart';
 
+import '../../widgets/mesh.background.dart';
 import 'controllers/cli.controller.dart';
 
 class CliScreen extends GetView<CliController> {
@@ -10,6 +11,14 @@ class CliScreen extends GetView<CliController> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(child: MainScreenView());
+    return Material(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned.fill(child: SharedMeshBackground()),
+          MainScreenView(),
+        ],
+      ),
+    );
   }
 }
