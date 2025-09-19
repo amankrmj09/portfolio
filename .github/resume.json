@@ -26,7 +26,7 @@
     "projects": [
       {
         "name": "CapyApy",
-        "tech_stack": [
+        "techStack": [
           "Flutter",
           "Java",
           "SpringBoot",
@@ -37,7 +37,7 @@
       },
       {
         "name": "CapyVerse CLI",
-        "tech_stack": [
+        "techStack": [
           "Java",
           "Micronaut",
           "Picocli"
@@ -47,7 +47,7 @@
       },
       {
         "name": "Green Hive",
-        "tech_stack": [
+        "techStack": [
           "Flutter",
           "AWS",
           "ESP32",
