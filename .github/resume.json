@@ -1,0 +1,83 @@
+{
+  "education": [
+    {
+      "institution": "Vellore Institute of Technology, Chennai",
+      "degree": "B. Tech in Electronics and Computer Science Engineering",
+      "duration": "September 2022 - May 2026",
+      "location": "Chennai, TN"
+    },
+    {
+      "institution": "D. C. Lewis Memorial School",
+      "degree": "Senior Secondary School, ISC",
+      "duration": "June 2021",
+      "location": "Sonebhadra, UP"
+    }
+  ],
+  "work_experience": [
+    {
+      "company": "Hindalco Industries Ltd. (Aditya Birla Group)",
+      "role": "Software Development Engineer Intern",
+      "duration": "May 2024 - June 2024",
+      "location": "Renukoot",
+      "description": "Built Ping Me, a real-time messaging app using Flutter 3.32 and Firebase, enabling secure login, live chat, and media sharing via Firebase Authentication, Firestore, and Cloud Storage. Designed scalable messaging logic to handle 200 concurrent user messages, ensuring low-latency communication and robust backend integration for production-grade reliability. Debugged and optimized real-time data flow, gaining hands-on experience with Firebase services, structured databases, and performance tuning in a live deployment environment."
+    }
+  ],
+  "projects": [
+    {
+      "name": "CapyApy",
+      "tech_stack": [
+        "Flutter",
+        "Java",
+        "SpringBoot",
+        "Apache Freemaker"
+      ],
+      "duration": "September 2025",
+      "description": "Architected a dynamic backend service using Spring Boot 3.5.5 and Java 21, leveraging JavaPoet and Apache FreeMarker to automatically generate RESTful API code from user definitions, all built and managed with Gradle 8.14.3. Designed a responsive project management dashboard with Flutter 3.35, utilizing the BLoC pattern for state management and GoRouter for declarative routing, while using MongoDB to store project configurations and data models."
+    },
+    {
+      "name": "CapyVerse CLI",
+      "tech_stack": [
+        "Java",
+        "Micronaut",
+        "Picocli"
+      ],
+      "duration": "August 2025",
+      "description": "Created a comprehensive Java version management CLI using JDK 21 and picocli 4.7.7, leveraging GraalVM 21 to create a high-performance native executable for efficient environment setup. Developed a robust Micronaut 4.9.2 backend service to dynamically provide and manage supported external links, ensuring flexible and easily updatable configurations for the CLI. Automated the build, deployment, and release pipeline through GitHub Actions, establishing efficient delivery of features and updates."
+    },
+    {
+      "name": "Green Hive",
+      "tech_stack": [
+        "Flutter",
+        "AWS",
+        "ESP32",
+        "IOT"
+      ],
+      "duration": "November 2024",
+      "description": "Led a team of 4 to build an IoT-powered greenhouse system with real-time monitoring and AI-driven climate control, reducing manual tasks by 30%. Integrated sensors with ESP32, developed a Flutter app for live data visualization, and automated climate regulation with AWS and machine learning models."
+    }
+  ],
+  "certificates": [
+    {
+      "name": "Java Certificate",
+      "issuer": "Hackerrank",
+      "type": "Skill Certification Test"
+    },
+    {
+      "name": "Software Engineer",
+      "issuer": "Hackerrank",
+      "type": "Skill Certification Test"
+    },
+    {
+      "name": "MYSQL",
+      "issuer": "Udemy",
+      "type": "Course Completion Certificate"
+    }
+  ],
+  "achievements": [
+    {
+      "title": "National Finalist (3rd Place)",
+      "event": "Wabtec Corporation Exceed 3.0",
+      "description": "Secured 3rd place nationwide for developing a computer vision rail inspection solution that improved detection accuracy and reduced inspection time by 20%. Collaborated in a team of four to solve real-world challenges, advancing to the national finals with 50 top student teams from across India."
+    }
+  ]
+}
