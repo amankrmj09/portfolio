@@ -436,6 +436,7 @@ class AboutMeToolsColumn extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        // Tools Section
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -446,7 +447,7 @@ class AboutMeToolsColumn extends StatelessWidget {
                 Text(
                   ' Tools I Use:',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'ShantellSans',
                     color: Colors.white.withAlpha((0.95 * 255).toInt()),
@@ -469,10 +470,12 @@ class AboutMeToolsColumn extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             AnimatedToolsWidget(tools: tools),
           ],
         ),
+        const SizedBox(height: 32),
+        // Profiles Section
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -483,7 +486,7 @@ class AboutMeToolsColumn extends StatelessWidget {
                 Text(
                   ' Find me on:',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'ShantellSans',
                     color: Colors.white.withAlpha((0.95 * 255).toInt()),
@@ -506,10 +509,12 @@ class AboutMeToolsColumn extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             AnimatedProfileWidget(profiles: profiles),
           ],
         ),
+        const SizedBox(height: 32),
+        // Experience Card
         InkWell(
           onTap: () {
             if (!Get.isRegistered<ExperienceController>()) {
@@ -524,8 +529,10 @@ class AboutMeToolsColumn extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(height: 24),
+        // Resume Button
         SizedBox(
-          height: 120,
+          height: 100,
           width: double.infinity,
           child: viewResumeButton(),
         ),

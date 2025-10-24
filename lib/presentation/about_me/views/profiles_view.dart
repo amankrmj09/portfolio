@@ -35,10 +35,10 @@ class ProfilesView extends GetView<AboutMeController> {
                 ),
                 const SizedBox(height: 8.0),
                 Wrap(
-                  spacing: 32.0,
-                  runSpacing: 8.0,
+                  spacing: 24.0,
+                  runSpacing: 24.0,
                   crossAxisAlignment: WrapCrossAlignment.center,
-                  alignment: WrapAlignment.spaceEvenly,
+                  alignment: WrapAlignment.center,
                   children: [
                     ...(List.from(controller.profiles)..shuffle()).map(
                       (profile) => ProfileWidget(profile: profile),
