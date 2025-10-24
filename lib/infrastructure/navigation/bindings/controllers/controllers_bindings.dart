@@ -6,4 +6,6 @@ export 'package:portfolio/infrastructure/navigation/bindings/controllers/experie
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/footer.controller.binding.dart';
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/home.controller.binding.dart';
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+export 'package:portfolio/infrastructure/navigation/bindings/controllers/profiles.controller.binding.dart'; 
+export 'package:portfolio/infrastructure/navigation/bindings/controllers/resume.controller.binding.dart'; 
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/works.controller.binding.dart';

@@ -101,5 +101,15 @@ class Nav {
       page: () => const CliScreen(),
       binding: CliControllerBinding(),
     ),
+    GetPage(
+      name: Routes.RESUME,
+      page: () => const ResumeScreen(),
+      binding: ResumeControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PROFILES,
+      page: () => const ProfilesScreen(),
+      binding: ProfilesControllerBinding(),
+    ),
   ];
 }
