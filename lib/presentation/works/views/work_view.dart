@@ -1,9 +1,7 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:portfolio/infrastructure/theme/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../domain/models/project_model/project.model.dart';
 import '../../../widgets/k.infinite.scroll.image.dart';
 
@@ -21,6 +19,9 @@ class _WorkViewState extends State<WorkView> {
   @override
   Widget build(BuildContext context) {
     final isMobile = widget.project.type == 'mobile';
+    final screenHeight = MediaQuery.of(context).size.height;
+    final double containerHeight =
+        (screenHeight > 776 ? screenHeight : 776) - 80;
 
     return Center(
       child: Padding(
@@ -28,91 +29,95 @@ class _WorkViewState extends State<WorkView> {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            height:
-                (MediaQuery.of(context).size.height > 776
-                    ? MediaQuery.of(context).size.height
-                    : 776) -
-                80,
+            height: containerHeight,
+            constraints: const BoxConstraints(maxWidth: 1400, minHeight: 600),
             decoration: BoxDecoration(
-              color: Color.lerp(
-                Color.lerp(Colors.blue, Colors.black, 0.8),
-                Colors.transparent,
-                0.2,
-              )!,
-              borderRadius: BorderRadius.circular(24),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFF0A1628).withOpacity(0.95),
+                  const Color(0xFF001529).withOpacity(0.9),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(
+                color: const Color(0xFF0A4A8E).withOpacity(0.3),
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.5),
+                  blurRadius: 40,
+                  offset: const Offset(0, 20),
+                ),
+              ],
             ),
-            child: isMobile
-                ? Column(
-                    children: [
-                      _buildAppBar(context),
-                      const Divider(height: 1),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.all(24.0),
-                                child: ScrollConfiguration(
-                                  behavior: ScrollConfiguration.of(context)
-                                      .copyWith(
-                                        dragDevices: {
-                                          PointerDeviceKind.touch,
-                                          PointerDeviceKind.mouse,
-                                        },
-                                      ),
-                                  child: SingleChildScrollView(
-                                    child: _buildContent(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                height: double.infinity,
-                                child: KInfiniteScrollImage(
-                                  images: widget.project.images,
-                                  height: 600,
-                                  imageWidth: 400,
-                                  direction: "vertical",
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildAppBar(context),
-                      const Divider(height: 1),
-                      Flexible(
-                        child: ScrollConfiguration(
-                          behavior: ScrollConfiguration.of(context).copyWith(
-                            dragDevices: {
-                              PointerDeviceKind.touch,
-                              PointerDeviceKind.mouse,
-                            },
-                          ),
-                          child: SingleChildScrollView(
-                            padding: const EdgeInsets.all(24.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildImageSection(),
-                                const SizedBox(height: 24),
-                                _buildContent(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                _buildAppBar(context),
+                Divider(
+                  height: 1,
+                  color: const Color(0xFF0A4A8E).withOpacity(0.3),
+                ),
+                Expanded(
+                  child: isMobile ? _buildMobileLayout() : _buildWebLayout(),
+                ),
+              ],
+            ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMobileLayout() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: ScrollConfiguration(
+              behavior: ScrollConfiguration.of(context).copyWith(
+                dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+              ),
+              child: SingleChildScrollView(child: _buildContent()),
+            ),
+          ),
+        ),
+        Container(width: 1, color: const Color(0xFF0A4A8E).withOpacity(0.2)),
+        Expanded(
+          flex: 1,
+          child: SizedBox(
+            height: double.infinity,
+            child: KInfiniteScrollImage(
+              images: widget.project.images,
+              height: 600,
+              imageWidth: 400,
+              direction: "vertical",
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWebLayout() {
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+      ),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildImageSection(),
+            const SizedBox(height: 32),
+            _buildContent(),
+          ],
         ),
       ),
     );
@@ -122,70 +127,168 @@ class _WorkViewState extends State<WorkView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // _buildTitle(),
-        const SizedBox(height: 12),
+        // Project type badge
+        if (widget.project.type.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xFF0A4A8E).withOpacity(0.4),
+                  const Color(0xFF001529).withOpacity(0.3),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color(0xFF0A4A8E).withOpacity(0.5),
+                width: 1,
+              ),
+            ),
+            child: Text(
+              widget.project.type.toUpperCase(),
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: Colors.white.withOpacity(0.95),
+                letterSpacing: 1.5,
+                fontFamily: "Poppins",
+              ),
+            ),
+          ),
+        const SizedBox(height: 20),
+
+        // Description
         Text(
           widget.project.description,
           style: TextStyle(
-            fontSize: 28,
-            color: KColor.primarySecondColor,
+            fontSize: 26,
+            fontWeight: FontWeight.w600,
+            color: Colors.white.withOpacity(0.95),
             fontFamily: "Poppins",
+            height: 1.4,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
+
+        // Large description
         Text(
           widget.project.largeDescription,
           style: TextStyle(
-            fontSize: 20,
-            color: KColor.primarySecondColor,
+            fontSize: 18,
+            color: Colors.white.withOpacity(0.85),
             fontFamily: "Poppins",
+            height: 1.6,
           ),
         ),
         const SizedBox(height: 24),
+
+        // // Tech stack
+        // if (widget.project.techStack != null &&
+        //     widget.project.techStack!.isNotEmpty) ...[
+        //   Text(
+        //     'Technologies',
+        //     style: TextStyle(
+        //       fontSize: 16,
+        //       fontWeight: FontWeight.w600,
+        //       color: Colors.white.withOpacity(0.9),
+        //       fontFamily: "Poppins",
+        //     ),
+        //   ),
+        //   const SizedBox(height: 12),
+        //   Wrap(
+        //     spacing: 12,
+        //     runSpacing: 12,
+        //     children: widget.project.techStack!
+        //         .map(
+        //           (tech) => Container(
+        //         padding: const EdgeInsets.symmetric(
+        //           horizontal: 16,
+        //           vertical: 10,
+        //         ),
+        //         decoration: BoxDecoration(
+        //           gradient: LinearGradient(
+        //             colors: [
+        //               const Color(0xFF0A4A8E).withOpacity(0.3),
+        //               const Color(0xFF001529).withOpacity(0.2),
+        //             ],
+        //           ),
+        //           borderRadius: BorderRadius.circular(12),
+        //           border: Border.all(
+        //             color: const Color(0xFF0A4A8E).withOpacity(0.4),
+        //             width: 1,
+        //           ),
+        //         ),
+        //         child: Text(
+        //           tech,
+        //           style: TextStyle(
+        //             color: Colors.white.withOpacity(0.9),
+        //             fontSize: 14,
+        //             fontWeight: FontWeight.w600,
+        //             fontFamily: "Poppins",
+        //           ),
+        //         ),
+        //       ),
+        //     )
+        //         .toList(),
+        //   ),
+        //   const SizedBox(height: 24),
+        // ],
+
+        // Project URL
         if (widget.project.url.isNotEmpty) _buildLinkRow(),
       ],
     );
   }
 
-  Widget _buildTitle() {
-    return Text(
-      widget.project.name,
-      style: TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.bold,
-        color: KColor.primarySecondColor,
-        fontFamily: 'ShantellSans',
-      ),
-    );
-  }
-
   Widget _buildLinkRow() {
-    return SizedBox(
-      height: 60,
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFF0A4A8E).withOpacity(0.2),
+            const Color(0xFF001529).withOpacity(0.15),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: const Color(0xFF0A4A8E).withOpacity(0.3),
+          width: 1,
+        ),
+      ),
       child: Row(
         children: [
-          const Icon(Icons.link, size: 20, color: Colors.blue),
-          const SizedBox(width: 8),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () async {
-                final url = Uri.parse(widget.project.url);
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(
-                    url,
-                    mode: LaunchMode.externalApplication,
-                    webOnlyWindowName: '_blank',
-                  );
-                }
-              },
-              child: Text(
-                widget.project.url,
-                style: const TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.blue,
-                  fontSize: 16,
+          Icon(
+            Icons.link_rounded,
+            size: 24,
+            color: const Color(0xFF0A4A8E).withOpacity(0.9),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () async {
+                  final url = Uri.parse(widget.project.url);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(
+                      url,
+                      mode: LaunchMode.externalApplication,
+                      webOnlyWindowName: '_blank',
+                    );
+                  }
+                },
+                child: Text(
+                  widget.project.url,
+                  style: TextStyle(
+                    color: const Color(0xFF0A4A8E).withOpacity(0.9),
+                    decoration: TextDecoration.underline,
+                    decorationColor: const Color(0xFF0A4A8E).withOpacity(0.9),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "Poppins",
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
@@ -196,18 +299,58 @@ class _WorkViewState extends State<WorkView> {
   }
 
   Widget _buildAppBar(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFF0A1628).withOpacity(0.6),
+            const Color(0xFF001529).withOpacity(0.5),
+          ],
+        ),
+      ),
       child: Row(
         children: [
-          Expanded(child: _buildTitle()),
-          IconButton(
-            icon: const Icon(Icons.close, size: 28, weight: 900),
-            onPressed: widget.onClose ?? () => Navigator.of(context).maybePop(),
-            tooltip: 'Close',
-            style: ButtonStyle(
-              iconColor: WidgetStateProperty.all(KColor.primarySecondColor),
-              overlayColor: WidgetStateProperty.all(Colors.white12),
+          Expanded(
+            child: Text(
+              widget.project.name,
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.w700,
+                color: Colors.white.withOpacity(0.95),
+                fontFamily: 'Poppins',
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFF8B0000).withOpacity(0.4),
+                    const Color(0xFF4B0000).withOpacity(0.3),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFFFF4444).withOpacity(0.3),
+                  width: 1,
+                ),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.close_rounded, size: 24),
+                onPressed:
+                    widget.onClose ?? () => Navigator.of(context).maybePop(),
+                tooltip: 'Close',
+                color: Colors.white.withOpacity(0.95),
+                style: ButtonStyle(
+                  overlayColor: WidgetStateProperty.all(
+                    const Color(0xFFFF4444).withOpacity(0.2),
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -217,8 +360,16 @@ class _WorkViewState extends State<WorkView> {
 
   Widget _buildImageSection() {
     return Center(
-      child: SizedBox(
-        height: 400,
+      child: Container(
+        constraints: const BoxConstraints(maxHeight: 450),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color(0xFF0A4A8E).withOpacity(0.3),
+            width: 2,
+          ),
+        ),
+        clipBehavior: Clip.antiAlias,
         child: KInfiniteScrollImage(images: widget.project.images),
       ),
     );

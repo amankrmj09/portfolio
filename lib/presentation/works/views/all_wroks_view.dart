@@ -35,7 +35,7 @@ class AllWorksView extends GetView<WorksController> {
           project: project,
           onTap: onTap,
           fixedHeight: false,
-          expandToContentHeight: true,
+          // expandToContentHeight: true,
         ),
       ),
     );

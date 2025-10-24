@@ -1,12 +1,10 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/certificate/widgets/k.certificate.card.dart';
 import 'package:portfolio/utils/axis.count.dart';
 import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
-import '../../../infrastructure/theme/colors.dart';
 import '../../../utils/k.showGeneralDialog.dart';
 import 'certificate_mobile_view.dart';
 import 'certificate_view.dart';
@@ -17,15 +15,15 @@ class AllCertificatesView extends GetView<CertificateController> {
 
   @override
   Widget build(BuildContext context) {
-    final InfoFetchController infoFetchController =
-        Get.find<InfoFetchController>();
+    final InfoFetchController infoFetchController = Get.find();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
+
     return Obx(
       () => AllItemsView(
         title: "ALL Certificates",
         isLoading: controller.isLoading.value,
         items: controller.certificates,
-        titleColor: KColor.primarySecondColor,
+        titleColor: Colors.white,
         isMobile: isMobile,
         buildDialog: (certificate) => isMobile
             ? CertificateMobileView(
@@ -40,7 +38,6 @@ class AllCertificatesView extends GetView<CertificateController> {
           certificate: certificate,
           onTap: onTap,
           isHome: false,
-          expandToContentHeight: true,
         ),
       ),
     );
@@ -70,32 +67,41 @@ class AllItemsView<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
+
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A2E),
+      backgroundColor: const Color(0xFF0A1628),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1A1A2E),
+        backgroundColor: const Color(0xFF0A1628),
         elevation: 0,
         title: Text(
           title,
           style: TextStyle(
             color: titleColor,
-            fontFamily: "ShantellSans",
-            fontWeight: FontWeight.bold,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w700,
             fontSize: isMobile! ? 24 : 36,
             letterSpacing: 1.2,
-            decoration: TextDecoration.none,
           ),
         ),
         centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.white.withOpacity(0.9)),
       ),
       body: SafeArea(
         child: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: const Color(0xFF0A4A8E),
+                ),
+              )
             : items.isEmpty
-            ? const Center(
+            ? Center(
                 child: Text(
-                  'No items found.',
-                  style: TextStyle(color: Colors.black, fontSize: 24),
+                  'No certificates found.',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.7),
+                    fontSize: 18,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               )
             : ScrollConfiguration(

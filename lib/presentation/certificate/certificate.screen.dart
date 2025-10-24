@@ -1,13 +1,10 @@
 import 'dart:math';
-
 import 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import 'package:portfolio/presentation/certificate/views/certificate_mobile_view.dart';
 import 'package:portfolio/presentation/certificate/views/certificate_view.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/certificate/widgets/k.home.certificates.scroll.dart';
-
 import '../../utils/k.showGeneralDialog.dart';
 import 'controllers/certificate.controller.dart';
 
@@ -16,17 +13,21 @@ class CertificateScreen extends GetView<CertificateController> {
 
   @override
   Widget build(BuildContext context) {
-    final InfoFetchController infoFetchController =
-        Get.find<InfoFetchController>();
+    final InfoFetchController infoFetchController = Get.find();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
+
     return Obx(() {
       if (controller.isLoading.value || controller.certificates.isEmpty) {
         return const Center(child: CircularProgressIndicator());
       }
+
       return SizedBox(
         height: isMobile
             ? MediaQuery.of(context).size.height * 0.85
-            : max(MediaQuery.of(context).size.height - 100, 756),
+            : max(
+                MediaQuery.of(context).size.height - 100,
+                656,
+              ), // ✅ CHANGED FROM 756 to 656
         child: KCertificateScrollList(
           items: controller.certificates,
           onCardTap: (cert, context) {
