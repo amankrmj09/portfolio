@@ -1,9 +1,12 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/works/views/work_mobile_view.dart';
 import 'package:portfolio/presentation/works/widgets/k.project.card.dart';
+import 'package:portfolio/utils/axis.count.dart';
 import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
-import '../../../infrastructure/theme/colors.dart';
+import '../../../utils/k.showGeneralDialog.dart';
 import '../../certificate/views/all_certificates_view.dart';
 import 'work_view.dart';
 import '../controllers/works.controller.dart';
@@ -13,15 +16,16 @@ class AllWorksView extends GetView<WorksController> {
 
   @override
   Widget build(BuildContext context) {
-    final InfoFetchController infoFetchController =
-        Get.find<InfoFetchController>();
+    final InfoFetchController infoFetchController = Get.find();
     final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
+
     return Obx(
       () => AllItemsView(
         title: "ALL Projects",
         isLoading: controller.isLoading.value,
         items: controller.projects,
-        titleColor: KColor.primarySecondColor,
+        titleColor: Colors.white,
+        isMobile: isMobile,
         buildDialog: (project) => isMobile
             ? WorkMobileView(
                 project: project,
@@ -34,8 +38,8 @@ class AllWorksView extends GetView<WorksController> {
         buildCard: (project, onTap) => KProjectCard(
           project: project,
           onTap: onTap,
-          fixedHeight: false,
-          // expandToContentHeight: true,
+          isHome: false,
+          fixedHeight: true,
         ),
       ),
     );
