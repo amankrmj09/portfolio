@@ -12,8 +12,6 @@ import 'package:portfolio/utils/k.showGeneralDialog.dart';
 import '../../domain/models/experience_model/experience.model.dart';
 import '../../domain/models/profile_links_model/profile.links.model.dart';
 import '../../domain/models/tools_model/tools.model.dart';
-import '../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
-import '../../utils/launch.url.dart';
 import '../../widgets/animated.navigate.button.dart';
 import '../experience/controllers/experience.controller.dart';
 import '../home/controllers/home.controller.dart';
@@ -45,18 +43,18 @@ class AboutMeScreen extends GetView<AboutMeController> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFF0A1628).withOpacity(0.85),
-                const Color(0xFF001529).withOpacity(0.75),
-                const Color(0xFF000A1F).withOpacity(0.65),
+                const Color(0xFF0A1628).withAlpha((0.85 * 255).toInt()),
+                const Color(0xFF001529).withAlpha((0.75 * 255).toInt()),
+                const Color(0xFF000A1F).withAlpha((0.65 * 255).toInt()),
               ],
             ),
             border: Border.all(
-              color: const Color(0xFF0A4A8E).withOpacity(0.3),
+              color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
               width: 2,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.4),
+                color: Colors.black.withAlpha((0.4 * 255).toInt()),
                 blurRadius: 24,
                 offset: const Offset(0, 10),
               ),
@@ -210,7 +208,7 @@ class AboutMeDetailsColumn extends StatelessWidget {
             style: TextStyle(
               fontSize: isMobile ? 12 : 18,
               fontWeight: FontWeight.w600,
-              color: Colors.white.withOpacity(0.95),
+              color: Colors.white.withAlpha((0.95 * 255).toInt()),
               height: 1.6,
             ),
           ),
@@ -223,21 +221,21 @@ class AboutMeDetailsColumn extends StatelessWidget {
               Icon(
                 Icons.work_outline,
                 size: 20,
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withAlpha((0.9 * 255).toInt()),
               ),
               const SizedBox(width: 8),
               Text(
                 'Profession: ',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white.withOpacity(0.85),
+                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
                 ),
               ),
               Text(
                 profession,
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white.withOpacity(0.85),
+                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
                 ),
               ),
             ],
@@ -251,21 +249,21 @@ class AboutMeDetailsColumn extends StatelessWidget {
               Icon(
                 Icons.school_outlined,
                 size: 20,
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withAlpha((0.9 * 255).toInt()),
               ),
               const SizedBox(width: 8),
               Text(
                 'Education: ',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white.withOpacity(0.85),
+                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
                 ),
               ),
               Text(
                 education,
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white.withOpacity(0.85),
+                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
                 ),
               ),
             ],
@@ -277,14 +275,14 @@ class AboutMeDetailsColumn extends StatelessWidget {
               Icon(
                 Icons.timeline,
                 size: 20,
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withAlpha((0.9 * 255).toInt()),
               ),
               const SizedBox(width: 8),
               Text(
                 'Experience: $experience',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white.withOpacity(0.85),
+                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
                 ),
               ),
             ],
@@ -296,14 +294,14 @@ class AboutMeDetailsColumn extends StatelessWidget {
               Icon(
                 Icons.email_outlined,
                 size: 20,
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withAlpha((0.9 * 255).toInt()),
               ),
               const SizedBox(width: 8),
               Text(
                 'Email: $email',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white.withOpacity(0.85),
+                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
                 ),
               ),
             ],
@@ -316,7 +314,7 @@ class AboutMeDetailsColumn extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.w600,
               fontFamily: 'ShantellSans',
-              color: Colors.white.withOpacity(0.95),
+              color: Colors.white.withAlpha((0.95 * 255).toInt()),
             ),
           ),
         if (interests.isNotEmpty) const SizedBox(height: 8),
@@ -334,20 +332,26 @@ class AboutMeDetailsColumn extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(0xFF0A4A8E).withOpacity(0.3),
-                          const Color(0xFF001529).withOpacity(0.2),
+                          const Color(
+                            0xFF0A4A8E,
+                          ).withAlpha((0.3 * 255).toInt()),
+                          const Color(
+                            0xFF001529,
+                          ).withAlpha((0.2 * 255).toInt()),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: const Color(0xFF0A4A8E).withOpacity(0.5),
+                        color: const Color(
+                          0xFF0A4A8E,
+                        ).withAlpha((0.5 * 255).toInt()),
                         width: 1,
                       ),
                     ),
                     child: Text(
                       interest.toString(),
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withAlpha((0.9 * 255).toInt()),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -363,7 +367,7 @@ class AboutMeDetailsColumn extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.w600,
               fontFamily: 'ShantellSans',
-              color: Colors.white.withOpacity(0.95),
+              color: Colors.white.withAlpha((0.95 * 255).toInt()),
             ),
           ),
         if (technicalInterests.isNotEmpty) const SizedBox(height: 8),
@@ -381,20 +385,26 @@ class AboutMeDetailsColumn extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(0xFF0A4A8E).withOpacity(0.3),
-                          const Color(0xFF001529).withOpacity(0.2),
+                          const Color(
+                            0xFF0A4A8E,
+                          ).withAlpha((0.3 * 255).toInt()),
+                          const Color(
+                            0xFF001529,
+                          ).withAlpha((0.2 * 255).toInt()),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: const Color(0xFF0A4A8E).withOpacity(0.5),
+                        color: const Color(
+                          0xFF0A4A8E,
+                        ).withAlpha((0.5 * 255).toInt()),
                         width: 1,
                       ),
                     ),
                     child: Text(
                       technicalInterest.toString(),
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withAlpha((0.9 * 255).toInt()),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -439,7 +449,7 @@ class AboutMeToolsColumn extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'ShantellSans',
-                    color: Colors.white.withOpacity(0.95),
+                    color: Colors.white.withAlpha((0.95 * 255).toInt()),
                   ),
                 ),
                 IconButton(
@@ -454,7 +464,7 @@ class AboutMeToolsColumn extends StatelessWidget {
                   },
                   icon: Icon(
                     Icons.dashboard,
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withAlpha((0.9 * 255).toInt()),
                   ),
                 ),
               ],
@@ -476,7 +486,7 @@ class AboutMeToolsColumn extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'ShantellSans',
-                    color: Colors.white.withOpacity(0.95),
+                    color: Colors.white.withAlpha((0.95 * 255).toInt()),
                   ),
                 ),
                 IconButton(
@@ -491,7 +501,7 @@ class AboutMeToolsColumn extends StatelessWidget {
                   },
                   icon: Icon(
                     Icons.dashboard,
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withAlpha((0.9 * 255).toInt()),
                   ),
                 ),
               ],
@@ -538,7 +548,7 @@ class AboutMeToolsColumn extends StatelessWidget {
           width: 28,
           height: 28,
           colorFilter: ColorFilter.mode(
-            Colors.white.withOpacity(0.95),
+            Colors.white.withAlpha((0.95 * 255).toInt()),
             BlendMode.srcIn,
           ),
         ),

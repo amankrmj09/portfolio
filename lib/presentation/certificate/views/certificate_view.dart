@@ -32,18 +32,18 @@ class CertificateView extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF0A1628).withOpacity(0.95),
-                  const Color(0xFF001529).withOpacity(0.9),
+                  const Color(0xFF0A1628).withAlpha((0.95 * 255).toInt()),
+                  const Color(0xFF001529).withAlpha((0.9 * 255).toInt()),
                 ],
               ),
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: const Color(0xFF0A4A8E).withOpacity(0.3),
+                color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withAlpha((0.5 * 255).toInt()),
                   blurRadius: 40,
                   offset: const Offset(0, 20),
                 ),
@@ -56,7 +56,7 @@ class CertificateView extends StatelessWidget {
                 _buildAppBar(context),
                 Divider(
                   height: 1,
-                  color: const Color(0xFF0A4A8E).withOpacity(0.3),
+                  color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
                 ),
                 Flexible(
                   child: ScrollConfiguration(
@@ -91,7 +91,7 @@ class CertificateView extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: const Color(0xFF0A4A8E).withOpacity(0.3),
+                color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
                 width: 2,
               ),
             ),
@@ -107,7 +107,7 @@ class CertificateView extends StatelessWidget {
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w700,
-            color: Colors.white.withOpacity(0.95),
+            color: Colors.white.withAlpha((0.95 * 255).toInt()),
             fontFamily: 'Poppins',
             height: 1.3,
           ),
@@ -119,7 +119,7 @@ class CertificateView extends StatelessWidget {
           certificate.description,
           style: TextStyle(
             fontSize: 18,
-            color: Colors.white.withOpacity(0.85),
+            color: Colors.white.withAlpha((0.85 * 255).toInt()),
             fontFamily: 'Poppins',
             height: 1.6,
           ),
@@ -131,7 +131,7 @@ class CertificateView extends StatelessWidget {
           certificate.largeDescription,
           style: TextStyle(
             fontSize: 16,
-            color: Colors.white.withOpacity(0.75),
+            color: Colors.white.withAlpha((0.75 * 255).toInt()),
             fontFamily: 'Poppins',
             height: 1.6,
           ),
@@ -145,7 +145,7 @@ class CertificateView extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withAlpha((0.9 * 255).toInt()),
               fontFamily: "Poppins",
             ),
           ),
@@ -163,20 +163,26 @@ class CertificateView extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(0xFF0A4A8E).withOpacity(0.3),
-                          const Color(0xFF001529).withOpacity(0.2),
+                          const Color(
+                            0xFF0A4A8E,
+                          ).withAlpha((0.3 * 255).toInt()),
+                          const Color(
+                            0xFF001529,
+                          ).withAlpha((0.2 * 255).toInt()),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: const Color(0xFF0A4A8E).withOpacity(0.4),
+                        color: const Color(
+                          0xFF0A4A8E,
+                        ).withAlpha((0.4 * 255).toInt()),
                         width: 1,
                       ),
                     ),
                     child: Text(
                       skill,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withAlpha((0.9 * 255).toInt()),
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         fontFamily: "Poppins",
@@ -201,13 +207,13 @@ class CertificateView extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFF0A4A8E).withOpacity(0.2),
-            const Color(0xFF001529).withOpacity(0.15),
+            const Color(0xFF0A4A8E).withAlpha((0.2 * 255).toInt()),
+            const Color(0xFF001529).withAlpha((0.15 * 255).toInt()),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withOpacity(0.3),
+          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
           width: 1,
         ),
       ),
@@ -216,7 +222,7 @@ class CertificateView extends StatelessWidget {
           Icon(
             Icons.link_rounded,
             size: 24,
-            color: const Color(0xFF0A4A8E).withOpacity(0.9),
+            color: const Color(0xFF0A4A8E).withAlpha((0.9 * 255).toInt()),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -236,9 +242,13 @@ class CertificateView extends StatelessWidget {
                 child: Text(
                   certificate.url,
                   style: TextStyle(
-                    color: const Color(0xFF0A4A8E).withOpacity(0.9),
+                    color: const Color(
+                      0xFF0A4A8E,
+                    ).withAlpha((0.9 * 255).toInt()),
                     decoration: TextDecoration.underline,
-                    decorationColor: const Color(0xFF0A4A8E).withOpacity(0.9),
+                    decorationColor: const Color(
+                      0xFF0A4A8E,
+                    ).withAlpha((0.9 * 255).toInt()),
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     fontFamily: "Poppins",
@@ -259,8 +269,8 @@ class CertificateView extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFF0A1628).withOpacity(0.6),
-            const Color(0xFF001529).withOpacity(0.5),
+            const Color(0xFF0A1628).withAlpha((0.6 * 255).toInt()),
+            const Color(0xFF001529).withAlpha((0.5 * 255).toInt()),
           ],
         ),
       ),
@@ -272,7 +282,7 @@ class CertificateView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.w700,
-                color: Colors.white.withOpacity(0.95),
+                color: Colors.white.withAlpha((0.95 * 255).toInt()),
                 fontFamily: 'Poppins',
                 letterSpacing: 0.5,
               ),
@@ -286,13 +296,13 @@ class CertificateView extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    const Color(0xFF8B0000).withOpacity(0.4),
-                    const Color(0xFF4B0000).withOpacity(0.3),
+                    const Color(0xFF8B0000).withAlpha((0.4 * 255).toInt()),
+                    const Color(0xFF4B0000).withAlpha((0.3 * 255).toInt()),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: const Color(0xFFFF4444).withOpacity(0.3),
+                  color: const Color(0xFFFF4444).withAlpha((0.3 * 255).toInt()),
                   width: 1,
                 ),
               ),
@@ -300,10 +310,10 @@ class CertificateView extends StatelessWidget {
                 icon: const Icon(Icons.close_rounded, size: 24),
                 onPressed: onClose ?? () => Navigator.of(context).maybePop(),
                 tooltip: 'Close',
-                color: Colors.white.withOpacity(0.95),
+                color: Colors.white.withAlpha((0.95 * 255).toInt()),
                 style: ButtonStyle(
                   overlayColor: WidgetStateProperty.all(
-                    const Color(0xFFFF4444).withOpacity(0.2),
+                    const Color(0xFFFF4444).withAlpha((0.2 * 255).toInt()),
                   ),
                 ),
               ),

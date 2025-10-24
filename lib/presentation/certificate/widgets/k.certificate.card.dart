@@ -61,27 +61,29 @@ class _KCertificateCardState extends State<KCertificateCard> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF0A1628).withOpacity(0.9),
-                  const Color(0xFF001529).withOpacity(0.85),
+                  const Color(0xFF0A1628).withAlpha((0.9 * 255).toInt()),
+                  const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
                 ],
               ),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: isHover
-                    ? const Color(0xFF0A4A8E).withOpacity(0.6)
-                    : const Color(0xFF0A4A8E).withOpacity(0.3),
+                    ? const Color(0xFF0A4A8E).withAlpha((0.6 * 255).toInt())
+                    : const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withAlpha((0.3 * 255).toInt()),
                   blurRadius: isHover ? 32 : 24,
                   offset: Offset(0, isHover ? 12 : 8),
                   spreadRadius: 0,
                 ),
                 if (isHover)
                   BoxShadow(
-                    color: const Color(0xFF0A4A8E).withOpacity(0.2),
+                    color: const Color(
+                      0xFF0A4A8E,
+                    ).withAlpha((0.2 * 255).toInt()),
                     blurRadius: 20,
                     offset: const Offset(0, 0),
                     spreadRadius: 2,
@@ -115,7 +117,9 @@ class _KCertificateCardState extends State<KCertificateCard> {
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              const Color(0xFF0A1628).withOpacity(0.8),
+                              const Color(
+                                0xFF0A1628,
+                              ).withAlpha((0.8 * 255).toInt()),
                             ],
                           ),
                         ),
@@ -150,7 +154,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                           widget.certificate.description,
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.white.withOpacity(0.85),
+                            color: Colors.white.withAlpha((0.85 * 255).toInt()),
                             fontFamily: "Poppins",
                             height: 1.5,
                           ),
@@ -166,7 +170,9 @@ class _KCertificateCardState extends State<KCertificateCard> {
                               widget.certificate.largeDescription,
                               style: TextStyle(
                                 fontSize: 13,
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withAlpha(
+                                  (0.7 * 255).toInt(),
+                                ),
                                 fontFamily: "Poppins",
                                 height: 1.5,
                               ),
@@ -198,24 +204,26 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                         colors: [
                                           const Color(
                                             0xFF0A4A8E,
-                                          ).withOpacity(0.3),
+                                          ).withAlpha((0.3 * 255).toInt()),
                                           const Color(
                                             0xFF001529,
-                                          ).withOpacity(0.2),
+                                          ).withAlpha((0.2 * 255).toInt()),
                                         ],
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                       border: Border.all(
                                         color: const Color(
                                           0xFF0A4A8E,
-                                        ).withOpacity(0.4),
+                                        ).withAlpha((0.4 * 255).toInt()),
                                         width: 1,
                                       ),
                                     ),
                                     child: Text(
                                       skill,
                                       style: TextStyle(
-                                        color: Colors.white.withOpacity(0.9),
+                                        color: Colors.white.withAlpha(
+                                          (0.9 * 255).toInt(),
+                                        ),
                                         fontSize: 11,
                                         fontWeight: FontWeight.w600,
                                         fontFamily: "Poppins",
@@ -244,27 +252,27 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                         colors: [
                                           const Color(
                                             0xFF0A4A8E,
-                                          ).withOpacity(0.6),
+                                          ).withAlpha((0.6 * 255).toInt()),
                                           const Color(
                                             0xFF001529,
-                                          ).withOpacity(0.5),
+                                          ).withAlpha((0.5 * 255).toInt()),
                                         ],
                                       )
                                     : LinearGradient(
                                         colors: [
                                           const Color(
                                             0xFF0A4A8E,
-                                          ).withOpacity(0.4),
+                                          ).withAlpha((0.4 * 255).toInt()),
                                           const Color(
                                             0xFF001529,
-                                          ).withOpacity(0.3),
+                                          ).withAlpha((0.3 * 255).toInt()),
                                         ],
                                       ),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: const Color(
                                     0xFF0A4A8E,
-                                  ).withOpacity(0.5),
+                                  ).withAlpha((0.5 * 255).toInt()),
                                   width: 1,
                                 ),
                               ),
@@ -274,7 +282,9 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                   Text(
                                     'View Details',
                                     style: TextStyle(
-                                      color: Colors.white.withOpacity(0.95),
+                                      color: Colors.white.withAlpha(
+                                        (0.95 * 255).toInt(),
+                                      ),
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
                                       fontFamily: "Poppins",
@@ -284,7 +294,9 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                   Icon(
                                     Icons.arrow_forward_rounded,
                                     size: 16,
-                                    color: Colors.white.withOpacity(0.95),
+                                    color: Colors.white.withAlpha(
+                                      (0.95 * 255).toInt(),
+                                    ),
                                   ),
                                 ],
                               ),

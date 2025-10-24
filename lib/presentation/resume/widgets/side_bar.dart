@@ -24,18 +24,18 @@ class _SideBarState extends State<SideBar> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFF0A1628).withOpacity(0.85),
-            const Color(0xFF000108).withOpacity(0.75),
+            const Color(0xFF0A1628).withAlpha((0.85 * 255).toInt()),
+            const Color(0xFF000108).withAlpha((0.75 * 255).toInt()),
           ],
         ),
         borderRadius: BorderRadius.circular(28),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withOpacity(0.3),
+          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.4),
+            color: Colors.black.withAlpha((0.4 * 255).toInt()),
             blurRadius: 24,
             offset: const Offset(0, 10),
             spreadRadius: 0,
@@ -79,29 +79,27 @@ class _SideBarState extends State<SideBar> {
             end: Alignment.bottomRight,
             colors: isBackButtonHovered
                 ? [
-                    const Color(
-                      0xFF8B0000,
-                    ).withOpacity(0.4), // Deep red on hover
-                    const Color(0xFF4B0000).withOpacity(0.3),
+                    const Color(0xFF8B0000).withAlpha((0.4 * 255).toInt()),
+                    const Color(0xFF4B0000).withAlpha((0.3 * 255).toInt()),
                   ]
                 : [
-                    const Color(
-                      0xFF6B0000,
-                    ).withOpacity(0.3), // Dark red default
-                    const Color(0xFF3B0000).withOpacity(0.2),
+                    const Color(0xFF6B0000).withAlpha((0.3 * 255).toInt()),
+                    const Color(0xFF3B0000).withAlpha((0.2 * 255).toInt()),
                   ],
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isBackButtonHovered
-                ? const Color(0xFFFF4444).withOpacity(0.4)
-                : const Color(0xFF8B0000).withOpacity(0.3),
+                ? const Color(0xFFFF4444).withAlpha((0.4 * 255).toInt())
+                : const Color(0xFF8B0000).withAlpha((0.3 * 255).toInt()),
             width: 1.5,
           ),
           boxShadow: isBackButtonHovered
               ? [
                   BoxShadow(
-                    color: const Color(0xFFFF4444).withOpacity(0.2),
+                    color: const Color(
+                      0xFFFF4444,
+                    ).withAlpha((0.2 * 255).toInt()),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -126,15 +124,15 @@ class _SideBarState extends State<SideBar> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        const Color(0xFFFF4444).withOpacity(0.3),
-                        const Color(0xFFFF4444).withOpacity(0.1),
+                        const Color(0xFFFF4444).withAlpha((0.3 * 255).toInt()),
+                        const Color(0xFFFF4444).withAlpha((0.1 * 255).toInt()),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Icon(
                     Icons.arrow_back_rounded,
-                    color: Colors.white.withOpacity(0.95),
+                    color: Colors.white.withAlpha((0.95 * 255).toInt()),
                     size: 20,
                   ),
                 ),
@@ -144,7 +142,7 @@ class _SideBarState extends State<SideBar> {
                   child: Text(
                     'RESUME',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.95),
+                      color: Colors.white.withAlpha((0.95 * 255).toInt()),
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1.5,
@@ -171,7 +169,9 @@ class _SideBarState extends State<SideBar> {
     final bool isHovered = hoverIndex == index;
 
     final TextStyle menuTextStyle = TextStyle(
-      color: isSelected ? Colors.white : Colors.white.withOpacity(0.85),
+      color: isSelected
+          ? Colors.white
+          : Colors.white.withAlpha((0.85 * 255).toInt()),
       fontSize: 15,
       fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
       letterSpacing: 0.3,
@@ -191,32 +191,34 @@ class _SideBarState extends State<SideBar> {
               end: Alignment.bottomRight,
               colors: isSelected
                   ? [
-                      const Color(0xFF0A4A8E).withOpacity(0.5),
-                      const Color(0xFF001529).withOpacity(0.4),
+                      const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
+                      const Color(0xFF001529).withAlpha((0.4 * 255).toInt()),
                     ]
                   : isHovered
                   ? [
-                      const Color(0xFF001529).withOpacity(0.4),
-                      const Color(0xFF000A1F).withOpacity(0.3),
+                      const Color(0xFF001529).withAlpha((0.4 * 255).toInt()),
+                      const Color(0xFF000A1F).withAlpha((0.3 * 255).toInt()),
                     ]
                   : [
-                      const Color(0xFF000A1F).withOpacity(0.2),
-                      const Color(0xFF000000).withOpacity(0.1),
+                      const Color(0xFF000A1F).withAlpha((0.2 * 255).toInt()),
+                      const Color(0xFF000000).withAlpha((0.1 * 255).toInt()),
                     ],
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: isSelected
-                  ? const Color(0xFF0A4A8E).withOpacity(0.6)
+                  ? const Color(0xFF0A4A8E).withAlpha((0.6 * 255).toInt())
                   : isHovered
-                  ? const Color(0xFF0A4A8E).withOpacity(0.3)
+                  ? const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt())
                   : Colors.transparent,
               width: isSelected ? 2 : 1,
             ),
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: const Color(0xFF0A4A8E).withOpacity(0.3),
+                      color: const Color(
+                        0xFF0A4A8E,
+                      ).withAlpha((0.3 * 255).toInt()),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -233,8 +235,12 @@ class _SideBarState extends State<SideBar> {
                 }
               },
               borderRadius: BorderRadius.circular(20),
-              splashColor: const Color(0xFF0A4A8E).withOpacity(0.2),
-              highlightColor: const Color(0xFF0A4A8E).withOpacity(0.1),
+              splashColor: const Color(
+                0xFF0A4A8E,
+              ).withAlpha((0.2 * 255).toInt()),
+              highlightColor: const Color(
+                0xFF0A4A8E,
+              ).withAlpha((0.1 * 255).toInt()),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 16,
@@ -248,8 +254,12 @@ class _SideBarState extends State<SideBar> {
                         gradient: isSelected
                             ? LinearGradient(
                                 colors: [
-                                  const Color(0xFF0A4A8E).withOpacity(0.3),
-                                  const Color(0xFF0A4A8E).withOpacity(0.1),
+                                  const Color(
+                                    0xFF0A4A8E,
+                                  ).withAlpha((0.3 * 255).toInt()),
+                                  const Color(
+                                    0xFF0A4A8E,
+                                  ).withAlpha((0.1 * 255).toInt()),
                                 ],
                               )
                             : null,
@@ -259,7 +269,7 @@ class _SideBarState extends State<SideBar> {
                         icon,
                         color: isSelected
                             ? Colors.white
-                            : Colors.white.withOpacity(0.8),
+                            : Colors.white.withAlpha((0.8 * 255).toInt()),
                         size: 24,
                       ),
                     ),
@@ -276,11 +286,15 @@ class _SideBarState extends State<SideBar> {
                         width: 6,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0A4A8E).withOpacity(0.8),
+                          color: const Color(
+                            0xFF0A4A8E,
+                          ).withAlpha((0.8 * 255).toInt()),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF0A4A8E).withOpacity(0.5),
+                              color: const Color(
+                                0xFF0A4A8E,
+                              ).withAlpha((0.5 * 255).toInt()),
                               blurRadius: 6,
                               spreadRadius: 1,
                             ),

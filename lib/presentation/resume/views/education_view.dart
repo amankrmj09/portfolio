@@ -48,24 +48,24 @@ class _EducationCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFF001529).withOpacity(0.7),
-            const Color(0xFF000A1F).withOpacity(0.6),
+            const Color(0xFF001529).withAlpha((0.7 * 255).toInt()),
+            const Color(0xFF000A1F).withAlpha((0.6 * 255).toInt()),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withOpacity(0.4),
+          color: const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
           width: 2,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withAlpha((0.3 * 255).toInt()),
             blurRadius: 20,
             offset: const Offset(0, 8),
             spreadRadius: 1,
           ),
           BoxShadow(
-            color: const Color(0xFF0A4A8E).withOpacity(0.1),
+            color: const Color(0xFF0A4A8E).withAlpha((0.1 * 255).toInt()),
             blurRadius: 10,
             offset: const Offset(-2, -2),
           ),
@@ -81,15 +81,15 @@ class _EducationCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.white.withOpacity(0.2),
-                      Colors.white.withOpacity(0.1),
+                      Colors.white.withAlpha((0.2 * 255).toInt()),
+                      Colors.white.withAlpha((0.1 * 255).toInt()),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(
                   Icons.school_rounded,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withAlpha((0.9 * 255).toInt()),
                   size: 28,
                 ),
               ),
@@ -112,7 +112,7 @@ class _EducationCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withAlpha((0.15 * 255).toInt()),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
@@ -120,7 +120,7 @@ class _EducationCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
-                color: Colors.white.withOpacity(0.95),
+                color: Colors.white.withAlpha((0.95 * 255).toInt()),
                 letterSpacing: 0.2,
               ),
             ),
@@ -131,14 +131,14 @@ class _EducationCard extends StatelessWidget {
               Icon(
                 Icons.calendar_today_rounded,
                 size: 16,
-                color: Colors.white.withOpacity(0.7),
+                color: Colors.white.withAlpha((0.7 * 255).toInt()),
               ),
               const SizedBox(width: 8),
               Text(
                 education.duration,
                 style: TextStyle(
                   fontSize: 15,
-                  color: Colors.white.withOpacity(0.85),
+                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
                   fontWeight: FontWeight.w500,
                   height: 1.5,
                 ),
@@ -151,14 +151,14 @@ class _EducationCard extends StatelessWidget {
               Icon(
                 Icons.location_on_rounded,
                 size: 16,
-                color: Colors.white.withOpacity(0.7),
+                color: Colors.white.withAlpha((0.7 * 255).toInt()),
               ),
               const SizedBox(width: 8),
               Text(
                 education.location,
                 style: TextStyle(
                   fontSize: 15,
-                  color: Colors.white.withOpacity(0.85),
+                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
                   fontWeight: FontWeight.w500,
                   height: 1.5,
                 ),

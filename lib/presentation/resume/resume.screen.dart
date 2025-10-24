@@ -52,21 +52,29 @@ class ResumeScreen extends GetView<ResumeController> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                const Color(0xFF0A1628).withOpacity(0.85),
+                                const Color(
+                                  0xFF0A1628,
+                                ).withAlpha((0.85 * 255).toInt()),
                                 // Dark blue-black
-                                const Color(0xFF000108).withOpacity(0.75),
+                                const Color(
+                                  0xFF000108,
+                                ).withAlpha((0.75 * 255).toInt()),
                                 // Rich black with blue tint
                               ],
                             ),
                             borderRadius: BorderRadius.circular(28),
                             border: Border.all(
-                              color: const Color(0xFF0A4A8E).withOpacity(0.3),
+                              color: const Color(
+                                0xFF0A4A8E,
+                              ).withAlpha((0.3 * 255).toInt()),
                               // Dark blue border
                               width: 1.5,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.4),
+                                color: Colors.black.withAlpha(
+                                  (0.4 * 255).toInt(),
+                                ),
                                 blurRadius: 24,
                                 offset: const Offset(0, 10),
                                 spreadRadius: 0,

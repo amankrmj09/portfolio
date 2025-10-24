@@ -84,7 +84,9 @@ class AllItemsView<T> extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white.withOpacity(0.9)),
+        iconTheme: IconThemeData(
+          color: Colors.white.withAlpha((0.9 * 255).toInt()),
+        ),
       ),
       body: SafeArea(
         child: isLoading
@@ -98,7 +100,7 @@ class AllItemsView<T> extends StatelessWidget {
                 child: Text(
                   'No certificates found.',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withAlpha((0.7 * 255).toInt()),
                     fontSize: 18,
                     fontFamily: 'Poppins',
                   ),
