@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter_svg/svg.dart';
 import 'package:portfolio/infrastructure/navigation/routes.dart';
 import 'package:portfolio/presentation/about_me/views/profiles_view.dart';
@@ -7,11 +6,9 @@ import 'package:portfolio/presentation/about_me/views/tools_view.dart';
 import 'package:portfolio/presentation/about_me/widgets/animated.experience.card.dart';
 import 'package:portfolio/presentation/about_me/widgets/animated.profil.widget.dart';
 import 'package:portfolio/presentation/about_me/widgets/animated.tools.widget.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/utils/k.showGeneralDialog.dart';
-
 import '../../domain/models/experience_model/experience.model.dart';
 import '../../domain/models/profile_links_model/profile.links.model.dart';
 import '../../domain/models/tools_model/tools.model.dart';
@@ -29,7 +26,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    Get.find<InfoFetchController>();
+    Get.find<HomeController>();
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -42,25 +39,28 @@ class AboutMeScreen extends GetView<AboutMeController> {
           ),
           padding: const EdgeInsets.all(24.0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(28),
+            // ✅ Blackish-Bluish glassmorphic gradient
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color.lerp(Colors.transparent, Colors.black, 0.30)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.25)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.20)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.15)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.05)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.10)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.15)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.20)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.25)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.30)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.30)!,
-                Color.lerp(Colors.transparent, Colors.black, 0.20)!,
+                const Color(0xFF0A1628).withOpacity(0.85),
+                const Color(0xFF001529).withOpacity(0.75),
+                const Color(0xFF000A1F).withOpacity(0.65),
               ],
             ),
+            border: Border.all(
+              color: const Color(0xFF0A4A8E).withOpacity(0.3),
+              width: 2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.4),
+                blurRadius: 24,
+                offset: const Offset(0, 10),
+              ),
+            ],
           ),
           child: Obx(
             () => (controller.isLoading.value || controller.isExpLoading.value)
@@ -131,7 +131,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                         controller.handlePointerDown(pointerEvent);
                       },
                       child: SingleChildScrollView(
-                        physics: ClampingScrollPhysics(),
+                        physics: const ClampingScrollPhysics(),
                         controller: controller.scrollController,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -210,6 +210,8 @@ class AboutMeDetailsColumn extends StatelessWidget {
             style: TextStyle(
               fontSize: isMobile ? 12 : 18,
               fontWeight: FontWeight.w600,
+              color: Colors.white.withOpacity(0.95),
+              height: 1.6,
             ),
           ),
         const SizedBox(height: 24),
@@ -218,10 +220,26 @@ class AboutMeDetailsColumn extends StatelessWidget {
             spacing: 2,
             runSpacing: 6,
             children: [
-              const Icon(Icons.work_outline, size: 20),
+              Icon(
+                Icons.work_outline,
+                size: 20,
+                color: Colors.white.withOpacity(0.9),
+              ),
               const SizedBox(width: 8),
-              Text('Profession: ', style: const TextStyle(fontSize: 16)),
-              Text(profession, style: const TextStyle(fontSize: 16)),
+              Text(
+                'Profession: ',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.85),
+                ),
+              ),
+              Text(
+                profession,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.85),
+                ),
+              ),
             ],
           ),
         const SizedBox(height: 12),
@@ -230,21 +248,44 @@ class AboutMeDetailsColumn extends StatelessWidget {
             spacing: 2,
             runSpacing: 6,
             children: [
-              const Icon(Icons.school_outlined, size: 20),
+              Icon(
+                Icons.school_outlined,
+                size: 20,
+                color: Colors.white.withOpacity(0.9),
+              ),
               const SizedBox(width: 8),
-              Text('Education: ', style: const TextStyle(fontSize: 16)),
-              Text(education, style: const TextStyle(fontSize: 16)),
+              Text(
+                'Education: ',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.85),
+                ),
+              ),
+              Text(
+                education,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.85),
+                ),
+              ),
             ],
           ),
         const SizedBox(height: 12),
         if (experience.trim().isNotEmpty)
           Row(
             children: [
-              const Icon(Icons.timeline, size: 20),
+              Icon(
+                Icons.timeline,
+                size: 20,
+                color: Colors.white.withOpacity(0.9),
+              ),
               const SizedBox(width: 8),
               Text(
                 'Experience: $experience',
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.85),
+                ),
               ),
             ],
           ),
@@ -252,25 +293,37 @@ class AboutMeDetailsColumn extends StatelessWidget {
         if (email.trim().isNotEmpty)
           Row(
             children: [
-              const Icon(Icons.email_outlined, size: 20),
+              Icon(
+                Icons.email_outlined,
+                size: 20,
+                color: Colors.white.withOpacity(0.9),
+              ),
               const SizedBox(width: 8),
-              Text('Email: $email', style: const TextStyle(fontSize: 16)),
+              Text(
+                'Email: $email',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.85),
+                ),
+              ),
             ],
           ),
         const SizedBox(height: 16),
         if (interests.isNotEmpty)
-          const Text(
+          Text(
             'What I love to do:',
             style: TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w600,
               fontFamily: 'ShantellSans',
+              color: Colors.white.withOpacity(0.95),
             ),
           ),
         if (interests.isNotEmpty) const SizedBox(height: 8),
         if (interests.isNotEmpty)
           Wrap(
             spacing: 8,
+            runSpacing: 8,
             children: interests
                 .map(
                   (interest) => Container(
@@ -279,24 +332,24 @@ class AboutMeDetailsColumn extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Color.lerp(Colors.black, Colors.transparent, 0.85),
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color(0xFF0A4A8E).withOpacity(0.3),
+                          const Color(0xFF001529).withOpacity(0.2),
+                        ],
+                      ),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white60),
+                      border: Border.all(
+                        color: const Color(0xFF0A4A8E).withOpacity(0.5),
+                        width: 1,
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          interest.toString(),
-                          style: const TextStyle(color: Colors.blue),
-                        ),
-                        // const SizedBox(width: 8),
-                        // Icon(
-                        //   Atlas.settings_laptop_bold,
-                        //   color: Colors.red,
-                        //   size: 16,
-                        // ),
-                      ],
+                    child: Text(
+                      interest.toString(),
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 )
@@ -304,12 +357,13 @@ class AboutMeDetailsColumn extends StatelessWidget {
           ),
         if (technicalInterests.isNotEmpty) const SizedBox(height: 16),
         if (technicalInterests.isNotEmpty)
-          const Text(
+          Text(
             'Technical Interest:',
             style: TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w600,
               fontFamily: 'ShantellSans',
+              color: Colors.white.withOpacity(0.95),
             ),
           ),
         if (technicalInterests.isNotEmpty) const SizedBox(height: 8),
@@ -325,13 +379,24 @@ class AboutMeDetailsColumn extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Color.lerp(Colors.black, Colors.transparent, 0.85),
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color(0xFF0A4A8E).withOpacity(0.3),
+                          const Color(0xFF001529).withOpacity(0.2),
+                        ],
+                      ),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white60),
+                      border: Border.all(
+                        color: const Color(0xFF0A4A8E).withOpacity(0.5),
+                        width: 1,
+                      ),
                     ),
                     child: Text(
                       technicalInterest.toString(),
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 )
@@ -368,12 +433,13 @@ class AboutMeToolsColumn extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Text(
-                  '   Tools I Use:',
+                Text(
+                  ' Tools I Use:',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'ShantellSans',
+                    color: Colors.white.withOpacity(0.95),
                   ),
                 ),
                 IconButton(
@@ -386,7 +452,10 @@ class AboutMeToolsColumn extends StatelessWidget {
                       },
                     );
                   },
-                  icon: Icon(Icons.dashboard),
+                  icon: Icon(
+                    Icons.dashboard,
+                    color: Colors.white.withOpacity(0.9),
+                  ),
                 ),
               ],
             ),
@@ -401,12 +470,13 @@ class AboutMeToolsColumn extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  '   Find me on:',
+                Text(
+                  ' Find me on:',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'ShantellSans',
+                    color: Colors.white.withOpacity(0.95),
                   ),
                 ),
                 IconButton(
@@ -419,7 +489,10 @@ class AboutMeToolsColumn extends StatelessWidget {
                       },
                     );
                   },
-                  icon: Icon(Icons.dashboard),
+                  icon: Icon(
+                    Icons.dashboard,
+                    color: Colors.white.withOpacity(0.9),
+                  ),
                 ),
               ],
             ),
@@ -451,7 +524,6 @@ class AboutMeToolsColumn extends StatelessWidget {
   }
 
   Container viewResumeButton() {
-    final homeController = Get.find<HomeController>();
     return Container(
       alignment: Alignment.center,
       height: 140,
@@ -459,12 +531,16 @@ class AboutMeToolsColumn extends StatelessWidget {
       child: AnimatedNavigateButton(
         borderRadius: 16,
         label: "View Resume",
-        onTap: () =>
-            launchUrlExternal(homeController.socialLinks.value?.resume ?? ''),
+        // ✅ FIXED: Navigate to Resume screen instead of external URL
+        onTap: () => Get.toNamed(Routes.RESUME),
         icon: SvgPicture.asset(
           'assets/icons/resume.svg',
           width: 28,
           height: 28,
+          colorFilter: ColorFilter.mode(
+            Colors.white.withOpacity(0.95),
+            BlendMode.srcIn,
+          ),
         ),
         width: 200,
       ),
