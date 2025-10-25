@@ -8,6 +8,7 @@ import 'package:portfolio/presentation/about_me/widgets/animated.profil.widget.d
 import 'package:portfolio/presentation/about_me/widgets/animated.tools.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/presentation/about_me/widgets/k.shimmer.about_me.dart';
 import 'package:portfolio/utils/k.showGeneralDialog.dart';
 import '../../domain/models/experience_model/experience.model.dart';
 import '../../domain/models/profile_links_model/profile.links.model.dart';
@@ -60,7 +61,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
           ),
           child: Obx(
             () => (controller.isLoading.value || controller.isExpLoading.value)
-                ? const Center(child: CircularProgressIndicator())
+                ? const KShimmerAboutMe()
                 : width > 1100
                 ? SingleChildScrollView(
                     child: Row(
