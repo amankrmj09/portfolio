@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import 'package:portfolio/presentation/info.fetch.controller.dart';
 
 import '../../../domain/models/quote_model/quote.model.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import '../../info.fetch.controller.dart';
 import '../../../widgets/animated.navigate.button.dart';
 
 class HeaderSection extends StatelessWidget {

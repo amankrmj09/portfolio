@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/projects/views/project_mobile_view.dart';
 import '../../../domain/models/project_model/project.model.dart';
-import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import '../../info.fetch.controller.dart';
 import '../../../utils/all_items_view.dart';
 import '../../../widgets/k.image.dart';
 import 'project_view.dart';
@@ -38,6 +38,7 @@ class AllProjectsView extends GetView<ProjectsController> {
           isHome: false,
           fixedHeight: true,
         ),
+        buildShimmerCard: () => KProjectShimmerCard(isMobile: isMobile),
       ),
     );
   }
@@ -334,6 +335,98 @@ class _KProjectCardState extends State<KProjectCard> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class KProjectShimmerCard extends StatelessWidget {
+  final bool isMobile;
+
+  const KProjectShimmerCard({super.key, required this.isMobile});
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaWidth = MediaQuery.of(context).size.width;
+    final double cardWidth = isMobile
+        ? (mediaWidth * 0.45 > 340 ? mediaWidth * 0.45 : 340)
+        : 500;
+    final double cardHeight = 650;
+
+    return Container(
+      margin: const EdgeInsets.all(12),
+      width: cardWidth,
+      height: cardHeight,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            const Color(0xFF0A1628).withAlpha((0.9 * 255).toInt()),
+            const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha((0.3 * 255).toInt()),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Shimmer effect for image
+          Expanded(
+            flex: 8,
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          ),
+          // Shimmer effect for text content
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 16.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Shimmer effect for title
+                  Container(
+                    width: double.infinity,
+                    height: 24,
+                    color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                  ),
+                  const SizedBox(height: 8),
+                  // Shimmer effect for description
+                  Container(
+                    width: double.infinity,
+                    height: 16,
+                    color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

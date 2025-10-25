@@ -8,7 +8,7 @@ class KInfiniteScrollImage extends StatefulWidget {
   final List<String> images;
   final double height;
   final double imageWidth;
-  final Duration scrollDuration;
+  final double scrollSpeed; // ✅ NEW: pixels per second (30-100 recommended)
   final String direction; // 'horizontal' or 'vertical'
 
   const KInfiniteScrollImage({
@@ -16,7 +16,7 @@ class KInfiniteScrollImage extends StatefulWidget {
     required this.images,
     this.height = 120,
     this.imageWidth = 180,
-    this.scrollDuration = const Duration(seconds: 100),
+    this.scrollSpeed = 50, // ✅ NEW: Default 50 pixels/second
     this.direction = 'horizontal',
   });
 
@@ -37,36 +37,66 @@ class _KInfiniteScrollImageState extends State<KInfiniteScrollImage>
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _animationController =
-        AnimationController(vsync: this, duration: widget.scrollDuration)
-          ..repeat()
-          ..addListener(_onAnimate);
+    _animationController = AnimationController.unbounded(vsync: this)
+      ..addListener(_onAnimate);
     WidgetsBinding.instance.addPostFrameCallback((_) => _startScrolling());
   }
 
   void _onAnimate() {
-    if (!_scrollController.hasClients) return;
+    if (!_scrollController.hasClients || _isHovering) return;
+
     final maxScroll = _scrollController.position.maxScrollExtent;
-    final offset = _animationController.value * maxScroll;
-    _scrollController.jumpTo(offset);
-    if (offset >=
-        maxScroll -
-            widget.images.length * widget.imageWidth +
-            (widget.direction == 'horizontal' ? 32 : 32) *
-                widget.images.length) {
-      _animationController.forward(from: 0);
+    final currentValue = _animationController.value;
+
+    // Seamless loop at 2/3 point (middle of repeated content)
+    if (currentValue >= maxScroll * 2 / 3) {
+      final remainder = currentValue - (maxScroll * 2 / 3);
+      _scrollController.jumpTo(remainder);
+      _animationController.value = remainder;
+    } else {
+      _scrollController.jumpTo(currentValue);
     }
   }
 
   void _startScrolling() {
-    if (!_isHovering && !_animationController.isAnimating) {
+    if (!_isHovering) {
       if (_scrollController.hasClients) {
         final maxScroll = _scrollController.position.maxScrollExtent;
-        if (maxScroll > 0) {
-          _animationController.value = _scrollController.offset / maxScroll;
+        final currentOffset = _scrollController.offset;
+        final targetScroll = maxScroll * 2 / 3;
+
+        // Calculate remaining distance from current position
+        final remainingDistance = targetScroll - currentOffset;
+
+        // If we're past the loop point, normalize position
+        double startPosition = currentOffset;
+        if (currentOffset >= targetScroll) {
+          startPosition = currentOffset - targetScroll;
+          _scrollController.jumpTo(startPosition);
         }
+
+        // ✅ CHANGED: Calculate duration based on scrollSpeed (pixels per second)
+        final adjustedDuration = Duration(
+          milliseconds: ((remainingDistance / widget.scrollSpeed) * 1000)
+              .round(),
+        );
+
+        // Start animation from current position
+        _animationController.value = startPosition;
+        _animationController
+            .animateTo(
+              targetScroll,
+              duration: adjustedDuration,
+              curve: Curves.linear,
+            )
+            .whenComplete(() {
+              if (mounted && !_isHovering) {
+                _animationController.value = 0;
+                _scrollController.jumpTo(0);
+                _startScrolling();
+              }
+            });
       }
-      _animationController.repeat();
     }
   }
 
@@ -119,7 +149,7 @@ class _KInfiniteScrollImageState extends State<KInfiniteScrollImage>
   @override
   Widget build(BuildContext context) {
     if (widget.images.isEmpty) return const SizedBox();
-    const repeatCount = 2;
+    const repeatCount = 3;
     final displayImages = List.generate(
       repeatCount,
       (_) => widget.images,

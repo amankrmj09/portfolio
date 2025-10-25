@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:http/http.dart' as http;
 import 'axis.count.dart';
 import 'k.showGeneralDialog.dart';
 
@@ -12,6 +13,7 @@ class AllItemsView<T> extends StatelessWidget {
   final bool? isMobile;
   final Widget Function(T item) buildDialog;
   final Widget Function(T item, VoidCallback onTap) buildCard;
+  final Widget Function()? buildShimmerCard;
 
   const AllItemsView({
     super.key,
@@ -22,6 +24,7 @@ class AllItemsView<T> extends StatelessWidget {
     required this.titleColor,
     required this.buildDialog,
     required this.buildCard,
+    this.buildShimmerCard,
   });
 
   @override
@@ -44,11 +47,28 @@ class AllItemsView<T> extends StatelessWidget {
               padding: const EdgeInsets.only(top: 70),
               // ✅ Space for floating app bar
               child: isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        color: const Color(0xFF0A4A8E),
-                      ),
-                    )
+                  ? (buildShimmerCard != null
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
+                            child: MasonryGridView.count(
+                              controller: scrollController,
+                              crossAxisCount: isMobile!
+                                  ? 1
+                                  : getCrossAxisCount(context),
+                              mainAxisSpacing: 18,
+                              crossAxisSpacing: 18,
+                              itemCount: isMobile! ? 3 : 6,
+                              itemBuilder: (context, index) =>
+                                  buildShimmerCard!(),
+                            ),
+                          )
+                        : Center(
+                            child: CircularProgressIndicator(
+                              color: const Color(0xFF0A4A8E),
+                            ),
+                          ))
                   : items.isEmpty
                   ? Center(
                       child: Text(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/domain/models/resume_model/resume_model.dart';
 import '../../../domain/models/social_links_model/social.links.model.dart';
-import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import '../../info.fetch.controller.dart';
 import '../views/export_views_resume.dart';
 
 class ResumeController extends GetxController {

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/utils/launch.url.dart';
 
-import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import '../../info.fetch.controller.dart';
 
 class CliHistoryEntry {
   final String prompt;

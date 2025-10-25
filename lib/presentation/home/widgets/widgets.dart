@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import 'package:portfolio/presentation/info.fetch.controller.dart';
 import '../../../configs/constant_strings.dart';
 import '../../../widgets/animated.navigate.button.dart';
 import '../controllers/home.controller.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pretty_animated_text/pretty_animated_text.dart';
 import '../../infrastructure/theme/colors.dart';
-import '../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import '../presentation/info.fetch.controller.dart';
 
 class KPrettyAnimated extends StatefulWidget {
   const KPrettyAnimated({super.key});

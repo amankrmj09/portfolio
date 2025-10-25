@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import 'package:portfolio/presentation/info.fetch.controller.dart';
 
 import 'home.desktop.screen.dart';
 import 'home.mobile.screen.dart';

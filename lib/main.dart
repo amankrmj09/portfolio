@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import 'presentation/info.fetch.controller.dart';
 import 'infrastructure/navigation/navigation.dart';
 import 'infrastructure/navigation/routes.dart';
 

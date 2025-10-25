@@ -1,4 +1,4 @@
-import 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import 'package:portfolio/presentation/info.fetch.controller.dart';
 import 'package:portfolio/presentation/footer/views/contact_me_view.dart';
 import 'package:portfolio/widgets/animated.navigate.button.dart';
 import 'package:flutter/material.dart';

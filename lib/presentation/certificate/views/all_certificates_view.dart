@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../domain/models/certificate_model/certificate.model.dart';
-import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import '../../info.fetch.controller.dart';
 import '../../../utils/all_items_view.dart';
 import '../../../widgets/k.image.dart';
 import 'certificate_mobile_view.dart';
@@ -37,6 +37,7 @@ class AllCertificatesView extends GetView<CertificateController> {
           onTap: onTap,
           isHome: false,
         ),
+        buildShimmerCard: () => KCertificateShimmerCard(isMobile: isMobile),
       ),
     );
   }
@@ -287,6 +288,63 @@ class _KCertificateCardState extends State<KCertificateCard> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class KCertificateShimmerCard extends StatelessWidget {
+  final bool isMobile;
+
+  const KCertificateShimmerCard({super.key, required this.isMobile});
+
+  @override
+  Widget build(BuildContext context) {
+    final borderRadius = BorderRadius.circular(16);
+    return Container(
+      margin: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.black.withAlpha(50),
+        borderRadius: borderRadius,
+      ),
+      child: Column(
+        children: [
+          // Shimmering image placeholder
+          Container(
+            height: isMobile ? 200 : 150,
+            decoration: BoxDecoration(
+              borderRadius: borderRadius,
+              color: Colors.grey.shade800,
+            ),
+          ),
+          const SizedBox(height: 12),
+          // Shimmering text placeholders
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 16,
+                  width: double.infinity,
+                  color: Colors.grey.shade800,
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  height: 16,
+                  width: double.infinity,
+                  color: Colors.grey.shade800,
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  height: 16,
+                  width: double.infinity,
+                  color: Colors.grey.shade800,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

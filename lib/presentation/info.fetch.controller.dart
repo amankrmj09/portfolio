@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:portfolio/domain/models/resume_model/resume_model.dart';
 
-import '../../../../domain/models/export.models.dart';
-import '../../../dal/services/export.service.dart';
-import '../../../dal/services/resume.fetch.service.dart';
+import '../domain/models/export.models.dart';
+import '../infrastructure/dal/services/export.service.dart';
+import '../infrastructure/dal/services/resume.fetch.service.dart';
 
 // ignore: constant_identifier_names
 enum Device { Desktop, Tablet, Mobile }
@@ -195,22 +195,25 @@ class InfoFetchController extends GetxController {
   }
 
   Future<void> _fetchAll() async {
-    fetchSocialLinks();
-    await Future.delayed(const Duration(milliseconds: 200));
-    fetchCertificates();
-    await Future.delayed(const Duration(milliseconds: 200));
-    fetchProjects();
-    await Future.delayed(const Duration(milliseconds: 200));
-    fetchProfileLinks();
-    await Future.delayed(const Duration(milliseconds: 200));
-    fetchQuotes();
-    await Future.delayed(const Duration(milliseconds: 200));
-    fetchAboutMeInfo();
-    await Future.delayed(const Duration(milliseconds: 200));
-    fetchTools();
-    await Future.delayed(const Duration(milliseconds: 200));
-    fetchExperiences();
-    await Future.delayed(const Duration(milliseconds: 200));
-    fetchResumeInfo();
+    final fetchFunctions = [
+      fetchSocialLinks,
+      fetchCertificates,
+      fetchProjects,
+      fetchProfileLinks,
+      fetchQuotes,
+      fetchAboutMeInfo,
+      fetchTools,
+      fetchExperiences,
+      fetchResumeInfo,
+    ];
+
+    for (final fetch in fetchFunctions) {
+      try {
+        await fetch();
+      } catch (e, stack) {
+        log('Error in fetch: $e', stackTrace: stack);
+      }
+      await Future.delayed(const Duration(milliseconds: 200));
+    }
   }
 }

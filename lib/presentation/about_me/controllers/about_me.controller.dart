@@ -5,7 +5,7 @@ import 'package:portfolio/domain/models/profile_links_model/profile.links.model.
 import 'package:portfolio/domain/models/tools_model/tools.model.dart';
 import '../../../domain/models/about_me_info_model/about.me.info.model.dart';
 import '../../../domain/models/experience_model/experience.model.dart';
-import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
+import '../../info.fetch.controller.dart';
 import '../../home/controllers/home.controller.dart';
 
 class AboutMeController extends GetxController {
