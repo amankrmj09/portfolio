@@ -37,7 +37,7 @@ class ErrorApp extends StatelessWidget {
               colors: [
                 const Color(0xFF0A0E27),
                 const Color(0xFF1A1F3A),
-                Colors.red.shade900.withOpacity(0.3),
+                Colors.red.withValues(alpha: 0.3),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -49,20 +49,20 @@ class ErrorApp extends StatelessWidget {
               margin: const EdgeInsets.all(24),
               padding: const EdgeInsets.all(40),
               decoration: BoxDecoration(
-                color: const Color(0xFF1A1F3A).withOpacity(0.95),
+                color: const Color(0xFF1A1F3A).withValues(alpha: 0.95),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: Colors.red.withOpacity(0.4),
+                  color: Colors.red.withValues(alpha: 0.4),
                   width: 2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.red.withOpacity(0.2),
+                    color: Colors.red.withValues(alpha: 0.2),
                     blurRadius: 40,
                     spreadRadius: 10,
                   ),
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(alpha: 0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -77,9 +77,9 @@ class ErrorApp extends StatelessWidget {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.red.withOpacity(0.1),
+                        color: Colors.red.withValues(alpha: 0.1),
                         border: Border.all(
-                          color: Colors.red.withOpacity(0.3),
+                          color: Colors.red.withValues(alpha: 0.3),
                           width: 2,
                         ),
                       ),
@@ -125,7 +125,7 @@ class ErrorApp extends StatelessWidget {
                         color: const Color(0xFF0A0E27),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: Colors.red.withOpacity(0.2),
+                          color: Colors.red.withValues(alpha: 0.2),
                           width: 1,
                         ),
                       ),
@@ -199,7 +199,7 @@ class ErrorApp extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           elevation: 8,
-                          shadowColor: Colors.red.withOpacity(0.4),
+                          shadowColor: Colors.red.withValues(alpha: 0.4),
                         ),
                       ),
                     ),
