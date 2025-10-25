@@ -55,14 +55,6 @@ class Nav {
       binding: FooterControllerBinding(),
     ),
     GetPage(
-      name: Routes.EXPERIENCE,
-      page: () => const ExperienceScreen(),
-      binding: ExperienceControllerBinding(),
-      transition: Transition.rightToLeftWithFade,
-      transitionDuration: const Duration(milliseconds: 500),
-      preventDuplicates: true,
-    ),
-    GetPage(
       name: Routes.CONTACT,
       page: () => ContactScreenView(string: Get.arguments as String),
       binding: AdminControllerBinding(),

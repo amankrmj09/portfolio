@@ -92,35 +92,15 @@ class CliController extends GetxController {
       if (dir.containsKey(part) && dir[part] is Map<String, dynamic>) {
         dir = dir[part];
       } else {
-        // This case should ideally not be reached if cd is implemented correctly
         return {};
       }
     }
     return dir;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    userNameList.shuffle();
-    userName = userNameList.first;
-    _showWelcomeMessage();
-    _initializeFileSystem(); // Initialize rootDirectory first
-    _getProjectsData(); // Then use it in _getProjectsData()
-    _getCertificatesData();
-    _getProfileLinksData(); // Initialize certificates directory
-    // Use everAll to reactively update projects when infoFetchController.projects changes
-    everAll([infoFetchController.projects], (_) => _getProjectsData());
-    // Reactively update certificates when infoFetchController.certificates changes
-    everAll([infoFetchController.certificates], (_) => _getCertificatesData());
-
-    // Reactively update profile links when infoFetchController.profiles changes
-    everAll([infoFetchController.profiles], (_) => _getProfileLinksData());
-  }
-
-  void _getProjectsData() {
-    // Create projects map more efficiently using Map.fromEntries
-    rootDirectory['projects'] = Map.fromEntries(
+  // Computed property that rebuilds projects map when infoFetchController.projects changes
+  Map<String, dynamic> get _projectsMap {
+    return Map.fromEntries(
       infoFetchController.projects.map((project) {
         final key = '${project.name.toLowerCase().replaceAll(' ', '_')}.run';
         return MapEntry(key, {
@@ -131,9 +111,9 @@ class CliController extends GetxController {
     );
   }
 
-  void _getCertificatesData() {
-    // Create skills map more efficiently using Map.fromEntries
-    rootDirectory['certificates'] = Map.fromEntries(
+  // Computed property that rebuilds certificates map when infoFetchController.certificates changes
+  Map<String, dynamic> get _certificatesMap {
+    return Map.fromEntries(
       infoFetchController.certificates.map((certificate) {
         final key =
             '${certificate.name.toLowerCase().replaceAll(' ', '_')}.certificate';
@@ -145,18 +125,14 @@ class CliController extends GetxController {
     );
   }
 
-  void _getProfileLinksData() {
-    // Check if profiles exists and is not empty
+  // Computed property that rebuilds profile links map when infoFetchController.profiles changes
+  Map<String, dynamic> get _profileLinksMap {
     if (infoFetchController.profiles.isEmpty) {
-      log('No profile links data available', name: 'CliController');
-      // Initialize with empty map if no data is available
-      rootDirectory['profile_links'] = {};
-      return;
+      return {};
     }
 
     try {
-      // Create profile links map more efficiently using Map.fromEntries
-      final profileLinksMap = Map.fromEntries(
+      return Map.fromEntries(
         infoFetchController.profiles.map((profile) {
           final key =
               '${profile.name.toLowerCase().replaceAll(' ', '_')}.profile';
@@ -166,42 +142,23 @@ class CliController extends GetxController {
           });
         }),
       );
-
-      // Set the profile_links in rootDirectory
-      rootDirectory['profile_links'] = profileLinksMap;
-      log(
-        'Loaded ${profileLinksMap.length} profile links',
-        name: 'CliController',
-      );
     } catch (e) {
       log('Error loading profile links: $e', name: 'CliController');
-      // Provide a fallback to prevent crashes
-      rootDirectory['profile_links'] = {};
+      return {};
     }
   }
 
-  void _run(String command, String file) {
-    final dir = currentDirectoryMap;
-    // Only allow commands for files ending with valid extensions
-    if (!file.endsWith('.run') &&
-        !file.endsWith('.certificate') &&
-        !file.endsWith('.profile')) {
-      _addError(
-        'Unknown file: $file. Valid files end with .run, .certificate, or .profile',
-      );
-      return;
-    }
-    if (command == 'about') {
-      _addOutput(dir[file]['about'] ?? 'No description available.');
-    } else if (command == 'run') {
-      _addOutput(dir[file]['url'] ?? 'No URL available.');
-      Future.delayed(const Duration(milliseconds: 500), () {
-        _addOutput('Launching URL... ${dir[file]['url']}');
-      });
-      launchUrlExternal(dir[file]['url'] ?? '');
-    } else {
-      _addError('Unknown command: $command');
-    }
+  @override
+  void onInit() {
+    super.onInit();
+    userNameList.shuffle();
+    userName = userNameList.first;
+    _showWelcomeMessage();
+    _initializeFileSystem();
+
+    // Update rootDirectory references to use computed getters
+    // This makes the file system reactive to changes in InfoFetchController
+    _updateFileSystemReferences();
   }
 
   void _initializeFileSystem() {
@@ -212,6 +169,14 @@ class CliController extends GetxController {
       'contact': contact,
       'profile_links': {},
     };
+  }
+
+  void _updateFileSystemReferences() {
+    // Instead of copying data, we update references to point to computed getters
+    // The getters will automatically reflect changes in InfoFetchController
+    rootDirectory['projects'] = _projectsMap;
+    rootDirectory['certificates'] = _certificatesMap;
+    rootDirectory['profile_links'] = _profileLinksMap;
   }
 
   void _showWelcomeMessage() {
@@ -225,6 +190,34 @@ class CliController extends GetxController {
     );
   }
 
+  void _run(String command, String file) {
+    // Refresh directory references before accessing to ensure latest data
+    _updateFileSystemReferences();
+
+    final dir = currentDirectoryMap;
+
+    if (!file.endsWith('.run') &&
+        !file.endsWith('.certificate') &&
+        !file.endsWith('.profile')) {
+      _addError(
+        'Unknown file: $file. Valid files end with .run, .certificate, or .profile',
+      );
+      return;
+    }
+
+    if (command == 'about') {
+      _addOutput(dir[file]['about'] ?? 'No description available.');
+    } else if (command == 'run') {
+      _addOutput(dir[file]['url'] ?? 'No URL available.');
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _addOutput('Launching URL... ${dir[file]['url']}');
+      });
+      launchUrlExternal(dir[file]['url'] ?? '');
+    } else {
+      _addError('Unknown command: $command');
+    }
+  }
+
   // --- Command Handlers ---
 
   void _executeHelp() {
@@ -235,6 +228,9 @@ class CliController extends GetxController {
   }
 
   void _executeLs() {
+    // Refresh directory references before listing
+    _updateFileSystemReferences();
+
     final dir = currentDirectoryMap;
     if (dir.isEmpty) {
       _addOutput('(empty)');
@@ -242,7 +238,6 @@ class CliController extends GetxController {
     }
 
     final entries = dir.keys.map((key) {
-      // Add a slash to directories for better visual representation
       if (key.contains('.')) {
         return dir[key] is Map ? '$key\n' : key;
       }
@@ -259,7 +254,7 @@ class CliController extends GetxController {
     }
 
     final targetPath = args.first;
-    // Prevent cd into folders with a dot in the name
+
     if (targetPath
         .split('/')
         .any((segment) => segment.contains('.') && segment != '..')) {
@@ -284,6 +279,9 @@ class CliController extends GetxController {
         newPathSegments.add(segment);
       }
     }
+
+    // Refresh directory references before validation
+    _updateFileSystemReferences();
 
     // Validate the final path
     Map<String, dynamic> currentDir = rootDirectory;
@@ -314,10 +312,10 @@ class CliController extends GetxController {
 
   void _executeSmile(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final int diameter = (width / 4).clamp(15, 55).toInt() | 1; // Ensure odd
+    final int diameter = (width / 4).clamp(15, 55).toInt() | 1;
     final int radius = diameter ~/ 2;
     final List<String> lines = [];
-    const double yScale = 0.45; // Aspect ratio correction for characters
+    const double yScale = 0.45;
 
     for (int y = 0; y < diameter; y++) {
       StringBuffer line = StringBuffer();
@@ -342,18 +340,19 @@ class CliController extends GetxController {
   }
 
   void _executeTree() {
+    // Refresh directory references before displaying tree
+    _updateFileSystemReferences();
+
     final dir = currentDirectoryMap;
     final buffer = StringBuffer();
+
     void printTree(Map<String, dynamic> node, String prefix) {
       final keys = node.keys.toList();
       for (int i = 0; i < keys.length; i++) {
         final key = keys[i];
         final isLast = i == keys.length - 1;
         buffer.writeln('$prefix${isLast ? '└──' : '├──'} $key');
-        // Only recurse into entries that:
-        // 1. Are Maps (directories)
-        // 2. Are not empty
-        // 3. Don't have a dot in their name (not files)
+
         if (node[key] is Map<String, dynamic> &&
             (node[key] as Map).isNotEmpty &&
             !key.contains('.')) {
@@ -368,6 +367,9 @@ class CliController extends GetxController {
 
   void _executeHelpCommand(List<String> args) {
     if (args.isNotEmpty && args.first.endsWith('.run')) {
+      // Refresh directory references
+      _updateFileSystemReferences();
+
       final file = args.first;
       final dir = currentDirectoryMap;
       if (dir.containsKey(file)) {
@@ -385,7 +387,6 @@ class CliController extends GetxController {
   }
 
   void _executePwd() {
-    // Format the output to match standard pwd command output
     final path = currentPath.isEmpty ? '~' : '~/${currentPath.join('/')}';
     _addOutput(path);
   }
@@ -489,7 +490,6 @@ class CliController extends GetxController {
         break;
     }
 
-    // Scroll to the bottom after the UI updates
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (scrollController.hasClients) {
         scrollController.animateTo(
@@ -538,13 +538,9 @@ class CliController extends GetxController {
 
   void _handleTabCompletion() {
     final currentInput = inputController.text;
-
-    // Split into command parts
     final parts = currentInput.trim().split(RegExp(r'\s+'));
 
-    // If there are multiple parts, we might be trying to complete a path or file
     if (parts.length > 1) {
-      // Handle cd, ls, about, run, help commands with tab completion
       if ([
         'cd',
         'ls',
@@ -557,14 +553,12 @@ class CliController extends GetxController {
       }
     }
 
-    // If single word, try to complete a command
     _completeCommand(currentInput);
   }
 
   void _completeCommand(String prefix) {
     if (prefix.isEmpty) return;
 
-    // Available commands for tab completion
     final availableCommands = [
       'help',
       'about',
@@ -584,18 +578,14 @@ class CliController extends GetxController {
         .toList();
 
     if (matches.isEmpty) {
-      // No matches found
       return;
     } else if (matches.length == 1) {
-      // Exact match found, complete it
       inputController.text = matches.first;
       inputController.selection = TextSelection.fromPosition(
         TextPosition(offset: inputController.text.length),
       );
     } else {
-      // Multiple matches found, show options
       _addOutput('Available completions: ${matches.join(', ')}');
-      // Find common prefix among matches if any
       final commonPrefix = _findCommonPrefix(matches);
       if (commonPrefix.length > prefix.length) {
         inputController.text = commonPrefix;
@@ -607,53 +597,44 @@ class CliController extends GetxController {
   }
 
   void _completePathOrFile(List<String> parts) {
+    // Refresh directory references for tab completion
+    _updateFileSystemReferences();
+
     parts.first.toLowerCase();
     String currentPath = parts.length > 1 ? parts.last : '';
 
-    // Get the current directory map to search in
     Map<String, dynamic> searchDir = currentDirectoryMap;
 
-    // If we have a partial path with /, navigate to that directory
     if (currentPath.contains('/')) {
       final pathSegments = currentPath
           .split('/')
           .where((s) => s.isNotEmpty)
           .toList();
 
-      // The last segment is what we're trying to complete
       final lastSegment = pathSegments.isEmpty ? '' : pathSegments.removeLast();
 
-      // Navigate to the directory containing what we're trying to complete
       for (final segment in pathSegments) {
         if (searchDir.containsKey(segment) && searchDir[segment] is Map) {
           searchDir = searchDir[segment];
         } else {
-          // Directory doesn't exist, no completion possible
           return;
         }
       }
 
-      // Update current path to just the last segment we're completing
       currentPath = lastSegment;
     }
 
-    // Find matching entries in the directory
     final matches = searchDir.keys
         .where((key) => key.startsWith(currentPath))
         .toList();
 
     if (matches.isEmpty) {
-      // No matches found
       return;
     } else if (matches.length == 1) {
-      // Single match, complete it
       final match = matches.first;
-      // Handle for different commands
       _completeWithMatch(parts, match, searchDir[match] is Map);
     } else {
-      // Multiple matches
       _addOutput('Possible completions: ${matches.join(', ')}');
-      // Try to complete as far as possible with common prefix
       final commonPrefix = _findCommonPrefix(matches);
       if (commonPrefix.length > currentPath.length) {
         _updateInputWithCompletion(parts, commonPrefix);
@@ -662,15 +643,11 @@ class CliController extends GetxController {
   }
 
   void _completeWithMatch(List<String> parts, String match, bool isDirectory) {
-    // Don't add trailing slash for directories anymore
     _updateInputWithCompletion(parts, match);
   }
 
   void _updateInputWithCompletion(List<String> parts, String completion) {
-    // Replace the last part with the completion
     parts[parts.length - 1] = completion;
-
-    // Rebuild the command
     inputController.text = parts.join(' ');
     inputController.selection = TextSelection.fromPosition(
       TextPosition(offset: inputController.text.length),
@@ -694,5 +671,13 @@ class CliController extends GetxController {
     }
 
     return prefix;
+  }
+
+  @override
+  void onClose() {
+    inputController.dispose();
+    scrollController.dispose();
+    inputFocusNode.dispose();
+    super.onClose();
   }
 }

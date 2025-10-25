@@ -13,63 +13,37 @@ class AboutMeController extends GetxController {
   final InfoFetchController infoFetchController =
       Get.find<InfoFetchController>();
 
-  late var aboutMeInfo = Rxn<AboutMeInfoModel>();
-  late var tools = <ToolsModel>[].obs;
-  late var experiences = <ExperienceModel>[].obs;
-  late var profiles = <ProfileLinksModel>[].obs;
+  // Direct getters - no local copies needed
+  Rxn<AboutMeInfoModel> get aboutMeInfo => infoFetchController.aboutMeInfo;
 
-  late var isLoading = true.obs;
-  late var isExpLoading = true.obs;
-  late var isToolsLoading = true.obs;
-  late var isProfilesLoading = true.obs;
+  RxList<ToolsModel> get tools => infoFetchController.tools;
+
+  RxList<ExperienceModel> get experiences => infoFetchController.experiences;
+
+  RxList<ProfileLinksModel> get profiles => infoFetchController.profiles;
+
+  RxBool get isLoading => infoFetchController.isAboutMeInfoLoading;
+
+  RxBool get isExpLoading => infoFetchController.isExperienceLoading;
+
+  RxBool get isToolsLoading => infoFetchController.isToolsLoading;
+
+  RxBool get isProfilesLoading => infoFetchController.isProfileLinksLoading;
 
   @override
   void onInit() {
     super.onInit();
-    isLoading.value = infoFetchController.isAboutMeInfoLoading.value;
-    isExpLoading.value = infoFetchController.isExperienceLoading.value;
-    isToolsLoading.value = infoFetchController.isToolsLoading.value;
-    isProfilesLoading.value = infoFetchController.isProfileLinksLoading.value;
-
-    aboutMeInfo.value = infoFetchController.aboutMeInfo.value;
-    experiences.value = infoFetchController.experiences;
-    tools.value = infoFetchController.tools;
-    profiles.value = infoFetchController.profiles;
-
-    ever(infoFetchController.isProfileLinksLoading, (val) {
-      isProfilesLoading.value = val;
-    });
-    ever(infoFetchController.profiles, (val) {
-      profiles.value = val;
-    });
-    ever(infoFetchController.isAboutMeInfoLoading, (val) {
-      isLoading.value = val;
-    });
-    ever(infoFetchController.isExperienceLoading, (val) {
-      isExpLoading.value = val;
-    });
-    ever(infoFetchController.isToolsLoading, (val) {
-      isToolsLoading.value = val;
-    });
-    ever(infoFetchController.experiences, (val) {
-      experiences.value = val;
-    });
-    ever(infoFetchController.aboutMeInfo, (val) {
-      aboutMeInfo.value = val;
-    });
-    ever(infoFetchController.tools, (val) {
-      tools.value = val;
-    });
-
     scrollController.addListener(_handleScrollEdge);
   }
 
   void _handleScrollEdge() {
     if (!scrollController.hasClients) return;
+
     final atStart =
         scrollController.offset <= scrollController.position.minScrollExtent;
     final atEnd =
         scrollController.offset >= scrollController.position.maxScrollExtent;
+
     if (atStart || atEnd) {
       activateHomeControllerScrollbar();
     } else {
@@ -94,6 +68,7 @@ class AboutMeController extends GetxController {
           scrollController.offset <= scrollController.position.minScrollExtent;
       final atEnd =
           scrollController.offset >= scrollController.position.maxScrollExtent;
+
       if (atStart || atEnd) {
         final homeController = Get.find<HomeController>();
         homeController.scrollController.position.moveTo(
@@ -108,6 +83,7 @@ class AboutMeController extends GetxController {
         scrollController.offset <= scrollController.position.minScrollExtent;
     final atEnd =
         scrollController.offset >= scrollController.position.maxScrollExtent;
+
     if (atStart || atEnd) {
       final homeController = Get.find<HomeController>();
       homeController.scrollController.position.moveTo(
@@ -118,5 +94,11 @@ class AboutMeController extends GetxController {
 
   void handlePointerDown(PointerDownEvent pointerEvent) {
     // Optionally, you can request focus or start drag here
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 }

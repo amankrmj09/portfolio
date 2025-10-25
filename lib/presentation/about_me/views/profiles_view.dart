@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/about_me/controllers/about_me.controller.dart';
-
 import '../widgets/profile.widget.dart';
 
 class ProfilesView extends GetView<AboutMeController> {
@@ -10,46 +8,121 @@ class ProfilesView extends GetView<AboutMeController> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 900;
+
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 60),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 16 : 32,
+          vertical: isMobile ? 40 : 60,
+        ),
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: const EdgeInsets.all(16.0),
+            constraints: BoxConstraints(
+              maxWidth: isMobile ? double.infinity : 800,
+            ),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Color.lerp(Colors.black, Colors.transparent, 0.3),
-              borderRadius: BorderRadius.circular(16.0),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFF0A1628).withOpacity(0.95),
+                  const Color(0xFF001529).withOpacity(0.9),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: const Color(0xFF0A4A8E).withOpacity(0.3),
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.5),
+                  blurRadius: 40,
+                  offset: const Offset(0, 20),
+                ),
+              ],
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-
               children: [
-                Text(
-                  'Profiles',
-                  style: TextStyle(
-                    fontFamily: 'ShantellSans',
-                    fontSize: 32,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                Wrap(
-                  spacing: 24.0,
-                  runSpacing: 24.0,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    ...(List.from(controller.profiles)..shuffle()).map(
-                      (profile) => ProfileWidget(profile: profile),
+                // Header with close button
+                _buildHeader(context),
+                const SizedBox(height: 20),
+
+                // Profiles content
+                Flexible(
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      spacing: isMobile ? 16 : 24,
+                      runSpacing: isMobile ? 16 : 24,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        ...(List.from(controller.profiles)..shuffle()).map(
+                          (profile) => ProfileWidget(
+                            profile: profile,
+                            disableHover: isMobile, // ✅ Disable hover on mobile
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Row(
+      children: [
+        const SizedBox(width: 48), // Balance close button
+        Expanded(
+          child: Text(
+            'Profiles',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 28,
+              fontWeight: FontWeight.w700,
+              color: Colors.white.withOpacity(0.95),
+              letterSpacing: 0.5,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        // Close button
+        GestureDetector(
+          onTap: () => Navigator.of(context).maybePop(),
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xFF8B0000).withOpacity(0.5),
+                  const Color(0xFF4B0000).withOpacity(0.4),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color(0xFFFF4444).withOpacity(0.4),
+                width: 1.5,
+              ),
+            ),
+            child: Icon(
+              Icons.close_rounded,
+              color: Colors.white.withOpacity(0.95),
+              size: 20,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -57,11 +57,7 @@ class HomeMobileScreen extends GetView<HomeController> {
                     const SizedBox(height: 10),
                     const CertificateScreen(),
                     const SizedBox(height: 20),
-                    SizedBox(
-                      key: controller.aboutMeKey,
-                      height: MediaQuery.of(context).size.height,
-                      child: const AboutMeScreen(),
-                    ),
+                    AboutMeScreen(key: controller.aboutMeKey),
                     SizedBox(
                       height: MediaQuery.of(context).size.height,
                       child: FooterScreen(),
@@ -107,7 +103,7 @@ class HomeMobileScreen extends GetView<HomeController> {
               FittedBox(
                 fit: BoxFit.fitWidth,
                 alignment: Alignment.center,
-                child: CodeBlock(),
+                child: AbsorbPointer(child: CodeBlock()),
               ),
               socialLinksRow(),
             ],

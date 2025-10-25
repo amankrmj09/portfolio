@@ -15,10 +15,12 @@ class HomeController extends GetxController {
   final isScrolling = false.obs;
   Timer? _scrollEndDebouncer;
 
-  late var socialLinks = Rxn<SocialLinksModel>();
   final InfoFetchController infoFetchController =
       Get.find<InfoFetchController>();
   final RxInt selectedTabIndex = 0.obs;
+
+  // Direct getter - no local copy needed
+  Rxn<SocialLinksModel> get socialLinks => infoFetchController.socialLinks;
 
   // Section keys for navigation - converted from static to instance variables
   final GlobalKey recentWorksKey = GlobalKey(debugLabel: 'recentWorksKey');
@@ -57,14 +59,10 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     _pingOnce();
-    // isLoading.value = infoFetchController.isProjectsLoading.value;
-    socialLinks.value = infoFetchController.socialLinks.value;
-    // ever(infoFetchController.isSocialLinksLoading, (val) {
-    //   isLoading.value = val;
-    // });
-    ever(infoFetchController.socialLinks, (val) {
-      socialLinks.value = val;
-    });
+
+    // No initialization needed - directly using InfoFetchController's observables
+    // Removed: socialLinks.value = infoFetchController.socialLinks.value;
+    // Removed: ever() listener
 
     scrollController.addListener(_onScroll);
     meshGradientController = AnimatedMeshGradientController()..start();

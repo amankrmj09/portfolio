@@ -13,7 +13,6 @@ import '../../domain/models/experience_model/experience.model.dart';
 import '../../domain/models/profile_links_model/profile.links.model.dart';
 import '../../domain/models/tools_model/tools.model.dart';
 import '../../widgets/animated.navigate.button.dart';
-import '../experience/controllers/experience.controller.dart';
 import '../home/controllers/home.controller.dart';
 import 'controllers/about_me.controller.dart';
 
@@ -676,18 +675,10 @@ class AboutMeScreen extends GetView<AboutMeController> {
           ],
         ),
         const SizedBox(height: 12),
-        InkWell(
-          onTap: () {
-            if (!Get.isRegistered<ExperienceController>()) {
-              Get.put(ExperienceController());
-            }
-            Get.toNamed(Routes.EXPERIENCE);
-          },
-          child: LayoutBuilder(
-            builder: (context, constraints) => AnimatedExperienceCard(
-              experiences: experiences,
-              width: constraints.maxWidth,
-            ),
+        LayoutBuilder(
+          builder: (context, constraints) => AnimatedExperienceCard(
+            experiences: experiences,
+            width: constraints.maxWidth,
           ),
         ),
       ],

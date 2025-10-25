@@ -12,6 +12,7 @@ abstract class ProjectModel with _$ProjectModel {
     required String url,
     required List<String> images,
     required String largeDescription,
+    required List<String> techStack,
     required String type,
   }) = _ProjectModel;
 

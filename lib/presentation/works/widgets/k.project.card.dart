@@ -237,46 +237,53 @@ class _KProjectCardState extends State<KProjectCard> {
 
                         const Spacer(),
 
-                        // Tech stack tags (if available)
-                        // if (widget.project.techStack != null &&
-                        //     widget.project.techStack!.isNotEmpty)
-                        //   Wrap(
-                        //     spacing: 8,
-                        //     runSpacing: 8,
-                        //     children: widget.project.techStack!
-                        //         .take(3)
-                        //         .map(
-                        //           (tech) => Container(
-                        //         padding: const EdgeInsets.symmetric(
-                        //           horizontal: 10,
-                        //           vertical: 5,
-                        //         ),
-                        //         decoration: BoxDecoration(
-                        //           gradient: LinearGradient(
-                        //             colors: [
-                        //               const Color(0xFF0A4A8E).withOpacity(0.3),
-                        //               const Color(0xFF001529).withOpacity(0.2),
-                        //             ],
-                        //           ),
-                        //           borderRadius: BorderRadius.circular(8),
-                        //           border: Border.all(
-                        //             color: const Color(0xFF0A4A8E).withOpacity(0.4),
-                        //             width: 1,
-                        //           ),
-                        //         ),
-                        //         child: Text(
-                        //           tech,
-                        //           style: TextStyle(
-                        //             color: Colors.white.withOpacity(0.9),
-                        //             fontSize: 11,
-                        //             fontWeight: FontWeight.w600,
-                        //             fontFamily: "Poppins",
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     )
-                        //         .toList(),
-                        //   ),
+                        // Tech stack tags
+                        if (widget.project.techStack.isNotEmpty)
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: widget.project.techStack
+                                .take(3)
+                                .map(
+                                  (tech) => Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 5,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          const Color(
+                                            0xFF0A4A8E,
+                                          ).withValues(alpha: 0.3),
+                                          const Color(
+                                            0xFF001529,
+                                          ).withValues(alpha: 0.2),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: const Color(
+                                          0xFF0A4A8E,
+                                        ).withValues(alpha: 0.4),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      tech,
+                                      style: TextStyle(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.9,
+                                        ),
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "Poppins",
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
                         const SizedBox(height: 12),
 
                         // View details button

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/domain/models/resume_model/resume_model.dart';
-
+import '../../../domain/models/social_links_model/social.links.model.dart';
 import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import '../views/export_views_resume.dart';
 
@@ -42,19 +42,10 @@ class ResumeController extends GetxController {
   final InfoFetchController infoFetchController =
       Get.find<InfoFetchController>();
 
-  late var isLoading = false.obs;
-  late var resumeData = Rxn<ResumeModel>();
+  // Direct getters - no local copies needed
+  RxBool get isLoading => infoFetchController.isResumeLoading;
 
-  @override
-  void onInit() {
-    super.onInit();
-    isLoading.value = infoFetchController.isResumeLoading.value;
-    resumeData.value = infoFetchController.resumeData.value;
-    ever(infoFetchController.isResumeLoading, (val) {
-      isLoading.value = val;
-    });
-    ever(infoFetchController.resumeData, (val) {
-      resumeData.value = val;
-    });
-  }
+  Rxn<ResumeModel> get resumeData => infoFetchController.resumeData;
+
+  Rxn<SocialLinksModel> get socialLinks => infoFetchController.socialLinks;
 }

@@ -7,8 +7,14 @@ import 'package:url_launcher/url_launcher_string.dart';
 class ToolWidget extends StatefulWidget {
   final ToolsModel tool;
   final bool? reset;
+  final bool disableHover; // ✅ New parameter
 
-  const ToolWidget({super.key, required this.tool, this.reset = false});
+  const ToolWidget({
+    super.key,
+    required this.tool,
+    this.reset = false,
+    this.disableHover = false, // ✅ Default false
+  });
 
   @override
   State<ToolWidget> createState() => _ToolWidgetState();
@@ -21,6 +27,8 @@ class _ToolWidgetState extends State<ToolWidget> {
   Offset _center = Offset.zero;
 
   void _updateOffset(PointerEvent details) {
+    if (widget.disableHover) return; // ✅ Skip on mobile
+
     final RenderBox? box =
         _containerKey.currentContext?.findRenderObject() as RenderBox?;
     if (box != null) {
@@ -48,35 +56,49 @@ class _ToolWidgetState extends State<ToolWidget> {
       color: Color.lerp(color, Colors.white, 0.3),
     );
     final textWidth = _calculateTextWidth(widget.tool.name, textStyle);
+
     return InkWell(
       onTap: () => launchUrlString(widget.tool.url),
       child: SizedBox(
         width: textWidth + 80 + 72 + 20,
         height: 72 + 40,
         child: MouseRegion(
-          onEnter: (_) => setState(() => _isHovered = true),
-          onExit: (_) {
-            setState(() => _isHovered = false);
-            if (widget.reset == true) {
-              _resetOffset();
-            }
-          },
-          onHover: _updateOffset,
+          onEnter: widget.disableHover
+              ? null // ✅ Disable hover on mobile
+              : (_) => setState(() => _isHovered = true),
+          onExit: widget.disableHover
+              ? null // ✅ Disable hover on mobile
+              : (_) {
+                  setState(() => _isHovered = false);
+                  if (widget.reset == true) {
+                    _resetOffset();
+                  }
+                },
+          onHover: widget.disableHover ? null : _updateOffset,
+          // ✅ Disable hover on mobile
           cursor: SystemMouseCursors.click,
-          child: TweenAnimationBuilder<double>(
-            tween: Tween<double>(begin: 1.0, end: _isHovered ? 0.94 : 1.0),
+          child: TweenAnimationBuilder(
+            tween: Tween<double>(
+              begin: 1.0,
+              end: (widget.disableHover || !_isHovered)
+                  ? 1.0
+                  : 0.94, // ✅ No scale on mobile
+            ),
             duration: const Duration(milliseconds: 800),
             curve: Curves.easeInOut,
             builder: (context, scale, child) => Transform.scale(
               scale: scale,
               child: AnimatedAlign(
-                alignment: Alignment(
-                  (_offset.dx / ((textWidth + 80 + 72 + 20) / 2)).clamp(
-                    -1.0,
-                    1.0,
-                  ),
-                  (_offset.dy / ((72 + 20) / 2)).clamp(-1.0, 1.0),
-                ),
+                alignment: widget.disableHover
+                    ? Alignment
+                          .center // ✅ Fixed alignment on mobile
+                    : Alignment(
+                        (_offset.dx / ((textWidth + 80 + 72 + 20) / 2)).clamp(
+                          -1.0,
+                          1.0,
+                        ),
+                        (_offset.dy / ((72 + 20) / 2)).clamp(-1.0, 1.0),
+                      ),
                 duration: const Duration(milliseconds: 800),
                 curve: Curves.easeOut,
                 child: Stack(
@@ -88,8 +110,8 @@ class _ToolWidgetState extends State<ToolWidget> {
                       child: Container(
                         height: 42,
                         width: textWidth + 80,
-                        margin: EdgeInsets.only(left: 36),
-                        padding: EdgeInsets.only(left: 40, right: 10),
+                        margin: const EdgeInsets.only(left: 36),
+                        padding: const EdgeInsets.only(left: 40, right: 10),
                         decoration: BoxDecoration(
                           color: Color.lerp(color, Colors.transparent, 0.3),
                           borderRadius: BorderRadius.circular(8),
@@ -107,7 +129,7 @@ class _ToolWidgetState extends State<ToolWidget> {
                       clipBehavior: Clip.hardEdge,
                       height: 72,
                       width: 72,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: Color.lerp(color, Colors.transparent, 0.3),
@@ -119,6 +141,7 @@ class _ToolWidgetState extends State<ToolWidget> {
                         height: 48,
                         placeholderBuilder: (context) =>
                             const SizedBox.shrink(),
+                        // ignore: deprecated_member_use
                         errorBuilder: (context, error, stackTrace) =>
                             const Icon(Icons.error),
                       ),
@@ -131,6 +154,15 @@ class _ToolWidgetState extends State<ToolWidget> {
         ),
       ),
     );
+  }
+
+  double _calculateTextWidth(String text, TextStyle style) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+    )..layout();
+    return textPainter.size.width;
   }
 }
 
@@ -155,13 +187,4 @@ class _LeftCircleClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
-}
-
-double _calculateTextWidth(String text, TextStyle style) {
-  final TextPainter textPainter = TextPainter(
-    text: TextSpan(text: text, style: style),
-    maxLines: 1,
-    textDirection: TextDirection.ltr,
-  )..layout();
-  return textPainter.size.width;
 }

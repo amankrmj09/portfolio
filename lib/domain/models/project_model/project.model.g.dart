@@ -15,6 +15,9 @@ _ProjectModel _$ProjectModelFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       largeDescription: json['largeDescription'] as String,
+      techStack: (json['techStack'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       type: json['type'] as String,
     );
 
@@ -25,5 +28,6 @@ Map<String, dynamic> _$ProjectModelToJson(_ProjectModel instance) =>
       'url': instance.url,
       'images': instance.images,
       'largeDescription': instance.largeDescription,
+      'techStack': instance.techStack,
       'type': instance.type,
     };

@@ -1,11 +1,9 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/presentation/certificate/widgets/k.certificate.card.dart';
-import 'package:portfolio/utils/axis.count.dart';
+import '../../../domain/models/certificate_model/certificate.model.dart';
 import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
-import '../../../utils/k.showGeneralDialog.dart';
+import '../../../utils/all_items_view.dart';
+import '../../../widgets/k.image.dart';
 import 'certificate_mobile_view.dart';
 import 'certificate_view.dart';
 import '../controllers/certificate.controller.dart';
@@ -20,7 +18,7 @@ class AllCertificatesView extends GetView<CertificateController> {
 
     return Obx(
       () => AllItemsView(
-        title: "ALL Certificates",
+        title: "Certificates",
         isLoading: controller.isLoading.value,
         items: controller.certificates,
         titleColor: Colors.white,
@@ -44,99 +42,251 @@ class AllCertificatesView extends GetView<CertificateController> {
   }
 }
 
-class AllItemsView<T> extends StatelessWidget {
-  final String title;
-  final bool isLoading;
-  final List<T> items;
-  final Color titleColor;
-  final bool? isMobile;
-  final Widget Function(T item) buildDialog;
-  final Widget Function(T item, VoidCallback onTap) buildCard;
+class KCertificateCard extends StatefulWidget {
+  final CertificateModel certificate;
+  final VoidCallback? onTap;
+  final double? width;
+  final double? height;
+  final bool isHome;
+  final bool fixedHeight;
 
-  const AllItemsView({
+  const KCertificateCard({
     super.key,
-    required this.title,
-    this.isMobile = false,
-    required this.isLoading,
-    required this.items,
-    required this.titleColor,
-    required this.buildDialog,
-    required this.buildCard,
+    required this.certificate,
+    this.onTap,
+    this.width = 500,
+    this.height,
+    required this.isHome,
+    this.fixedHeight = true,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final ScrollController scrollController = ScrollController();
+  State<KCertificateCard> createState() => _KCertificateCardState();
+}
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF0A1628),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF0A1628),
-        elevation: 0,
-        title: Text(
-          title,
-          style: TextStyle(
-            color: titleColor,
-            fontFamily: "Poppins",
-            fontWeight: FontWeight.w700,
-            fontSize: isMobile! ? 24 : 36,
-            letterSpacing: 1.2,
+class _KCertificateCardState extends State<KCertificateCard> {
+  bool isHover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final InfoFetchController infoFetchController = Get.find();
+    final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
+    final mediaWidth = MediaQuery.of(context).size.width;
+    final double cardWidth = isMobile
+        ? (mediaWidth * 0.45 > 340 ? mediaWidth * 0.45 : 340)
+        : widget.width ?? 500;
+    final double cardHeight = widget.height ?? 500;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => isHover = true),
+      onExit: (_) => setState(() => isHover = false),
+      child: AnimatedScale(
+        scale: isHover ? 1.02 : 1.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: Container(
+            margin: const EdgeInsets.all(12),
+            width: cardWidth,
+            height: widget.fixedHeight ? cardHeight : null,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFF0A1628).withAlpha((0.9 * 255).toInt()),
+                  const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: isHover
+                    ? const Color(0xFF0A4A8E).withAlpha((0.6 * 255).toInt())
+                    : const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withAlpha((0.3 * 255).toInt()),
+                  blurRadius: isHover ? 32 : 24,
+                  offset: Offset(0, isHover ? 12 : 8),
+                  spreadRadius: 0,
+                ),
+                if (isHover)
+                  BoxShadow(
+                    color: const Color(
+                      0xFF0A4A8E,
+                    ).withAlpha((0.2 * 255).toInt()),
+                    blurRadius: 20,
+                    offset: const Offset(0, 0),
+                    spreadRadius: 2,
+                  ),
+              ],
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              mainAxisSize: widget.fixedHeight
+                  ? MainAxisSize.max
+                  : MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Image section with hover overlay
+                Expanded(
+                  flex: 8,
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        padding: const EdgeInsets.all(8),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: KImage(url: widget.certificate.images[0]),
+                        ),
+                      ),
+                      // Hover overlay with skills
+                      AnimatedOpacity(
+                        opacity: isHover ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 300),
+                        child: Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: BoxDecoration(
+                            color: const Color(
+                              0xFF001529,
+                            ).withAlpha((0.92 * 255).toInt()),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                alignment: WrapAlignment.center,
+                                children: widget.certificate.skills
+                                    .map(
+                                      (skill) => Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                          vertical: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              const Color(
+                                                0xFF0A4A8E,
+                                              ).withAlpha((0.3 * 255).toInt()),
+                                              const Color(
+                                                0xFF001529,
+                                              ).withAlpha((0.2 * 255).toInt()),
+                                            ],
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
+                                          border: Border.all(
+                                            color: const Color(
+                                              0xFF0A4A8E,
+                                            ).withAlpha((0.5 * 255).toInt()),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          skill,
+                                          style: TextStyle(
+                                            color: Colors.white.withAlpha(
+                                              (0.9 * 255).toInt(),
+                                            ),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontFamily: "Poppins",
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                              const SizedBox(height: 48),
+                              Text(
+                                widget.certificate.description,
+                                style: TextStyle(
+                                  color: Colors.white.withAlpha(
+                                    (0.8 * 255).toInt(),
+                                  ),
+                                  fontSize: 18,
+                                  fontFamily: "Poppins",
+                                  height: 1.4,
+                                ),
+                                textAlign: TextAlign.justify,
+                                maxLines: 3,
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Content section
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                      vertical: 16.0,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Issued by text
+                        if (widget.certificate.issuingOrganization.isNotEmpty)
+                          Text(
+                            widget.certificate.issuingOrganization,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white.withAlpha(
+                                (0.6 * 255).toInt(),
+                              ),
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w400,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        const SizedBox(height: 8),
+                        // Certificate title
+                        Text(
+                          widget.certificate.name,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                            fontFamily: "Poppins",
+                            height: 1.3,
+                            letterSpacing: 0.3,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-        centerTitle: true,
-        iconTheme: IconThemeData(
-          color: Colors.white.withAlpha((0.9 * 255).toInt()),
-        ),
-      ),
-      body: SafeArea(
-        child: isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                  color: const Color(0xFF0A4A8E),
-                ),
-              )
-            : items.isEmpty
-            ? Center(
-                child: Text(
-                  'No certificates found.',
-                  style: TextStyle(
-                    color: Colors.white.withAlpha((0.7 * 255).toInt()),
-                    fontSize: 18,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              )
-            : ScrollConfiguration(
-                behavior: const ScrollBehavior().copyWith(
-                  dragDevices: {
-                    PointerDeviceKind.touch,
-                    PointerDeviceKind.mouse,
-                    PointerDeviceKind.trackpad,
-                  },
-                  overscroll: false,
-                ),
-                child: MasonryGridView.count(
-                  controller: scrollController,
-                  crossAxisCount: getCrossAxisCount(context),
-                  mainAxisSpacing: 4,
-                  crossAxisSpacing: 4,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    return buildCard(
-                      item,
-                      () => showBlurredGeneralDialog(
-                        context: context,
-                        builder: (context) => buildDialog(item),
-                      ),
-                    );
-                  },
-                ),
-              ),
       ),
     );
   }
