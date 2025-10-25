@@ -78,11 +78,7 @@ class HomeTabletScreen extends GetView<HomeController> {
                               sectionKey: controller.recentCertificatesKey,
                             ),
                             const CertificateScreen(),
-                            SizedBox(
-                              key: controller.aboutMeKey,
-                              height: MediaQuery.of(context).size.height,
-                              child: const AboutMeScreen(),
-                            ),
+                            AboutMeScreen(key: controller.aboutMeKey),
                             SizedBox(
                               height: MediaQuery.of(context).size.height,
                               child: const FooterScreen(),
