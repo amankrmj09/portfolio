@@ -13,7 +13,15 @@
       "projects/restaurant_management/Screenshot7.png"
     ],
     "largeDescription": "This Flutter-based web application serves as the front-end of a restaurant management system, delivering seamless interaction and real-time responsiveness. It is designed to handle essential restaurant operations such as:\n\n\t• Order Processing: Streamlines order placement and tracking for efficient service.\n\t• Menu Management: Empowers staff to dynamically update menu items and categories.\n\t• Customer Interaction: Provides user-centric interfaces to enhance the dining experience.\n\nWith a responsive layout and clean component architecture, the project emphasizes performance, user experience, and integration readiness with backend systems. It showcases your ability to design scalable Flutter applications tailored to real-world operational needs.",
-    "type": "web"
+    "type": "web",
+    "techStack": [
+      "Flutter",
+      "Dart",
+      "GetX",
+      "HTTP/Dio",
+      "Responsive UI",
+      "RESTful API Integration"
+    ]
   },
   {
     "name": "Restaurant Management Backend",
@@ -28,7 +36,16 @@
       "projects/restaurant_management/image_2.png"
     ],
     "largeDescription": "This repository houses the backend infrastructure for a restaurant management system, fully developed in Java. It delivers a suite of RESTful APIs and implements core functionalities essential for smooth restaurant workflows, including:\n\n\t• Order Lifecycle Management: Handles order creation, updates, and tracking.\n\t• Menu & Inventory APIs: Facilitates real-time updates to menu items and stock levels.\n\t• Authentication & Security: Enforces secure access and data protection across services.\n\nThe backend seamlessly integrates with the Flutter-based frontend and is engineered for scalability, efficient data handling, and maintainability. This project highlights your strengths in backend architecture, API design, and production-level implementation.",
-    "type": "web"
+    "type": "web",
+    "techStack": [
+      "Java",
+      "Spring Boot",
+      "Spring Data JPA",
+      "MySQL",
+      "REST API",
+      "Spring Security",
+      "Maven"
+    ]
   },
   {
     "name": "SwiftCafe",
@@ -40,7 +57,15 @@
       "projects/swift_cafe/Screenshot_Home_screen.png"
     ],
     "largeDescription": "SwiftCafe is a cross-platform mobile app built using Flutter, crafted to enhance the café-ordering experience. With intuitive navigation across authentication, home, and product detail screens, the app allows customers to:\n\n\t• Explore the menu and product details.\n\t• Customize their orders effortlessly.\n\t• Place orders with a smooth, responsive UI.\n\nThe project emphasizes simplicity, performance, and modern design, making it ideal for real-world customer-centric ordering solutions.",
-    "type": "mobile"
+    "type": "mobile",
+    "techStack": [
+      "Flutter",
+      "Dart",
+      "GetX",
+      "Firebase Authentication",
+      "HTTP/Dio",
+      "Material Design"
+    ]
   },
   {
     "name": "GreenHive",
@@ -57,6 +82,18 @@
       "projects/greenhive/image_8.png"
     ],
     "largeDescription": "GreenHive is a smart greenhouse system designed to intelligently manage and automate key agricultural functions. Developed primarily in Dart (97.5%), with additional support from TypeScript (1.6%) and other technologies (0.9%), this project aims to:\n\n\t• Automate climate control and irrigation through sensor integration.\n\t• Provide real-time monitoring of environmental data like humidity, temperature, and soil moisture.\n\t• Enable intelligent decision-making with predictive logic for optimized plant growth.\n\nWith a focus on sustainability and agricultural innovation, GreenHive offers a mobile-friendly dashboard that empowers users to control greenhouse conditions remotely, making it ideal for modern smart farming ecosystems.",
-    "type": "mobile"
+    "type": "mobile",
+    "techStack": [
+      "Flutter",
+      "Dart",
+      "AWS IoT Core",
+      "AWS Lambda",
+      "AWS Lex",
+      "AWS Cognito",
+      "DynamoDB",
+      "MQTT",
+      "IoT Sensors",
+      "TypeScript"
+    ]
   }
 ]
