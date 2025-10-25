@@ -53,7 +53,10 @@ class HeaderSection extends StatelessWidget {
               ),
             ),
             isMobile
-                ? const SizedBox.shrink()
+                ? IconButton(
+                    onPressed: () => Get.toNamed(route!),
+                    icon: const Icon(Icons.dashboard),
+                  )
                 : Container(
                     alignment: Alignment.centerLeft,
                     width: 190,
@@ -62,7 +65,7 @@ class HeaderSection extends StatelessWidget {
                       reset: true,
                       icon: const Icon(Icons.arrow_forward),
                       borderRadius: 12,
-                      onTap: () => isMobile ? {} : Get.toNamed(route!),
+                      onTap: () => Get.toNamed(route!),
                       width: 190,
                     ),
                   ),

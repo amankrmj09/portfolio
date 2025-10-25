@@ -5,4 +5,4 @@ export 'package:portfolio/presentation/footer/footer.screen.dart';
 export 'package:portfolio/presentation/home/home.desktop.screen.dart';
 export 'package:portfolio/presentation/profiles/profiles.screen.dart';
 export 'package:portfolio/presentation/resume/resume.screen.dart';
-export 'package:portfolio/presentation/works/works.screen.dart';
+export 'package:portfolio/presentation/projects/projects.screen.dart';

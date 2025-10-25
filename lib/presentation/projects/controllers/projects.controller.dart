@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import '../../../domain/models/project_model/project.model.dart';
 
-class WorksController extends GetxController {
+class ProjectsController extends GetxController {
   final InfoFetchController infoFetchController =
       Get.find<InfoFetchController>();
 

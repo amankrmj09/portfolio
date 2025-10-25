@@ -1,5 +1,5 @@
 import 'package:portfolio/presentation/certificate/controllers/certificate.controller.dart';
-import 'package:portfolio/presentation/works/controllers/works.controller.dart';
+import 'package:portfolio/presentation/projects/controllers/projects.controller.dart';
 import 'package:get/get.dart';
 
 import '../../../../presentation/about_me/controllers/about_me.controller.dart';
@@ -11,7 +11,7 @@ class HomeControllerBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<CertificateController>(() => CertificateController());
-    Get.lazyPut<WorksController>(() => WorksController());
+    Get.lazyPut<ProjectsController>(() => ProjectsController());
     Get.lazyPut<FooterController>(() => FooterController());
     Get.lazyPut<AboutMeController>(() => AboutMeController());
   }

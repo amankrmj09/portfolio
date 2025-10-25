@@ -7,4 +7,4 @@ export 'package:portfolio/infrastructure/navigation/bindings/controllers/home.co
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/profiles.controller.binding.dart';
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/resume.controller.binding.dart';
-export 'package:portfolio/infrastructure/navigation/bindings/controllers/works.controller.binding.dart';
+export 'package:portfolio/infrastructure/navigation/bindings/controllers/projects.controller.binding.dart';

@@ -70,7 +70,7 @@ class HomeTabletScreen extends GetView<HomeController> {
                               route: Routes.ALL_PROJECTS,
                               sectionKey: controller.recentWorksKey,
                             ),
-                            const WorksScreen(),
+                            const ProjectsScreen(),
                             HeaderSection(
                               context: context,
                               title: 'Recent Certificates',

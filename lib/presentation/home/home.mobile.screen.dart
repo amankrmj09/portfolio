@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../infrastructure/navigation/routes.dart';
 import './widgets/export.home.widget.dart';
 import 'package:portfolio/presentation/home/views/home_side_menu_drawer.dart';
-import '../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import '../../widgets/k.pretty.animated.dart';
 import '../../widgets/mesh.background.dart';
 import 'controllers/home.controller.dart';
@@ -14,19 +14,14 @@ class HomeMobileScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final InfoFetchController infoFetchController =
-        Get.find<InfoFetchController>();
-    // ignore: unused_local_variable
-    final isMobile = infoFetchController.currentDevice.value == Device.Mobile;
     return Scaffold(
       appBar: AppBar(backgroundColor: const Color(0xFF1A1A2E)),
-
-      drawer: HomeSideMenuDrawer(),
+      drawer: const HomeSideMenuDrawer(),
       backgroundColor: const Color(0xFF1A1A2E),
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned.fill(child: SharedMeshBackground()),
+          const Positioned.fill(child: SharedMeshBackground()),
           SingleChildScrollView(
             controller: controller.scrollController,
             child: Obx(
@@ -43,15 +38,16 @@ class HomeMobileScreen extends GetView<HomeController> {
                     HeaderSection(
                       context: context,
                       title: 'Recent Works',
+                      route: Routes.ALL_PROJECTS,
                       sectionKey: controller.recentWorksKey,
                     ),
                     const SizedBox(height: 10),
-                    const WorksScreen(),
+                    const ProjectsScreen(),
                     const SizedBox(height: 20),
-
                     HeaderSection(
                       context: context,
                       title: 'Recent Certificates',
+                      route: Routes.ALL_CERTIFICATES,
                       sectionKey: controller.recentCertificatesKey,
                     ),
                     const SizedBox(height: 10),
@@ -60,7 +56,7 @@ class HomeMobileScreen extends GetView<HomeController> {
                     AboutMeScreen(key: controller.aboutMeKey),
                     SizedBox(
                       height: MediaQuery.of(context).size.height,
-                      child: FooterScreen(),
+                      child: const FooterScreen(),
                     ),
                   ],
                 ),
@@ -73,41 +69,56 @@ class HomeMobileScreen extends GetView<HomeController> {
   }
 
   Widget _mainSection(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        key: controller.homeKey,
-        height: MediaQuery.of(context).size.height - kToolbarHeight,
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: kToolbarHeight),
-              Expanded(
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return SizedBox(
+      key: controller.homeKey,
+      width: double.infinity,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth < 400 ? 16.0 : 24.0,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min, // Added this
+          children: [
+            const SizedBox(height: 40), // Adjusted spacing
+
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: screenWidth - 48,
+                maxHeight: 200,
+              ),
+              child: const Center(child: KPrettyAnimated()),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: aboutMeLines(width: screenWidth, height: 150),
+            ),
+
+            // Code block
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: AbsorbPointer(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.1,
-                  child: FittedBox(
+                  width: screenWidth * 0.7,
+                  child: const FittedBox(
+                    fit: BoxFit.contain,
                     alignment: Alignment.center,
-                    fit: BoxFit.scaleDown,
-                    child: KPrettyAnimated(),
+                    child: CodeBlock(),
                   ),
                 ),
               ),
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.bottomCenter,
-                child: aboutMeLines(width: 500, height: 200),
-              ),
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.center,
-                child: AbsorbPointer(child: CodeBlock()),
-              ),
-              socialLinksRow(),
-            ],
-          ),
+            ),
+
+            // Social links
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: socialLinksRow(),
+            ),
+          ],
         ),
       ),
     );

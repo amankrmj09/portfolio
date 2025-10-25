@@ -9,7 +9,7 @@ import '../../presentation/admin/admin.screen.dart';
 import '../../presentation/certificate/views/all_certificates_view.dart';
 import '../../presentation/home/home.screen.dart';
 import '../../presentation/screens.dart';
-import '../../presentation/works/views/all_wroks_view.dart';
+import '../../presentation/projects/views/all_projects_view.dart';
 import 'bindings/controllers/controllers_bindings.dart';
 import 'routes.dart';
 
@@ -45,9 +45,9 @@ class Nav {
       binding: CertificateControllerBinding(),
     ),
     GetPage(
-      name: Routes.WORKS,
-      page: () => const WorksScreen(),
-      binding: WorksControllerBinding(),
+      name: Routes.PROJECTS,
+      page: () => const ProjectsScreen(),
+      binding: ProjectsControllerBinding(),
     ),
     GetPage(
       name: Routes.FOOTER,
@@ -74,8 +74,8 @@ class Nav {
     ),
     GetPage(
       name: Routes.ALL_PROJECTS,
-      page: () => const AllWorksView(),
-      binding: WorksControllerBinding(),
+      page: () => const AllProjectsView(),
+      binding: ProjectsControllerBinding(),
       transition: Transition.rightToLeftWithFade,
       transitionDuration: const Duration(milliseconds: 500),
       preventDuplicates: true,

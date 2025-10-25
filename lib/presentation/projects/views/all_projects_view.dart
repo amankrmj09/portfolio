@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/presentation/works/views/work_mobile_view.dart';
+import 'package:portfolio/presentation/projects/views/project_mobile_view.dart';
 import '../../../domain/models/project_model/project.model.dart';
 import '../../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import '../../../utils/all_items_view.dart';
 import '../../../widgets/k.image.dart';
-import 'work_view.dart';
-import '../controllers/works.controller.dart';
+import 'project_view.dart';
+import '../controllers/projects.controller.dart';
 
-class AllWorksView extends GetView<WorksController> {
-  const AllWorksView({super.key});
+class AllProjectsView extends GetView<ProjectsController> {
+  const AllProjectsView({super.key});
 
   @override
   Widget build(BuildContext context) {

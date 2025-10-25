@@ -97,7 +97,7 @@ class _WorkViewState extends State<WorkView> {
             child: KInfiniteScrollImage(
               images: widget.project.images,
               height: 600,
-              imageWidth: 400,
+              imageWidth: 700,
               direction: "vertical",
             ),
           ),
@@ -129,48 +129,103 @@ class _WorkViewState extends State<WorkView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Project type badge
-        if (widget.project.type.isNotEmpty)
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
-                  const Color(0xFF001529).withAlpha((0.3 * 255).toInt()),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
-                width: 1,
-              ),
-            ),
-            child: Text(
-              widget.project.type.toUpperCase(),
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: Colors.white.withAlpha((0.95 * 255).toInt()),
-                letterSpacing: 1.5,
-                fontFamily: "Poppins",
-              ),
-            ),
-          ),
-        const SizedBox(height: 20),
-
-        // Description
         Text(
-          widget.project.description,
+          widget.project.name,
           style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.w600,
+            fontSize: 28,
+            fontWeight: FontWeight.w700,
             color: Colors.white.withAlpha((0.95 * 255).toInt()),
-            fontFamily: "Poppins",
-            height: 1.4,
+            fontFamily: 'Poppins',
+            height: 1.3,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 16),
+        // // Project type badge
+        // if (widget.project.type.isNotEmpty)
+        //   Container(
+        //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        //     decoration: BoxDecoration(
+        //       gradient: LinearGradient(
+        //         colors: [
+        //           const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
+        //           const Color(0xFF001529).withAlpha((0.3 * 255).toInt()),
+        //         ],
+        //       ),
+        //       borderRadius: BorderRadius.circular(12),
+        //       border: Border.all(
+        //         color: const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
+        //         width: 1,
+        //       ),
+        //     ),
+        //     child: Text(
+        //       widget.project.type.toUpperCase(),
+        //       style: TextStyle(
+        //         fontSize: 13,
+        //         fontWeight: FontWeight.w700,
+        //         color: Colors.white.withAlpha((0.95 * 255).toInt()),
+        //         letterSpacing: 1.5,
+        //         fontFamily: "Poppins",
+        //       ),
+        //     ),
+        //   ),
+        // const SizedBox(height: 20),
+
+        // Tech stack
+        if (widget.project.techStack.isNotEmpty) ...[
+          Text(
+            'Technologies',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white.withAlpha((0.9 * 255).toInt()),
+              fontFamily: "Poppins",
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: widget.project.techStack
+                .map(
+                  (tech) => Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color(
+                            0xFF0A4A8E,
+                          ).withAlpha((0.3 * 255).toInt()),
+                          const Color(
+                            0xFF001529,
+                          ).withAlpha((0.2 * 255).toInt()),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: const Color(
+                          0xFF0A4A8E,
+                        ).withAlpha((0.4 * 255).toInt()),
+                        width: 1,
+                      ),
+                    ),
+                    child: Text(
+                      tech,
+                      style: TextStyle(
+                        color: Colors.white.withAlpha((0.9 * 255).toInt()),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+          const SizedBox(height: 24),
+        ],
 
         // Large description
         Text(
@@ -183,58 +238,6 @@ class _WorkViewState extends State<WorkView> {
           ),
         ),
         const SizedBox(height: 24),
-
-        // // Tech stack
-        // if (widget.project.techStack != null &&
-        //     widget.project.techStack!.isNotEmpty) ...[
-        //   Text(
-        //     'Technologies',
-        //     style: TextStyle(
-        //       fontSize: 16,
-        //       fontWeight: FontWeight.w600,
-        //       color: Colors.white.withOpacity(0.9),
-        //       fontFamily: "Poppins",
-        //     ),
-        //   ),
-        //   const SizedBox(height: 12),
-        //   Wrap(
-        //     spacing: 12,
-        //     runSpacing: 12,
-        //     children: widget.project.techStack!
-        //         .map(
-        //           (tech) => Container(
-        //         padding: const EdgeInsets.symmetric(
-        //           horizontal: 16,
-        //           vertical: 10,
-        //         ),
-        //         decoration: BoxDecoration(
-        //           gradient: LinearGradient(
-        //             colors: [
-        //               const Color(0xFF0A4A8E).withOpacity(0.3),
-        //               const Color(0xFF001529).withOpacity(0.2),
-        //             ],
-        //           ),
-        //           borderRadius: BorderRadius.circular(12),
-        //           border: Border.all(
-        //             color: const Color(0xFF0A4A8E).withOpacity(0.4),
-        //             width: 1,
-        //           ),
-        //         ),
-        //         child: Text(
-        //           tech,
-        //           style: TextStyle(
-        //             color: Colors.white.withOpacity(0.9),
-        //             fontSize: 14,
-        //             fontWeight: FontWeight.w600,
-        //             fontFamily: "Poppins",
-        //           ),
-        //         ),
-        //       ),
-        //     )
-        //         .toList(),
-        //   ),
-        //   const SizedBox(height: 24),
-        // ],
 
         // Project URL
         if (widget.project.url.isNotEmpty) _buildLinkRow(),
@@ -368,6 +371,7 @@ class _WorkViewState extends State<WorkView> {
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxHeight: 450),
+        padding: EdgeInsets.all(4.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
@@ -376,7 +380,7 @@ class _WorkViewState extends State<WorkView> {
           ),
         ),
         clipBehavior: Clip.antiAlias,
-        child: KInfiniteScrollImage(images: widget.project.images),
+        child: KInfiniteScrollImage(images: widget.project.images, height: 380),
       ),
     );
   }

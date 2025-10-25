@@ -80,59 +80,60 @@ class Editor extends StatelessWidget {
                             _buildAcrylicTitleBar(),
 
                             // Terminal Content
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF000000), // ✅ Deep black
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(12),
-                                    bottomRight: Radius.circular(12),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: 200,
+                              ), // adjust as needed
+                              padding: const EdgeInsets.all(16),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF000000), // ✅ Deep black
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(12),
+                                  bottomRight: Radius.circular(12),
+                                ),
+                              ),
+                              child: AnimatedTyperText(
+                                lines: [
+                                  '\$ find / -name "life.dart"\n',
+                                  '> Searching . . .\n',
+                                  '> Error: No life is found!\n',
+                                  '> Since you are a programmer, you have no life!',
+                                ],
+                                styles: [
+                                  const TextStyle(
+                                    color: Color(0xFF7EC699),
+                                    // Green prompt
+                                    fontSize: 15,
+                                    fontFamily: 'Courier',
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.5,
                                   ),
-                                ),
-                                child: AnimatedTyperText(
-                                  lines: [
-                                    '\$ find / -name "life.dart"\n',
-                                    '> Searching . . .\n',
-                                    '> Error: No life is found!\n',
-                                    '> Since you are a programmer, you have no life!',
-                                  ],
-                                  styles: [
-                                    const TextStyle(
-                                      color: Color(0xFF7EC699),
-                                      // Green prompt
-                                      fontSize: 15,
-                                      fontFamily: 'Courier',
-                                      fontWeight: FontWeight.w500,
-                                      height: 1.5,
-                                    ),
-                                    const TextStyle(
-                                      color: Color(0xFFCCAA6E), // Yellow
-                                      fontSize: 15,
-                                      fontFamily: 'Courier',
-                                      height: 1.5,
-                                    ),
-                                    const TextStyle(
-                                      color: Color(0xFFE86671),
-                                      // Red error
-                                      fontSize: 15,
-                                      fontFamily: 'Courier',
-                                      fontWeight: FontWeight.w600,
-                                      height: 1.5,
-                                    ),
-                                    TextStyle(
-                                      color: const Color(
-                                        0xFFE86671,
-                                      ).withAlpha((0.9 * 255).round()),
-                                      fontSize: 15,
-                                      fontFamily: 'Courier',
-                                      fontStyle: FontStyle.italic,
-                                      height: 1.5,
-                                    ),
-                                  ],
-                                  width: 400,
-                                  speed: const Duration(milliseconds: 60),
-                                ),
+                                  const TextStyle(
+                                    color: Color(0xFFCCAA6E), // Yellow
+                                    fontSize: 15,
+                                    fontFamily: 'Courier',
+                                    height: 1.5,
+                                  ),
+                                  const TextStyle(
+                                    color: Color(0xFFE86671),
+                                    // Red error
+                                    fontSize: 15,
+                                    fontFamily: 'Courier',
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.5,
+                                  ),
+                                  TextStyle(
+                                    color: const Color(
+                                      0xFFE86671,
+                                    ).withAlpha((0.9 * 255).round()),
+                                    fontSize: 15,
+                                    fontFamily: 'Courier',
+                                    fontStyle: FontStyle.italic,
+                                    height: 1.5,
+                                  ),
+                                ],
+                                width: 400,
+                                speed: const Duration(milliseconds: 60),
                               ),
                             ),
                           ],

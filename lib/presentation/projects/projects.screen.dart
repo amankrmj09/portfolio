@@ -1,17 +1,17 @@
 import 'dart:math';
 
-import 'package:portfolio/presentation/works/views/work_mobile_view.dart';
-import 'package:portfolio/presentation/works/views/work_view.dart';
+import 'package:portfolio/presentation/projects/views/project_mobile_view.dart';
+import 'package:portfolio/presentation/projects/views/project_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/presentation/works/widgets/k.home.projects.scroll.dart';
+import 'package:portfolio/presentation/projects/widgets/k.home.projects.scroll.dart';
 
 import '../../infrastructure/navigation/bindings/controllers/info.fetch.controller.dart';
 import '../../utils/k.showGeneralDialog.dart';
-import 'controllers/works.controller.dart';
+import 'controllers/projects.controller.dart';
 
-class WorksScreen extends GetView<WorksController> {
-  const WorksScreen({super.key});
+class ProjectsScreen extends GetView<ProjectsController> {
+  const ProjectsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -28,18 +28,18 @@ class ToolsView extends GetView<AboutMeController> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF0A1628).withOpacity(0.95),
-                  const Color(0xFF001529).withOpacity(0.9),
+                  const Color(0xFF0A1628).withAlpha((0.95 * 255).toInt()),
+                  const Color(0xFF001529).withAlpha((0.9 * 255).toInt()),
                 ],
               ),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: const Color(0xFF0A4A8E).withOpacity(0.3),
+                color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withAlpha((0.5 * 255).toInt()),
                   blurRadius: 40,
                   offset: const Offset(0, 20),
                 ),
@@ -90,7 +90,7 @@ class ToolsView extends GetView<AboutMeController> {
               fontFamily: 'Poppins',
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: Colors.white.withOpacity(0.95),
+              color: Colors.white.withAlpha((0.95 * 255).toInt()),
               letterSpacing: 0.5,
             ),
             textAlign: TextAlign.center,
@@ -105,19 +105,19 @@ class ToolsView extends GetView<AboutMeController> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF8B0000).withOpacity(0.5),
-                  const Color(0xFF4B0000).withOpacity(0.4),
+                  const Color(0xFF8B0000).withAlpha((0.5 * 255).toInt()),
+                  const Color(0xFF4B0000).withAlpha((0.4 * 255).toInt()),
                 ],
               ),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: const Color(0xFFFF4444).withOpacity(0.4),
+                color: const Color(0xFFFF4444).withAlpha((0.4 * 255).toInt()),
                 width: 1.5,
               ),
             ),
             child: Icon(
               Icons.close_rounded,
-              color: Colors.white.withOpacity(0.95),
+              color: Colors.white.withAlpha((0.95 * 255).toInt()),
               size: 20,
             ),
           ),

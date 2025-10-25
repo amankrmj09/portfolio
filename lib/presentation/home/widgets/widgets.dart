@@ -36,7 +36,6 @@ Widget verticalDivider() {
     width: 16,
     thickness: 2,
     color: Colors.black,
-    radius: BorderRadius.all(Radius.circular(40)),
   );
 }
 
@@ -45,6 +44,7 @@ Widget socialLinksRow() {
   final InfoFetchController infoController = Get.find<InfoFetchController>();
   final links = infoController.socialLinks.value;
   final isMobile = infoController.currentDevice.value == Device.Mobile;
+
   return SizedBox(
     height: 50,
     child: Row(
@@ -83,36 +83,56 @@ Widget socialLinksRow() {
   );
 }
 
-/// About Me Lines
+/// About Me Lines - Dynamic font size based on width
 Widget aboutMeLines({double? width, double? height}) {
+  final double containerWidth = width ?? 500;
+  final double containerHeight = height ?? 150;
+
+  // Calculate responsive font size based on width
+  double getResponsiveFontSize(double width) {
+    const double minWidth = 200.0; // Minimum width
+    const double maxWidth = 600.0; // Maximum width
+
+    const double minFontSize = 16.0; // Font size at minWidth
+    const double maxFontSize = 24.0; // Font size at maxWidth
+
+    // Clamp the width between min and max
+    final clampedWidth = width.clamp(minWidth, maxWidth);
+
+    // Calculate the lerp factor (0.0 to 1.0)
+    final t = (clampedWidth - minWidth) / (maxWidth - minWidth);
+
+    // Lerp between min and max font size
+    return minFontSize + (maxFontSize - minFontSize) * t;
+  }
+
+  final double fontSize = getResponsiveFontSize(containerWidth);
+
   return SizedBox(
-    height: height ?? 200,
-    width: width ?? 500,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text.rich(
-          TextSpan(
-            text: "$kHomeDisplayLineAboutMe01\n",
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
-              fontFamily: "ShantellSans",
-            ),
-            children: [
-              TextSpan(
-                text: "$kHomeDisplayLineAboutMe02\n",
-                style: const TextStyle(fontWeight: FontWeight.w400),
-              ),
-              TextSpan(
-                text: "$kHomeDisplayLineAboutMe03\n",
-                style: const TextStyle(fontWeight: FontWeight.w400),
-              ),
-            ],
-          ),
+    height: containerHeight,
+    width: containerWidth,
+    child: Text.rich(
+      TextSpan(
+        text: "$kHomeDisplayLineAboutMe01\n",
+        style: TextStyle(
+          fontSize: fontSize,
+          fontWeight: FontWeight.w800,
+          color: Colors.white,
+          fontFamily: "ShantellSans",
         ),
-      ],
+        children: [
+          TextSpan(
+            text: "$kHomeDisplayLineAboutMe02\n",
+            style: const TextStyle(fontWeight: FontWeight.w400),
+          ),
+          TextSpan(
+            text: "$kHomeDisplayLineAboutMe03\n",
+            style: const TextStyle(fontWeight: FontWeight.w400),
+          ),
+        ],
+      ),
+      maxLines: 4,
+      overflow: TextOverflow.ellipsis,
     ),
   );
 }
@@ -120,7 +140,7 @@ Widget aboutMeLines({double? width, double? height}) {
 /// Navigate Button and Social Links Row
 Widget navigateButtonAndSocialLinks(HomeController controller) {
   return SizedBox(
-    height: 100,
+    height: 120,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [

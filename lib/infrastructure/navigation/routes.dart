@@ -16,6 +16,6 @@ class Routes {
   static const FOOTER = '/footer';
   static const HOME = '/home';
   static const RESUME = '/resume';
-  static const WORKS = '/works';
+  static const PROJECTS = '/projects';
   static const PROFILES = '/profiles';
 }

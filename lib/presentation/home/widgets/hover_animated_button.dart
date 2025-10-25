@@ -1,5 +1,6 @@
 import 'package:portfolio/infrastructure/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 
 class HoverAnimatedButton extends StatefulWidget {
   final int index;
@@ -39,7 +40,8 @@ class _HoverAnimatedButtonState extends State<HoverAnimatedButton> {
             ),
             curve: Curves.easeInOut,
             transform: _isHovered
-                ? (Matrix4.identity()..scale(1.05))
+                ? (Matrix4.identity()
+                    ..scaleByVector3(vector.Vector3(1.05, 1.05, 1.0)))
                 : Matrix4.identity(),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Text(

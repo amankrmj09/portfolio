@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../../domain/models/certificate_model/certificate.model.dart';
+import '../../../domain/models/project_model/project.model.dart';
 import '../../../widgets/k.image.dart';
 
-class KCertificateCard extends StatefulWidget {
-  final CertificateModel certificate;
+class KProjectCard extends StatefulWidget {
+  final ProjectModel project;
   final VoidCallback? onTap;
   final double? width;
   final double? height;
   final bool isMobile;
 
-  const KCertificateCard({
+  const KProjectCard({
     super.key,
-    required this.certificate,
+    required this.project,
     this.onTap,
     this.width,
     this.height,
@@ -19,10 +19,10 @@ class KCertificateCard extends StatefulWidget {
   });
 
   @override
-  State<KCertificateCard> createState() => _KCertificateCardState();
+  State<KProjectCard> createState() => _KProjectCardState();
 }
 
-class _KCertificateCardState extends State<KCertificateCard> {
+class _KProjectCardState extends State<KProjectCard> {
   bool isHovered = false;
 
   @override
@@ -97,7 +97,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                     Center(
                       child: SizedBox(
                         height: imageHeight,
-                        child: KImage(url: widget.certificate.images[0]),
+                        child: KImage(url: widget.project.images[0]),
                       ),
                     ),
                     // Gradient overlay
@@ -121,6 +121,51 @@ class _KCertificateCardState extends State<KCertificateCard> {
                         ),
                       ),
                     ),
+                    // Type badge
+                    if (widget.project.type.isNotEmpty)
+                      Positioned(
+                        top: widget.isMobile ? 10 : 12,
+                        right: widget.isMobile ? 10 : 12,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: widget.isMobile ? 8 : 10,
+                            vertical: widget.isMobile ? 4 : 5,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                const Color(
+                                  0xFF0A4A8E,
+                                ).withAlpha((0.9 * 255).toInt()),
+                                const Color(
+                                  0xFF001529,
+                                ).withAlpha((0.8 * 255).toInt()),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              widget.isMobile ? 8 : 10,
+                            ),
+                            border: Border.all(
+                              color: Colors.white.withAlpha(
+                                (0.2 * 255).toInt(),
+                              ),
+                              width: 1,
+                            ),
+                          ),
+                          child: Text(
+                            widget.project.type.toUpperCase(),
+                            style: TextStyle(
+                              fontSize: widget.isMobile ? 9 : 10,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white.withAlpha(
+                                (0.95 * 255).toInt(),
+                              ),
+                              letterSpacing: 1.1,
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
 
@@ -133,7 +178,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                       children: [
                         // Title
                         Text(
-                          widget.certificate.name,
+                          widget.project.name,
                           style: TextStyle(
                             fontSize: widget.isMobile ? 16 : 20,
                             fontWeight: FontWeight.w700,
@@ -149,7 +194,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
 
                         // Description
                         Text(
-                          widget.certificate.description,
+                          widget.project.description,
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.white.withAlpha((0.8 * 255).toInt()),
@@ -162,8 +207,8 @@ class _KCertificateCardState extends State<KCertificateCard> {
 
                         const Spacer(),
 
-                        // Skills chips - ✅ Visible on all screens
-                        if (widget.certificate.skills.isNotEmpty)
+                        // Tech stack chips - ✅ Visible on all screens
+                        if (widget.project.techStack.isNotEmpty)
                           Padding(
                             padding: EdgeInsets.only(
                               bottom: widget.isMobile ? 4 : 12,
@@ -172,10 +217,10 @@ class _KCertificateCardState extends State<KCertificateCard> {
                               spacing: widget.isMobile ? 6 : 7,
                               runSpacing: widget.isMobile ? 6 : 7,
                               alignment: WrapAlignment.spaceBetween,
-                              children: widget.certificate.skills
+                              children: widget.project.techStack
                                   .take(3)
                                   .map(
-                                    (skill) => Container(
+                                    (tech) => Container(
                                       padding: EdgeInsets.symmetric(
                                         horizontal: widget.isMobile ? 8 : 10,
                                         vertical: widget.isMobile ? 4 : 5,
@@ -200,7 +245,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                         ),
                                       ),
                                       child: Text(
-                                        skill,
+                                        tech,
                                         style: TextStyle(
                                           color: Colors.white.withAlpha(
                                             (0.9 * 255).toInt(),

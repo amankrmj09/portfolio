@@ -55,22 +55,38 @@ class _KPrettyAnimatedState extends State<KPrettyAnimated> {
     super.dispose();
   }
 
+  double _getResponsiveFontSize(double screenWidth) {
+    // Define breakpoints and font sizes
+    const double minWidth = 320.0; // Mobile min width
+    const double maxWidth = 1920.0; // Desktop max width
+
+    const double minFontSize = 24.0; // Font size at minWidth
+    const double maxFontSize = 90.0; // Font size at maxWidth
+
+    // Clamp the screen width between min and max
+    final clampedWidth = screenWidth.clamp(minWidth, maxWidth);
+
+    // Calculate the lerp factor (0.0 to 1.0)
+    final t = (clampedWidth - minWidth) / (maxWidth - minWidth);
+
+    // Lerp between min and max font size
+    return minFontSize + (maxFontSize - minFontSize) * t;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final InfoFetchController infoFetchController =
-        Get.find<InfoFetchController>();
-    final double fontSize;
-    if (infoFetchController.currentDevice.value == Device.Mobile) {
-      fontSize = 40;
-    } else if (infoFetchController.currentDevice.value == Device.Tablet) {
-      fontSize = 60;
-    } else {
-      fontSize = 50;
-    }
+    Get.find<InfoFetchController>();
+
+    // Get screen width
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    // Calculate responsive font size based on width
+    final double fontSize = _getResponsiveFontSize(screenWidth);
 
     if (!mounted) {
       return const SizedBox.shrink();
     }
+
     return KeyedSubtree(
       key: ValueKey(_currentIndex),
       child: OffsetText(
@@ -83,13 +99,7 @@ class _KPrettyAnimatedState extends State<KPrettyAnimated> {
           fontSize: fontSize,
           fontFamily: 'ShantellSans',
           color: KColor.secondarySecondColor,
-          shadows: [
-            Shadow(
-              color: Colors.pinkAccent,
-              // offset: const Offset(-2, 0),
-              blurRadius: 2,
-            ),
-          ],
+          shadows: [Shadow(color: Colors.pinkAccent, blurRadius: 2)],
         ),
       ),
     );

@@ -42,11 +42,10 @@ class KCertificateScrollList extends StatelessWidget {
                 return SizedBox(
                   height: constraints.maxHeight,
                   child: KCertificateCard(
-                    isHome: false,
                     certificate: item,
                     onTap: () => onCardTap(item, context),
                     height: constraints.maxHeight - 60,
-                    fixedHeight: true,
+                    isMobile: isMobile,
                   ),
                 );
               },

@@ -11,7 +11,7 @@ import '../../widgets/k.pretty.animated.dart';
 import '../../widgets/mesh.background.dart';
 import '../certificate/certificate.screen.dart';
 import '../footer/footer.screen.dart';
-import '../works/works.screen.dart';
+import '../projects/projects.screen.dart';
 import 'controllers/home.controller.dart';
 
 class HomeDesktopScreen extends GetView<HomeController> {
@@ -61,7 +61,7 @@ class HomeDesktopScreen extends GetView<HomeController> {
                             route: Routes.ALL_PROJECTS,
                             sectionKey: controller.recentWorksKey,
                           ),
-                          const WorksScreen(),
+                          const ProjectsScreen(),
                           HeaderSection(
                             context: context,
                             title: 'Recent Certificates',
@@ -120,7 +120,7 @@ class HomeDesktopScreen extends GetView<HomeController> {
                         constraints: BoxConstraints(
                           maxWidth: 700,
                           minWidth: 200,
-                          maxHeight: 240,
+                          maxHeight: 340,
                           minHeight: 240,
                         ),
                         child: FittedBox(
