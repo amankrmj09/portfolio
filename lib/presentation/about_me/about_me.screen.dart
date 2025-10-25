@@ -35,10 +35,9 @@ class AboutMeScreen extends GetView<AboutMeController> {
             top: 68,
             bottom: 16,
           ),
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(32.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(28),
-            // ✅ Blackish-Bluish glassmorphic gradient
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -65,47 +64,56 @@ class AboutMeScreen extends GetView<AboutMeController> {
                 ? const Center(child: CircularProgressIndicator())
                 : width > 1100
                 ? SingleChildScrollView(
-                    child: Column(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Flexible(
-                              flex: 4,
-                              child: AboutMeDetailsColumn(
-                                summary:
-                                    controller.aboutMeInfo.value?.summary ?? '',
-                                profession:
-                                    controller.aboutMeInfo.value?.profession ??
-                                    '',
-                                education:
-                                    controller.aboutMeInfo.value?.education ??
-                                    '',
-                                experience:
-                                    controller.aboutMeInfo.value?.experience ??
-                                    '',
-                                email:
-                                    controller.aboutMeInfo.value?.email ?? '',
-                                interests:
-                                    controller.aboutMeInfo.value?.interests ??
-                                    [],
-                                technicalInterests:
-                                    controller
+                        // Left Column - Profile Header + Stats
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildProfileHeader(
+                                controller.aboutMeInfo.value?.profession ??
+                                    'Developer',
+                                controller.aboutMeInfo.value?.email ?? '',
+                              ),
+                              const SizedBox(height: 32),
+                              _buildSummarySection(
+                                controller.aboutMeInfo.value?.summary ?? '',
+                              ),
+                              const SizedBox(height: 32),
+                              _buildInterestsSections(
+                                controller.aboutMeInfo.value?.interests ?? [],
+                                controller
                                         .aboutMeInfo
                                         .value
                                         ?.technicalInterests ??
                                     [],
                               ),
-                            ),
-                            const SizedBox(width: 60),
-                            Flexible(
-                              flex: 3,
-                              child: AboutMeToolsColumn(
-                                profiles: controller.profiles,
-                                tools: controller.tools,
-                                experiences: controller.experiences,
+                              const SizedBox(height: 24),
+                              _buildResumeButton(),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 48),
+                        // Right Column - Summary + Tools + Experience
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            children: [
+                              _buildStatsCards(
+                                controller.aboutMeInfo.value?.experience ?? '',
+                                controller.aboutMeInfo.value?.education ?? '',
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 32),
+                              _buildSocialLinksSection(controller.profiles),
+                              const SizedBox(height: 32),
+                              _buildToolsSection(context, controller.tools),
+                              const SizedBox(height: 32),
+                              _buildExperienceSection(controller.experiences),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -132,36 +140,39 @@ class AboutMeScreen extends GetView<AboutMeController> {
                         physics: const ClampingScrollPhysics(),
                         controller: controller.scrollController,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AboutMeDetailsColumn(
-                              summary:
-                                  controller.aboutMeInfo.value?.summary ?? '',
-                              profession:
-                                  controller.aboutMeInfo.value?.profession ??
-                                  '',
-                              education:
-                                  controller.aboutMeInfo.value?.education ?? '',
-                              experience:
-                                  controller.aboutMeInfo.value?.experience ??
-                                  '',
-                              email: controller.aboutMeInfo.value?.email ?? '',
-                              interests:
-                                  controller.aboutMeInfo.value?.interests ?? [],
-                              technicalInterests:
-                                  controller
+                            _buildProfileHeader(
+                              controller.aboutMeInfo.value?.profession ??
+                                  'Developer',
+                              controller.aboutMeInfo.value?.email ?? '',
+                            ),
+                            const SizedBox(height: 24),
+                            _buildStatsCards(
+                              controller.aboutMeInfo.value?.experience ?? '',
+                              controller.aboutMeInfo.value?.education ?? '',
+                            ),
+                            const SizedBox(height: 24),
+                            _buildSummarySection(
+                              controller.aboutMeInfo.value?.summary ?? '',
+                            ),
+                            const SizedBox(height: 24),
+                            _buildInterestsSections(
+                              controller.aboutMeInfo.value?.interests ?? [],
+                              controller
                                       .aboutMeInfo
                                       .value
                                       ?.technicalInterests ??
                                   [],
                             ),
                             const SizedBox(height: 24),
-                            AboutMeToolsColumn(
-                              tools: controller.tools,
-                              experiences: controller.experiences,
-                              profiles: controller.profiles,
-                            ),
+                            _buildSocialLinksSection(controller.profiles),
+                            const SizedBox(height: 24),
+                            _buildToolsSection(context, controller.tools),
+                            const SizedBox(height: 24),
+                            _buildExperienceSection(controller.experiences),
+                            const SizedBox(height: 20),
+                            _buildResumeButton(),
                           ],
                         ),
                       ),
@@ -172,162 +183,260 @@ class AboutMeScreen extends GetView<AboutMeController> {
       ),
     );
   }
-}
 
-class AboutMeDetailsColumn extends StatelessWidget {
-  final String summary;
-  final String profession;
-  final String education;
-  final String experience;
-  final String email;
-  final List<String> interests;
-  final List<String> technicalInterests;
+  // Profile Header with Title and Email
+  Widget _buildProfileHeader(String profession, String email) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFF0A4A8E).withAlpha((0.25 * 255).toInt()),
+            const Color(0xFF001529).withAlpha((0.15 * 255).toInt()),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
+          width: 1.5,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.person_outline_rounded,
+                  size: 28,
+                  color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      profession,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'ShantellSans',
+                        color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    if (email.isNotEmpty)
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.email_outlined,
+                            size: 14,
+                            color: Colors.white.withAlpha((0.7 * 255).toInt()),
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              email,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.white.withAlpha(
+                                  (0.7 * 255).toInt(),
+                                ),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
-  const AboutMeDetailsColumn({
-    super.key,
-    required this.summary,
-    required this.profession,
-    required this.education,
-    required this.experience,
-    required this.email,
-    required this.interests,
-    required this.technicalInterests,
-  });
+  // Stats Cards for Experience and Education
+  Widget _buildStatsCards(String experience, String education) {
+    return Row(
+      children: [
+        if (experience.isNotEmpty)
+          Expanded(
+            child: _buildStatCard(Icons.timeline, 'Experience', experience),
+          ),
+        if (experience.isNotEmpty && education.isNotEmpty)
+          const SizedBox(width: 16),
+        if (education.isNotEmpty)
+          Expanded(
+            child: _buildStatCard(
+              Icons.school_outlined,
+              'Education',
+              education,
+            ),
+          ),
+      ],
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 600;
+  Widget _buildStatCard(IconData icon, String label, String value) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFF0A4A8E).withAlpha((0.2 * 255).toInt()),
+            const Color(0xFF001529).withAlpha((0.1 * 255).toInt()),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            size: 24,
+            color: Colors.white.withAlpha((0.85 * 255).toInt()),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withAlpha((0.6 * 255).toInt()),
+              letterSpacing: 0.5,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white.withAlpha((0.95 * 255).toInt()),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Summary Section
+  Widget _buildSummarySection(String summary) {
+    if (summary.trim().isEmpty) return const SizedBox.shrink();
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (summary.trim().isNotEmpty)
-          Text(
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: const Color(0xFF0A4A8E),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'About Me',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'ShantellSans',
+                color: Colors.white.withAlpha((0.95 * 255).toInt()),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xFF0A4A8E).withAlpha((0.15 * 255).toInt()),
+                const Color(0xFF001529).withAlpha((0.08 * 255).toInt()),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: const Color(0xFF0A4A8E).withAlpha((0.25 * 255).toInt()),
+              width: 1,
+            ),
+          ),
+          child: Text(
             summary,
             textAlign: TextAlign.justify,
             style: TextStyle(
-              fontSize: isMobile ? 12 : 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.white.withAlpha((0.95 * 255).toInt()),
-              height: 1.6,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withAlpha((0.9 * 255).toInt()),
+              height: 1.7,
+              letterSpacing: 0.2,
             ),
           ),
-        const SizedBox(height: 24),
-        if (profession.trim().isNotEmpty)
-          Wrap(
-            spacing: 2,
-            runSpacing: 6,
-            children: [
-              Icon(
-                Icons.work_outline,
-                size: 20,
-                color: Colors.white.withAlpha((0.9 * 255).toInt()),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Profession: ',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
-                ),
-              ),
-              Text(
-                profession,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
-                ),
-              ),
-            ],
-          ),
-        const SizedBox(height: 12),
-        if (education.trim().isNotEmpty)
-          Wrap(
-            spacing: 2,
-            runSpacing: 6,
-            children: [
-              Icon(
-                Icons.school_outlined,
-                size: 20,
-                color: Colors.white.withAlpha((0.9 * 255).toInt()),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Education: ',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
-                ),
-              ),
-              Text(
-                education,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
-                ),
-              ),
-            ],
-          ),
-        const SizedBox(height: 12),
-        if (experience.trim().isNotEmpty)
+        ),
+      ],
+    );
+  }
+
+  // Interests Sections
+  Widget _buildInterestsSections(
+    List<String> interests,
+    List<String> technicalInterests,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (interests.isNotEmpty) ...[
           Row(
             children: [
-              Icon(
-                Icons.timeline,
-                size: 20,
-                color: Colors.white.withAlpha((0.9 * 255).toInt()),
+              Container(
+                width: 4,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0A4A8E),
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
               Text(
-                'Experience: $experience',
+                'Interests',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'ShantellSans',
+                  color: Colors.white.withAlpha((0.95 * 255).toInt()),
                 ),
               ),
             ],
           ),
-        const SizedBox(height: 12),
-        if (email.trim().isNotEmpty)
-          Row(
-            children: [
-              Icon(
-                Icons.email_outlined,
-                size: 20,
-                color: Colors.white.withAlpha((0.9 * 255).toInt()),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Email: $email',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withAlpha((0.85 * 255).toInt()),
-                ),
-              ),
-            ],
-          ),
-        const SizedBox(height: 16),
-        if (interests.isNotEmpty)
-          Text(
-            'What I love to do:',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'ShantellSans',
-              color: Colors.white.withAlpha((0.95 * 255).toInt()),
-            ),
-          ),
-        if (interests.isNotEmpty) const SizedBox(height: 8),
-        if (interests.isNotEmpty)
+          const SizedBox(height: 12),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 10,
+            runSpacing: 10,
             children: interests
                 .map(
                   (interest) => Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+                      horizontal: 16,
+                      vertical: 8,
                     ),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -353,34 +462,49 @@ class AboutMeDetailsColumn extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white.withAlpha((0.9 * 255).toInt()),
                         fontWeight: FontWeight.w500,
+                        fontSize: 14,
                       ),
                     ),
                   ),
                 )
                 .toList(),
           ),
-        if (technicalInterests.isNotEmpty) const SizedBox(height: 16),
-        if (technicalInterests.isNotEmpty)
-          Text(
-            'Technical Interest:',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'ShantellSans',
-              color: Colors.white.withAlpha((0.95 * 255).toInt()),
-            ),
+        ],
+        if (interests.isNotEmpty && technicalInterests.isNotEmpty)
+          const SizedBox(height: 24),
+        if (technicalInterests.isNotEmpty) ...[
+          Row(
+            children: [
+              Container(
+                width: 4,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0A4A8E),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Technical Skills',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'ShantellSans',
+                  color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                ),
+              ),
+            ],
           ),
-        if (technicalInterests.isNotEmpty) const SizedBox(height: 8),
-        if (technicalInterests.isNotEmpty)
+          const SizedBox(height: 12),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 10,
+            runSpacing: 10,
             children: technicalInterests
                 .map(
                   (technicalInterest) => Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+                      horizontal: 16,
+                      vertical: 8,
                     ),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -406,115 +530,152 @@ class AboutMeDetailsColumn extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white.withAlpha((0.9 * 255).toInt()),
                         fontWeight: FontWeight.w500,
+                        fontSize: 14,
                       ),
                     ),
                   ),
                 )
                 .toList(),
           ),
+        ],
       ],
     );
   }
-}
 
-class AboutMeToolsColumn extends StatelessWidget {
-  final List<ToolsModel> tools;
-  final List<ExperienceModel> experiences;
-  final List<ProfileLinksModel> profiles;
-
-  const AboutMeToolsColumn({
-    super.key,
-    required this.profiles,
-    required this.tools,
-    required this.experiences,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  // Social Links Section
+  Widget _buildSocialLinksSection(List<ProfileLinksModel> profiles) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        // Tools Section
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
               children: [
+                Container(
+                  width: 4,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0A4A8E),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(width: 12),
                 Text(
-                  ' Tools I Use:',
+                  'Connect',
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                     fontFamily: 'ShantellSans',
                     color: Colors.white.withAlpha((0.95 * 255).toInt()),
                   ),
                 ),
-                IconButton(
-                  tooltip: 'View All',
-                  onPressed: () {
-                    showBlurredGeneralDialog(
-                      context: context,
-                      builder: (context) {
-                        return const ToolsView();
-                      },
-                    );
-                  },
-                  icon: Icon(
-                    Icons.dashboard,
-                    color: Colors.white.withAlpha((0.9 * 255).toInt()),
-                  ),
-                ),
               ],
             ),
-            const SizedBox(height: 16),
-            AnimatedToolsWidget(tools: tools),
+            Builder(
+              builder: (context) => IconButton(
+                tooltip: 'View All',
+                onPressed: () {
+                  showBlurredGeneralDialog(
+                    context: context,
+                    builder: (context) => const ProfilesView(),
+                  );
+                },
+                icon: Icon(
+                  Icons.open_in_new,
+                  size: 20,
+                  color: Colors.white.withAlpha((0.8 * 255).toInt()),
+                ),
+              ),
+            ),
           ],
         ),
-        const SizedBox(height: 32),
-        // Profiles Section
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        const SizedBox(height: 12),
+        AnimatedProfileWidget(profiles: profiles),
+      ],
+    );
+  }
+
+  // Tools Section
+  Widget _buildToolsSection(BuildContext context, List<ToolsModel> tools) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Container(
+                  width: 4,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0A4A8E),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(width: 12),
                 Text(
-                  ' Find me on:',
+                  'Tech Stack',
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                     fontFamily: 'ShantellSans',
                     color: Colors.white.withAlpha((0.95 * 255).toInt()),
                   ),
                 ),
-                IconButton(
-                  tooltip: 'View All',
-                  onPressed: () {
-                    showBlurredGeneralDialog(
-                      context: context,
-                      builder: (context) {
-                        return const ProfilesView();
-                      },
-                    );
-                  },
-                  icon: Icon(
-                    Icons.dashboard,
-                    color: Colors.white.withAlpha((0.9 * 255).toInt()),
-                  ),
-                ),
               ],
             ),
-            const SizedBox(height: 16),
-            AnimatedProfileWidget(profiles: profiles),
+            IconButton(
+              tooltip: 'View All',
+              onPressed: () {
+                showBlurredGeneralDialog(
+                  context: context,
+                  builder: (context) => const ToolsView(),
+                );
+              },
+              icon: Icon(
+                Icons.open_in_new,
+                size: 20,
+                color: Colors.white.withAlpha((0.8 * 255).toInt()),
+              ),
+            ),
           ],
         ),
-        const SizedBox(height: 32),
-        // Experience Card
+        const SizedBox(height: 12),
+        AnimatedToolsWidget(tools: tools),
+      ],
+    );
+  }
+
+  // Experience Section
+  Widget _buildExperienceSection(List<ExperienceModel> experiences) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: const Color(0xFF0A4A8E),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'Journey So Far',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'ShantellSans',
+                color: Colors.white.withAlpha((0.95 * 255).toInt()),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
         InkWell(
           onTap: () {
             if (!Get.isRegistered<ExperienceController>()) {
@@ -529,37 +690,27 @@ class AboutMeToolsColumn extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 24),
-        // Resume Button
-        SizedBox(
-          height: 100,
-          width: double.infinity,
-          child: viewResumeButton(),
-        ),
       ],
     );
   }
 
-  Container viewResumeButton() {
-    return Container(
-      alignment: Alignment.center,
-      height: 140,
-      width: 200,
-      child: AnimatedNavigateButton(
-        borderRadius: 16,
-        label: "View Resume",
-        // ✅ FIXED: Navigate to Resume screen instead of external URL
-        onTap: () => Get.toNamed(Routes.RESUME),
-        icon: SvgPicture.asset(
-          'assets/icons/resume.svg',
-          width: 28,
-          height: 28,
-          colorFilter: ColorFilter.mode(
-            Colors.white.withAlpha((0.95 * 255).toInt()),
-            BlendMode.srcIn,
+  // Resume Button
+  Widget _buildResumeButton() {
+    return LayoutBuilder(
+      builder: (context, constraints) => SizedBox(
+        height: 120,
+        // Use a fixed height or adjust as needed
+        child: AnimatedNavigateButton(
+          borderRadius: 16,
+          label: "View Resume",
+          onTap: () => Get.toNamed(Routes.RESUME),
+          icon: SvgPicture.asset(
+            'assets/icons/resume.svg',
+            width: 28,
+            height: 28,
           ),
+          width: 220,
         ),
-        width: 200,
       ),
     );
   }

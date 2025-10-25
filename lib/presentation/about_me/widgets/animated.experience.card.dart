@@ -32,8 +32,6 @@ class _AnimatedExperienceCardState extends State<AnimatedExperienceCard>
   late AnimationController _controller;
   late AnimationController _controllerLine;
   late Animation<Alignment> _alignmentAnim;
-
-  // ignore: unused_field
   late Animation<Alignment> _alignmentAnimLine;
   late Animation<double> _opacityAnim;
 
@@ -50,12 +48,12 @@ class _AnimatedExperienceCardState extends State<AnimatedExperienceCard>
     );
     _alignmentAnim = Tween<Alignment>(
       begin: Alignment.center,
-      end: Alignment(0, -1),
+      end: const Alignment(0, -1),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _alignmentAnimLine =
         Tween<Alignment>(
           begin: Alignment.center,
-          end: Alignment(0, -5),
+          end: const Alignment(0, -5),
         ).animate(
           CurvedAnimation(parent: _controllerLine, curve: Curves.easeInOut),
         );
@@ -65,11 +63,13 @@ class _AnimatedExperienceCardState extends State<AnimatedExperienceCard>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _timer = Timer.periodic(widget.duration, (_) {
+      if (!mounted) return;
       setState(() {
         _nextIndex = (_currentIndex + 1) % widget.experiences.length;
         _showNext = false;
       });
       _controller.forward(from: 0).then((_) {
+        if (!mounted) return;
         setState(() {
           _currentIndex = _nextIndex;
           _showNext = true;
@@ -77,6 +77,7 @@ class _AnimatedExperienceCardState extends State<AnimatedExperienceCard>
         _controller.reverse(from: 1.0);
       });
       _controllerLine.forward(from: 0).then((_) {
+        if (!mounted) return;
         _controllerLine.reverse(from: 1.0);
       });
     });
@@ -86,6 +87,7 @@ class _AnimatedExperienceCardState extends State<AnimatedExperienceCard>
   void dispose() {
     _timer?.cancel();
     _controller.dispose();
+    _controllerLine.dispose();
     super.dispose();
   }
 
@@ -93,42 +95,38 @@ class _AnimatedExperienceCardState extends State<AnimatedExperienceCard>
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.width < 650 ? widget.width : 650,
-      height: 250,
-      child: Row(
-        children: [
-          AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              if (!_showNext) {
-                return Align(
-                  alignment: _alignmentAnim.value,
-                  child: Opacity(
-                    opacity: _opacityAnim.value,
-                    child: ExperienceCard(
-                      width: widget.width,
-                      exp: widget.experiences[_currentIndex],
-                    ),
-                  ),
-                );
-              } else {
-                return Align(
-                  alignment: Alignment.lerp(
-                    Alignment(0, 1),
-                    Alignment.center,
-                    1 - _controller.value,
-                  )!,
-                  child: Opacity(
-                    opacity: 1 - _controller.value,
-                    child: ExperienceCard(
-                      width: widget.width,
-                      exp: widget.experiences[_currentIndex],
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
-        ],
+      height: 280,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          if (!_showNext) {
+            return Align(
+              alignment: _alignmentAnim.value,
+              child: Opacity(
+                opacity: _opacityAnim.value,
+                child: ExperienceCard(
+                  width: widget.width,
+                  exp: widget.experiences[_currentIndex],
+                ),
+              ),
+            );
+          } else {
+            return Align(
+              alignment: Alignment.lerp(
+                const Alignment(0, 1),
+                Alignment.center,
+                1 - _controller.value,
+              )!,
+              child: Opacity(
+                opacity: 1 - _controller.value,
+                child: ExperienceCard(
+                  width: widget.width,
+                  exp: widget.experiences[_currentIndex],
+                ),
+              ),
+            );
+          }
+        },
       ),
     );
   }
@@ -156,25 +154,20 @@ class _ExperienceCardState extends State<ExperienceCard> {
   final Random _random = Random();
 
   List<AuraSpot> randomizeAuraSpots() {
-    // Minimum values
-    const minRadius = 50.0;
-    const maxRadius = 180.0;
-    const minBlur = 4.0;
-    const maxBlur = 16.0;
+    const minRadius = 60.0;
+    const maxRadius = 200.0;
+    const minBlur = 6.0;
+    const maxBlur = 20.0;
     final alignments = [
       Alignment.topLeft,
       Alignment.topRight,
       Alignment.bottomLeft,
       Alignment.bottomRight,
       Alignment.center,
-      Alignment.centerLeft,
-      Alignment.centerRight,
-      Alignment.topCenter,
-      Alignment.bottomCenter,
     ];
     final colors = [
-      Color(0xFF7F53AC), // Soft Purple
-      Color(0xFF647DEE),
+      const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
+      const Color(0xFF001529).withAlpha((0.3 * 255).toInt()),
     ];
     return List.generate(colors.length, (i) {
       final double radius =
@@ -198,77 +191,187 @@ class _ExperienceCardState extends State<ExperienceCard> {
     return Container(
       clipBehavior: Clip.hardEdge,
       width: widget.width < 600 ? widget.width : 600,
-
       decoration: BoxDecoration(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Color.lerp(Colors.transparent, Colors.white, 0.6)!,
-          width: 1,
+          color: const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
+          width: 1.5,
         ),
       ),
       child: RepaintBoundary(
         child: AuraBox(
           spots: _auraSpots,
           decoration: BoxDecoration(
-            color: Color.lerp(Colors.black, Colors.transparent, 0.95),
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xFF0A1628).withAlpha((0.95 * 255).toInt()),
+                const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
+              ],
+            ),
             shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(20),
           ),
-          child: AnimatedPadding(
-            duration: const Duration(milliseconds: 600),
-            curve: Curves.easeInOut,
-            padding: const EdgeInsets.all(24.0),
+          child: Padding(
+            padding: const EdgeInsets.all(28.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  exp.title,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Wrap(
-                  spacing: 36,
-                  alignment: WrapAlignment.spaceBetween,
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  runAlignment: WrapAlignment.spaceBetween,
+                // Title with accent
+                Row(
                   children: [
-                    Text(
-                      exp.company,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyLarge?.copyWith(color: Colors.blueGrey),
-                    ),
-                    if (exp.location.isNotEmpty)
-                      Text(
-                        exp.location,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.blueGrey,
-                        ),
+                    Container(
+                      width: 4,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0A4A8E),
+                        borderRadius: BorderRadius.circular(2),
                       ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        exp.title,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'ShantellSans',
+                          color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  '${exp.startDate} - ${exp.endDate}',
-                  style: Theme.of(context).textTheme.bodySmall,
+                const SizedBox(height: 16),
+                // Company and Location
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.business_outlined,
+                            size: 16,
+                            color: Colors.white.withAlpha((0.7 * 255).toInt()),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              exp.company,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white.withAlpha(
+                                  (0.85 * 255).toInt(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (exp.location.isNotEmpty) ...[
+                      const SizedBox(width: 16),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on_outlined,
+                            size: 16,
+                            color: Colors.white.withAlpha((0.7 * 255).toInt()),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            exp.location,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white.withAlpha(
+                                (0.7 * 255).toInt(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
+                // Date
+                Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      size: 14,
+                      color: Colors.white.withAlpha((0.6 * 255).toInt()),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      '${exp.startDate} - ${exp.endDate}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white.withAlpha((0.6 * 255).toInt()),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Description
                 Text(
                   exp.description,
-                  maxLines: 2,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14,
+                    height: 1.5,
+                    color: Colors.white.withAlpha((0.85 * 255).toInt()),
+                  ),
                 ),
                 if (exp.technologies.isNotEmpty) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
+                  // Technologies
                   Wrap(
-                    spacing: 6,
-                    children: exp.technologies
-                        .map((tech) => Chip(label: Text(tech)))
-                        .toList(),
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: exp.technologies.take(4).map((tech) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              const Color(
+                                0xFF0A4A8E,
+                              ).withAlpha((0.3 * 255).toInt()),
+                              const Color(
+                                0xFF001529,
+                              ).withAlpha((0.2 * 255).toInt()),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: const Color(
+                              0xFF0A4A8E,
+                            ).withAlpha((0.4 * 255).toInt()),
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          tech,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white.withAlpha((0.9 * 255).toInt()),
+                          ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ],
               ],
