@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:atlas_icons/atlas_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,12 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:portfolio/domain/models/contact_details_model/contact.details.model.dart';
 import 'package:portfolio/infrastructure/dal/services/add.contact.service.dart';
 import 'package:get/get.dart';
-
 import '../../../infrastructure/dal/services/ping.server.dart';
-import '../../../infrastructure/theme/colors.dart';
-
-// Moved to utils/show_decorated_toast.dart
-// Please import and use showDecoratedToast from utils.
 
 class ContactMeView extends StatefulWidget {
   const ContactMeView({super.key});
@@ -23,7 +17,6 @@ class ContactMeView extends StatefulWidget {
 
 class _ContactMeViewState extends State<ContactMeView> {
   final _formKey = GlobalKey<FormState>();
-
   final _nameController = TextEditingController();
   final _countryCodeController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -56,19 +49,17 @@ class _ContactMeViewState extends State<ContactMeView> {
 
   Future<void> _ping(PingServerService pingServerService) async {
     final Logger logger = Logger();
-    {
-      try {
-        final result = await pingServerService.ping();
-        if (result == 'true') {
-          logger.i('Server connected');
-        } else {
-          logger.w('Server not connected, try again');
-        }
-      } catch (e) {
-        logger.e('Server not connected, try again');
+    try {
+      final result = await pingServerService.ping();
+      if (result == 'true') {
+        logger.i('Server connected');
+      } else {
+        logger.w('Server not connected, try again');
       }
-      await Future.delayed(const Duration(seconds: 5));
+    } catch (e) {
+      logger.e('Server not connected, try again');
     }
+    await Future.delayed(const Duration(seconds: 5));
   }
 
   Future<void> _handleSubmit(BuildContext context) async {
@@ -97,6 +88,7 @@ class _ContactMeViewState extends State<ContactMeView> {
     final AddContactService addContactService = AddContactService();
     final response = await addContactService.addContact(contactForm);
     _logger.i('Response from server: ${jsonEncode(contactForm.toJson())}');
+
     if (response == 'true') {
       Get.closeAllSnackbars();
       Get.snackbar(
@@ -137,23 +129,52 @@ class _ContactMeViewState extends State<ContactMeView> {
   }) {
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(color: Colors.black54),
-      floatingLabelBehavior: FloatingLabelBehavior.never,
-      prefixIcon: Icon(icon, color: Colors.black),
+      labelStyle: TextStyle(
+        color: Colors.white.withAlpha((0.7 * 255).round()),
+        fontSize: 15,
+        fontFamily: 'Poppins',
+      ),
+      floatingLabelBehavior: FloatingLabelBehavior.auto,
+      prefixIcon: Icon(
+        icon,
+        color: Colors.white.withAlpha((0.8 * 255).round()),
+        size: 22,
+      ),
       filled: true,
-      fillColor: KColor.primaryColor,
+      fillColor: const Color(0xFF001529).withAlpha((0.4 * 255).round()),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.black),
+        borderSide: BorderSide(
+          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).round()),
+          width: 1.5,
+        ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.black),
+        borderSide: BorderSide(
+          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).round()),
+          width: 1.5,
+        ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: KColor.secondarySecondColor, width: 2),
+        borderSide: BorderSide(
+          color: const Color(0xFF0A4A8E).withAlpha((0.7 * 255).round()),
+          width: 2,
+        ),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(
+          color: Colors.red.withAlpha((0.5 * 255).round()),
+          width: 1.5,
+        ),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.red, width: 2),
+      ),
+      errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
     );
   }
 
@@ -172,12 +193,15 @@ class _ContactMeViewState extends State<ContactMeView> {
   }) {
     final field = TextFormField(
       controller: controller,
-      style: const TextStyle(color: Colors.black),
+      style: TextStyle(
+        color: Colors.white.withAlpha((0.95 * 255).round()),
+        fontSize: 15,
+        fontFamily: 'Poppins',
+      ),
       textAlign: TextAlign.start,
       minLines: minLines,
       maxLines: maxLines,
       keyboardType: keyboardType,
-
       decoration: _inputDecoration(label: label, icon: icon, context: context),
       validator: validator,
       textInputAction: textInputAction,
@@ -194,19 +218,37 @@ class _ContactMeViewState extends State<ContactMeView> {
             "Contact Me",
             style: TextStyle(
               fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: KColor.primarySecondColor,
-              fontFamily: 'ShantellSans',
+              fontWeight: FontWeight.w700,
+              color: Colors.white.withAlpha((0.95 * 255).round()),
+              fontFamily: 'Poppins',
+              letterSpacing: 0.5,
             ),
           ),
         ),
-        IconButton(
-          icon: const Icon(Icons.close, size: 28, weight: 900),
-          onPressed: () => Navigator.of(context).maybePop(),
-          tooltip: 'Close',
-          style: ButtonStyle(
-            iconColor: WidgetStateProperty.all(KColor.primarySecondColor),
-            overlayColor: WidgetStateProperty.all(Colors.white12),
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xFF8B0000).withAlpha((0.4 * 255).round()),
+                const Color(0xFF4B0000).withAlpha((0.3 * 255).round()),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: const Color(0xFFFF4444).withAlpha((0.3 * 255).round()),
+              width: 1,
+            ),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.close_rounded, size: 24),
+            onPressed: () => Navigator.of(context).maybePop(),
+            tooltip: 'Close',
+            color: Colors.white.withAlpha((0.95 * 255).round()),
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.all(
+                const Color(0xFFFF4444).withAlpha((0.2 * 255).round()),
+              ),
+            ),
           ),
         ),
       ],
@@ -221,149 +263,212 @@ class _ContactMeViewState extends State<ContactMeView> {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(24),
             width: 600,
-            height:
-                (MediaQuery.of(context).size.height > 776
-                    ? MediaQuery.of(context).size.height
-                    : 776) -
-                80,
+            // ✅ REMOVED: Fixed height constraints
+            // Now container auto-sizes to content
             decoration: BoxDecoration(
-              color: const Color(0xFF1A1A2E),
-              borderRadius: BorderRadius.circular(24),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFF0A1628).withAlpha((0.95 * 255).round()),
+                  const Color(0xFF001529).withAlpha((0.9 * 255).round()),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(
+                color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).round()),
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withAlpha((0.5 * 255).round()),
+                  blurRadius: 40,
+                  offset: const Offset(0, 20),
+                ),
+              ],
             ),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.min, // ✅ Auto-size to content
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildHeader(context),
-                const Divider(height: 1),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: Center(
-                    child: SingleChildScrollView(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _buildTextFormField(
-                              controller: _nameController,
-                              label: 'Full Name',
-                              icon: Atlas.users,
+                const SizedBox(height: 8),
+                Divider(
+                  height: 1,
+                  color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).round()),
+                ),
+                const SizedBox(height: 24),
+                // ✅ REMOVED: Expanded widget that was forcing height
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildTextFormField(
+                        controller: _nameController,
+                        label: 'Full Name',
+                        icon: Atlas.users,
+                        context: context,
+                        validator: (value) =>
+                            value == null || value.trim().isEmpty
+                            ? 'Please enter your name'
+                            : null,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {},
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          _buildTextFormField(
+                            controller: _countryCodeController,
+                            label: '+91',
+                            icon: Icons.flag_outlined,
+                            width: 100,
+                            keyboardType: TextInputType.phone,
+                            context: context,
+                            validator: (value) =>
+                                value == null || value.trim().isEmpty
+                                ? 'Code?'
+                                : null,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) {},
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _buildTextFormField(
+                              controller: _phoneController,
+                              label: 'Phone Number',
+                              icon: Atlas.phonebook,
+                              keyboardType: TextInputType.phone,
                               context: context,
                               validator: (value) =>
                                   value == null || value.trim().isEmpty
-                                  ? 'Please enter your name'
+                                  ? 'Phone?'
                                   : null,
                               textInputAction: TextInputAction.next,
-                              onFieldSubmitted: (_) => {_handleSubmit(context)},
+                              onFieldSubmitted: (_) {},
                             ),
-                            const SizedBox(height: 20),
-                            Row(
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      _buildTextFormField(
+                        controller: _emailController,
+                        label: 'Email Address',
+                        icon: Atlas.inbox_mailbox,
+                        keyboardType: TextInputType.emailAddress,
+                        context: context,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Email?';
+                          }
+                          final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                          if (!emailRegex.hasMatch(value.trim())) {
+                            return 'Invalid email';
+                          }
+                          return null;
+                        },
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {},
+                      ),
+                      const SizedBox(height: 20),
+                      _buildTextFormField(
+                        controller: _messageController,
+                        label: 'Message',
+                        icon: Icons.message_outlined,
+                        minLines: 1,
+                        maxLines: 6,
+                        context: context,
+                        validator: (value) =>
+                            value == null || value.trim().isEmpty
+                            ? 'Message?'
+                            : null,
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmitted: (_) => _handleSubmit(context),
+                      ),
+                      const SizedBox(height: 28),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => _handleSubmit(context),
+                          style:
+                              ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 40,
+                                  vertical: 18,
+                                ),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ).copyWith(
+                                backgroundColor:
+                                    WidgetStateProperty.resolveWith((states) {
+                                      if (states.contains(
+                                        WidgetState.pressed,
+                                      )) {
+                                        return const Color(
+                                          0xFF0A4A8E,
+                                        ).withAlpha((0.7 * 255).round());
+                                      }
+                                      if (states.contains(
+                                        WidgetState.hovered,
+                                      )) {
+                                        return const Color(
+                                          0xFF0A4A8E,
+                                        ).withAlpha((0.6 * 255).round());
+                                      }
+                                      return const Color(
+                                        0xFF0A4A8E,
+                                      ).withAlpha((0.5 * 255).round());
+                                    }),
+                              ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  const Color(0xFF0A4A8E).withAlpha(0),
+                                  const Color(0xFF001529).withAlpha(0),
+                                ],
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _buildTextFormField(
-                                  controller: _countryCodeController,
-                                  label: '+91',
-                                  icon: Icons.flag_outlined,
-                                  width: 100,
-                                  keyboardType: TextInputType.phone,
-                                  context: context,
-                                  validator: (value) =>
-                                      value == null || value.trim().isEmpty
-                                      ? 'Code?'
-                                      : null,
-                                  textInputAction: TextInputAction.next,
-                                  onFieldSubmitted: (_) => {
-                                    _handleSubmit(context),
-                                  },
+                                Icon(
+                                  Icons.send_rounded,
+                                  size: 20,
+                                  color: Colors.white.withAlpha(
+                                    (0.95 * 255).round(),
+                                  ),
                                 ),
                                 const SizedBox(width: 12),
-                                Expanded(
-                                  child: _buildTextFormField(
-                                    controller: _phoneController,
-                                    label: 'Phone Number',
-                                    icon: Atlas.phonebook,
-                                    keyboardType: TextInputType.phone,
-                                    context: context,
-                                    validator: (value) =>
-                                        value == null || value.trim().isEmpty
-                                        ? 'Phone?'
-                                        : null,
-                                    textInputAction: TextInputAction.next,
-                                    onFieldSubmitted: (_) => {
-                                      _handleSubmit(context),
-                                    },
+                                Text(
+                                  'Send',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'Poppins',
+                                    letterSpacing: 0.5,
+                                    color: Colors.white.withAlpha(
+                                      (0.95 * 255).round(),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 20),
-                            _buildTextFormField(
-                              controller: _emailController,
-                              label: 'Email Address',
-                              icon: Atlas.inbox_mailbox,
-                              keyboardType: TextInputType.emailAddress,
-                              context: context,
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'Email?';
-                                }
-                                final emailRegex = RegExp(
-                                  r'^[^@]+@[^@]+\.[^@]+',
-                                );
-                                if (!emailRegex.hasMatch(value.trim())) {
-                                  return 'Invalid email';
-                                }
-                                return null;
-                              },
-                              textInputAction: TextInputAction.next,
-                              onFieldSubmitted: (_) => {_handleSubmit(context)},
-                            ),
-                            const SizedBox(height: 20),
-                            _buildTextFormField(
-                              controller: _messageController,
-                              label: 'Message',
-                              icon: Icons.message_outlined,
-                              minLines: 1,
-                              maxLines: 8,
-                              context: context,
-                              validator: (value) =>
-                                  value == null || value.trim().isEmpty
-                                  ? 'Message?'
-                                  : null,
-                              textInputAction: TextInputAction.done,
-                              onFieldSubmitted: (_) => {_handleSubmit(context)},
-                            ),
-                            const SizedBox(height: 24),
-                            ElevatedButton(
-                              onPressed: () => {_handleSubmit(context)},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: KColor.secondaryColor,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 40,
-                                  vertical: 20,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              child: const Text(
-                                'Submit',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
+                const SizedBox(height: 8), // Bottom padding
               ],
             ),
           ),

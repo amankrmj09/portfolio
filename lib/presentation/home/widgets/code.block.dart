@@ -1,138 +1,229 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'animated_typer_text.dart';
+import 'code_block_controller.dart';
 
-class CodeBlock extends StatefulWidget {
+class CodeBlock extends StatelessWidget {
   const CodeBlock({super.key});
 
   @override
-  State<CodeBlock> createState() => _CodeBlockState();
-}
-
-class _CodeBlockState extends State<CodeBlock>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _slideEditor;
-
-  @override
-  void initState() {
-    _controller = AnimationController(
-      duration: Duration(milliseconds: 800),
-      vsync: this,
-    )..forward();
-    _slideEditor = Tween<double>(
-      begin: 0,
-      end: -20,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CodeBlockController());
     return Stack(
       children: [
-        AnimatedBuilder(
-          builder: (context, child) {
-            return Positioned(
-              left: _slideEditor.value,
-              top: _slideEditor.value,
-              child: child!,
-            );
-          },
-          animation: _slideEditor,
-          child: Opacity(opacity: 0.4, child: Editor(isBackground: true)),
+        Obx(
+          () => Positioned(
+            left: controller.slideValue.value,
+            top: controller.slideValue.value,
+            child: Opacity(
+              opacity: 0.4,
+              child: const Editor(isBackground: true),
+            ),
+          ),
         ),
-        Editor(),
+        const Editor(),
       ],
     );
   }
 }
 
 class Editor extends StatelessWidget {
-  Editor({super.key, this.isBackground = false});
+  const Editor({super.key, this.isBackground = false});
 
   final bool isBackground;
-  final btnColors = [Colors.yellow, Colors.green, Colors.red];
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      child: InkWell(
-        onTap: () {
-          Get.toNamed('/cli');
-        },
-        child: Container(
-          width: 400,
-          height: 250,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            border: Border.all(width: 1, color: Colors.black12),
-            color: Colors.black,
-          ),
-          padding: const EdgeInsets.all(12.0),
-          margin: const EdgeInsets.only(left: 25.0, top: 25.0, bottom: 25.0),
-          child: isBackground
-              ? SizedBox()
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ...btnColors.map(
-                          (color) => Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.circle, size: 14, color: color),
-                              SizedBox(width: 10),
-                            ],
-                          ),
-                        ),
-                      ],
+    final RxBool isHovered = false.obs;
+    return Padding(
+      padding: const EdgeInsets.only(right: 32),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: MouseRegion(
+          onEnter: (_) => isHovered.value = true,
+          onExit: (_) => isHovered.value = false,
+          child: Obx(
+            () => AnimatedScale(
+              scale: isHovered.value ? 1.02 : 1.0,
+              duration: const Duration(milliseconds: 200),
+              child: InkWell(
+                onTap: () => Get.toNamed('/cli'),
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  width: 420,
+                  height: 260,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: const Color(0xFF000000),
+                    border: Border.all(
+                      color: Colors.white.withAlpha((0.08 * 255).round()),
+                      width: 1,
                     ),
-                    AnimatedTyperText(
-                      lines: [
-                        '\$ find / name -"life.dart"\n',
-                        '> Searching . . .\n',
-                        '> Error: No life is found!\n',
-                        '> Since you are a programmer, you have no life!',
-                      ],
-                      styles: [
-                        Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontFamily: 'ShantellSans',
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withAlpha((0.12 * 255).round()),
+                        blurRadius: 18,
+                        offset: const Offset(0, 8),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(0),
+                  margin: const EdgeInsets.only(left: 25, top: 25, bottom: 25),
+                  child: isBackground
+                      ? const SizedBox()
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Acrylic macOS Title Bar
+                            _buildAcrylicTitleBar(),
+
+                            // Terminal Content
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF000000), // ✅ Deep black
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(12),
+                                    bottomRight: Radius.circular(12),
+                                  ),
+                                ),
+                                child: AnimatedTyperText(
+                                  lines: [
+                                    '\$ find / -name "life.dart"\n',
+                                    '> Searching . . .\n',
+                                    '> Error: No life is found!\n',
+                                    '> Since you are a programmer, you have no life!',
+                                  ],
+                                  styles: [
+                                    const TextStyle(
+                                      color: Color(0xFF7EC699),
+                                      // Green prompt
+                                      fontSize: 15,
+                                      fontFamily: 'Courier',
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5,
+                                    ),
+                                    const TextStyle(
+                                      color: Color(0xFFCCAA6E), // Yellow
+                                      fontSize: 15,
+                                      fontFamily: 'Courier',
+                                      height: 1.5,
+                                    ),
+                                    const TextStyle(
+                                      color: Color(0xFFE86671),
+                                      // Red error
+                                      fontSize: 15,
+                                      fontFamily: 'Courier',
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.5,
+                                    ),
+                                    TextStyle(
+                                      color: const Color(
+                                        0xFFE86671,
+                                      ).withAlpha((0.9 * 255).round()),
+                                      fontSize: 15,
+                                      fontFamily: 'Courier',
+                                      fontStyle: FontStyle.italic,
+                                      height: 1.5,
+                                    ),
+                                  ],
+                                  width: 400,
+                                  speed: const Duration(milliseconds: 60),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        TextStyle(
-                          color: Colors.yellow,
-                          fontSize: 16,
-                          fontFamily: 'ShantellSans',
-                        ),
-                        TextStyle(
-                          color: Colors.red,
-                          fontSize: 16,
-                          fontFamily: 'ShantellSans',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        TextStyle(
-                          color: Colors.red,
-                          fontSize: 16,
-                          fontFamily: 'ShantellSans',
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ],
-                      width: 400,
-                      speed: const Duration(milliseconds: 60),
-                    ),
-                  ],
                 ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAcrylicTitleBar() {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(12),
+        topRight: Radius.circular(12),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // ✅ Acrylic blur
+        child: Container(
+          height: 40,
+          decoration: BoxDecoration(
+            // ✅ Semi-transparent gradient for acrylic effect
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white.withAlpha((0.08 * 255).round()),
+                Colors.white.withAlpha((0.05 * 255).round()),
+              ],
+            ),
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withAlpha((0.1 * 255).round()),
+                width: 1,
+              ),
+            ),
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 12),
+              // macOS Traffic Light Buttons
+              _buildTrafficLight(const Color(0xFFED6A5E), Icons.close),
+              const SizedBox(width: 8),
+              _buildTrafficLight(const Color(0xFFF5BF4F), Icons.minimize),
+              const SizedBox(width: 8),
+              _buildTrafficLight(const Color(0xFF61C554), Icons.fullscreen),
+              const SizedBox(width: 16),
+              // Terminal Title
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Terminal',
+                    style: TextStyle(
+                      color: Colors.white.withAlpha((0.9 * 255).round()),
+                      // ✅ Brighter on acrylic
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'SF Pro',
+                      letterSpacing: 0.2,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 80), // Balance for centered title
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTrafficLight(Color color, IconData icon) {
+    return Container(
+      width: 12,
+      height: 12,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: color.withAlpha((0.5 * 255).round()),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
+          ),
+        ],
+        border: Border.all(
+          color: color.withAlpha((0.5 * 255).round()),
+          width: 0.5,
         ),
       ),
     );
