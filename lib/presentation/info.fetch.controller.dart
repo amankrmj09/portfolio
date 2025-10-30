@@ -6,6 +6,8 @@ import 'package:portfolio/domain/models/resume_model/resume_model.dart';
 import '../domain/models/export.models.dart';
 import '../infrastructure/dal/services/export.service.dart';
 import '../infrastructure/dal/services/resume.fetch.service.dart';
+import '../infrastructure/dal/services/remote_data_service/fetch_service.dart';
+import '../configs/constant_strings.dart';
 
 // ignore: constant_identifier_names
 enum Device { Desktop, Tablet, Mobile }
@@ -192,28 +194,38 @@ class InfoFetchController extends GetxController {
   void onInit() {
     super.onInit();
     _fetchAll();
+    _fetchAndLogGoogleDriveJson();
+  }
+
+  Future<void> _fetchAndLogGoogleDriveJson() async {
+    try {
+      final service = GoogleDriveFetchService();
+      final json = await service.fetchJson(remoteJSONUrl);
+      log('Google Drive JSON: $json', name: 'GoogleDriveFetchService');
+    } catch (e, stack) {
+      log(
+        'Failed to fetch Google Drive JSON: $e',
+        name: 'GoogleDriveFetchService',
+        stackTrace: stack,
+      );
+    }
   }
 
   Future<void> _fetchAll() async {
-    final fetchFunctions = [
-      fetchSocialLinks,
-      fetchCertificates,
-      fetchProjects,
-      fetchProfileLinks,
-      fetchQuotes,
-      fetchAboutMeInfo,
-      fetchTools,
-      fetchExperiences,
-      fetchResumeInfo,
-    ];
-
-    for (final fetch in fetchFunctions) {
-      try {
-        await fetch();
-      } catch (e, stack) {
-        log('Error in fetch: $e', stackTrace: stack);
-      }
-      await Future.delayed(const Duration(milliseconds: 200));
-    }
+    fetchSocialLinks();
+    await Future.delayed(const Duration(milliseconds: 3000));
+    fetchCertificates();
+    await Future.delayed(const Duration(milliseconds: 3000));
+    fetchProjects();
+    await Future.delayed(const Duration(milliseconds: 3000));
+    fetchProfileLinks();
+    await Future.delayed(const Duration(milliseconds: 3000));
+    fetchQuotes();
+    await Future.delayed(const Duration(milliseconds: 3000));
+    fetchAboutMeInfo();
+    await Future.delayed(const Duration(milliseconds: 3000));
+    fetchTools();
+    await Future.delayed(const Duration(milliseconds: 3000));
+    fetchExperiences();
   }
 }

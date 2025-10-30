@@ -5,7 +5,7 @@ import '../controllers/home.controller.dart';
 class HomeFloatingMenuBar extends GetView<HomeController> {
   HomeFloatingMenuBar({super.key});
 
-  final List<String> labels = ['Home', 'Works', 'Certificates', 'About Me'];
+  final List<String> labels = ['Home', 'About Me', 'Works', 'Certificates'];
 
   @override
   Widget build(BuildContext context) {

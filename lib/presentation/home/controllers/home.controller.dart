@@ -35,7 +35,7 @@ class HomeController extends GetxController {
 
   // Constructor initializes the keys
   HomeController() {
-    sectionKeys = [homeKey, recentWorksKey, recentCertificatesKey, aboutMeKey];
+    sectionKeys = [homeKey, aboutMeKey, recentWorksKey, recentCertificatesKey];
   }
 
   // Navigation actions: scrolls to section and updates selected tab

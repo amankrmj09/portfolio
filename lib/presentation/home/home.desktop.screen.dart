@@ -33,7 +33,7 @@ class HomeDesktopScreen extends GetView<HomeController> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Positioned.fill(child: SharedMeshBackground()),
+            Positioned.fill(child: const SharedMeshBackground()),
             Theme(
               data: theme,
               child: ScrollConfiguration(
@@ -50,32 +50,31 @@ class HomeDesktopScreen extends GetView<HomeController> {
                     thickness: 8,
                     radius: const Radius.circular(8),
                     interactive: true,
-                    child: SingleChildScrollView(
+                    child: ListView(
                       controller: controller.scrollController,
-                      child: Column(
-                        children: [
-                          _mainSection(context),
-                          HeaderSection(
-                            context: context,
-                            title: 'Recent Works',
-                            route: Routes.ALL_PROJECTS,
-                            sectionKey: controller.recentWorksKey,
-                          ),
-                          const ProjectsScreen(),
-                          HeaderSection(
-                            context: context,
-                            title: 'Recent Certificates',
-                            route: Routes.ALL_CERTIFICATES,
-                            sectionKey: controller.recentCertificatesKey,
-                          ),
-                          const CertificateScreen(),
-                          AboutMeScreen(key: controller.aboutMeKey),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height,
-                            child: const FooterScreen(),
-                          ),
-                        ],
-                      ),
+                      padding: EdgeInsets.zero,
+                      children: [
+                        _mainSection(context),
+                        AboutMeScreen(key: controller.aboutMeKey),
+                        HeaderSection(
+                          context: context,
+                          title: 'Recent Works',
+                          route: Routes.ALL_PROJECTS,
+                          sectionKey: controller.recentWorksKey,
+                        ),
+                        const ProjectsScreen(),
+                        HeaderSection(
+                          context: context,
+                          title: 'Recent Certificates',
+                          route: Routes.ALL_CERTIFICATES,
+                          sectionKey: controller.recentCertificatesKey,
+                        ),
+                        const CertificateScreen(),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          child: const FooterScreen(),
+                        ),
+                      ],
                     ),
                   ),
                 ),

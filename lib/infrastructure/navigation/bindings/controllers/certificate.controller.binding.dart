@@ -5,6 +5,6 @@ import '../../../../presentation/certificate/controllers/certificate.controller.
 class CertificateControllerBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put<CertificateController>(CertificateController());
+    Get.lazyPut<CertificateController>(() => CertificateController());
   }
 }

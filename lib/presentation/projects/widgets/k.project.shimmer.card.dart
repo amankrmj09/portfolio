@@ -49,8 +49,8 @@ class KProjectShimmerCard extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: Shimmer.fromColors(
-        baseColor: Colors.grey[800]!,
-        highlightColor: Colors.grey[600]!,
+        baseColor: const Color(0xFF0A4A8E).withAlpha((0.2 * 255).toInt()),
+        highlightColor: const Color(0xFF001529).withAlpha((0.4 * 255).toInt()),
         child: Column(
           mainAxisSize: height != null ? MainAxisSize.max : MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,7 @@ class KProjectShimmerCard extends StatelessWidget {
                   child: Container(
                     height: imageHeight,
                     width: double.infinity,
-                    color: Colors.grey[700],
+                    color: Colors.white.withAlpha((0.1 * 255).toInt()),
                   ),
                 ),
                 // Gradient overlay
@@ -95,8 +95,14 @@ class KProjectShimmerCard extends StatelessWidget {
                     width: isMobile ? 48 : 56,
                     height: isMobile ? 18 : 20,
                     decoration: BoxDecoration(
-                      color: Colors.grey[700],
+                      color: Colors.white.withAlpha((0.1 * 255).toInt()),
                       borderRadius: BorderRadius.circular(isMobile ? 8 : 10),
+                      border: Border.all(
+                        color: const Color(
+                          0xFF0A4A8E,
+                        ).withAlpha((0.3 * 255).toInt()),
+                        width: 1,
+                      ),
                     ),
                   ),
                 ),
@@ -114,7 +120,7 @@ class KProjectShimmerCard extends StatelessWidget {
                       width: cardWidth * 0.7,
                       height: isMobile ? 18 : 22,
                       decoration: BoxDecoration(
-                        color: Colors.grey[700],
+                        color: Colors.white.withAlpha((0.2 * 255).toInt()),
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
@@ -124,7 +130,7 @@ class KProjectShimmerCard extends StatelessWidget {
                       width: cardWidth * 0.9,
                       height: isMobile ? 14 * 3.5 : 14 * 2.8,
                       decoration: BoxDecoration(
-                        color: Colors.grey[700],
+                        color: Colors.white.withAlpha((0.15 * 255).toInt()),
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
@@ -141,8 +147,16 @@ class KProjectShimmerCard extends StatelessWidget {
                             width: 60,
                             height: 22,
                             decoration: BoxDecoration(
-                              color: Colors.grey[700],
+                              color: Colors.white.withAlpha(
+                                (0.1 * 255).toInt(),
+                              ),
                               borderRadius: BorderRadius.circular(7),
+                              border: Border.all(
+                                color: const Color(
+                                  0xFF0A4A8E,
+                                ).withAlpha((0.3 * 255).toInt()),
+                                width: 1,
+                              ),
                             ),
                           ),
                         ),
@@ -158,8 +172,16 @@ class KProjectShimmerCard extends StatelessWidget {
                             width: 110,
                             height: 28,
                             decoration: BoxDecoration(
-                              color: Colors.grey[700],
+                              color: Colors.white.withAlpha(
+                                (0.1 * 255).toInt(),
+                              ),
                               borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: const Color(
+                                  0xFF0A4A8E,
+                                ).withAlpha((0.3 * 255).toInt()),
+                                width: 1,
+                              ),
                             ),
                           ),
                         ],

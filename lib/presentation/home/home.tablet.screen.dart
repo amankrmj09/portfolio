@@ -30,7 +30,7 @@ class HomeTabletScreen extends GetView<HomeController> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Positioned.fill(child: SharedMeshBackground()),
+            const Positioned.fill(child: SharedMeshBackground()),
             Theme(
               data: theme,
               child: ScrollConfiguration(
@@ -44,7 +44,6 @@ class HomeTabletScreen extends GetView<HomeController> {
                   onPointerSignal: (pointerSignal) {
                     if (pointerSignal is PointerScrollEvent) {
                       if (controller.isScrolling.value) {
-                        // Forward scroll event to homeController's scrollController
                         controller.scrollController.position.moveTo(
                           controller.scrollController.offset +
                               pointerSignal.scrollDelta.dy,
@@ -59,32 +58,31 @@ class HomeTabletScreen extends GetView<HomeController> {
                       thickness: 8,
                       radius: const Radius.circular(8),
                       interactive: true,
-                      child: SingleChildScrollView(
+                      child: ListView(
                         controller: controller.scrollController,
-                        child: Column(
-                          children: [
-                            _mainSection(context),
-                            HeaderSection(
-                              context: context,
-                              title: 'Recent Works',
-                              route: Routes.ALL_PROJECTS,
-                              sectionKey: controller.recentWorksKey,
-                            ),
-                            const ProjectsScreen(),
-                            HeaderSection(
-                              context: context,
-                              title: 'Recent Certificates',
-                              route: Routes.ALL_CERTIFICATES,
-                              sectionKey: controller.recentCertificatesKey,
-                            ),
-                            const CertificateScreen(),
-                            AboutMeScreen(key: controller.aboutMeKey),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height,
-                              child: const FooterScreen(),
-                            ),
-                          ],
-                        ),
+                        padding: EdgeInsets.zero,
+                        children: [
+                          _mainSection(context),
+                          AboutMeScreen(key: controller.aboutMeKey),
+                          HeaderSection(
+                            context: context,
+                            title: 'Recent Works',
+                            route: Routes.ALL_PROJECTS,
+                            sectionKey: controller.recentWorksKey,
+                          ),
+                          const ProjectsScreen(),
+                          HeaderSection(
+                            context: context,
+                            title: 'Recent Certificates',
+                            route: Routes.ALL_CERTIFICATES,
+                            sectionKey: controller.recentCertificatesKey,
+                          ),
+                          const CertificateScreen(),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            child: const FooterScreen(),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -105,7 +103,9 @@ class HomeTabletScreen extends GetView<HomeController> {
   }
 
   Widget _mainSection(BuildContext context) {
-    var minHeight = MediaQuery.of(context).size.height;
+    var minHeight = MediaQuery.of(context).size.height > 776
+        ? MediaQuery.of(context).size.height
+        : 776.0;
     return Center(
       child: SizedBox(
         key: controller.homeKey,
@@ -140,7 +140,6 @@ class HomeTabletScreen extends GetView<HomeController> {
                   const CodeBlock(),
                 ],
               ),
-
               navigateButtonAndSocialLinks(controller),
             ],
           ),

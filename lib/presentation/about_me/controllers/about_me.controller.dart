@@ -30,10 +30,26 @@ class AboutMeController extends GetxController {
 
   RxBool get isProfilesLoading => infoFetchController.isProfileLinksLoading;
 
+  // Returns true if all required data is loaded and present
+  bool get isAllLoaded {
+    return !isLoading.value &&
+        !isExpLoading.value &&
+        !isToolsLoading.value &&
+        !isProfilesLoading.value &&
+        aboutMeInfo.value != null &&
+        tools.isNotEmpty &&
+        experiences.isNotEmpty &&
+        profiles.isNotEmpty;
+  }
+
   @override
   void onInit() {
     super.onInit();
     scrollController.addListener(_handleScrollEdge);
+    // infoFetchController.fetchAboutMeInfo();
+    // infoFetchController.fetchTools();
+    // infoFetchController.fetchExperiences();
+    // infoFetchController.fetchProfileLinks();
   }
 
   void _handleScrollEdge() {

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:portfolio/presentation/certificate/views/all_certificates_view.dart';
 import 'package:portfolio/presentation/projects/views/project_mobile_view.dart';
 import 'package:portfolio/presentation/projects/views/project_view.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class ProjectsScreen extends GetView<ProjectsController> {
               ? MediaQuery.of(context).size.height * 0.85
               : max(MediaQuery.of(context).size.height - 100, 656),
           child: ListView(
+            scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(
               vertical: isMobile ? 12 : 24,
               horizontal: isMobile ? 8 : 32,

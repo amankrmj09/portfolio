@@ -23,3 +23,6 @@ const List<String> homeScreenLines = [
 const String api = kReleaseMode
     ? 'https://portfolio-backend-3nrj.onrender.com/api/v1/'
     : "http://localhost:8080/api/v1/";
+
+const remoteJSONUrl =
+    'https://api.allorigins.win/raw?url=https://drive.google.com/uc?export=download&id=1E9NiJprLJlB8lZb9_hh_Hoep8STb3Fcr';

@@ -60,7 +60,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
             ],
           ),
           child: Obx(
-            () => (controller.isLoading.value || controller.isExpLoading.value)
+            () => (!controller.isAllLoaded)
                 ? const KShimmerAboutMe()
                 : width > 1100
                 ? SingleChildScrollView(

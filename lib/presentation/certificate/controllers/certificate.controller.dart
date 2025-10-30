@@ -10,4 +10,10 @@ class CertificateController extends GetxController {
   RxList<CertificateModel> get certificates => infoFetchController.certificates;
 
   RxBool get isLoading => infoFetchController.isCertificatesLoading;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // infoFetchController.fetchCertificates();
+  }
 }
