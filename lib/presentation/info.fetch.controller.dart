@@ -210,5 +210,7 @@ class InfoFetchController extends GetxController {
     await fetchProjects();
     await Future.delayed(const Duration(milliseconds: 1000));
     await fetchQuotes();
+    await Future.delayed(const Duration(milliseconds: 1000));
+    await fetchResumeInfo();
   }
 }
