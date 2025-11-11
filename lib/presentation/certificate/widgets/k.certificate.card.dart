@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../../../domain/models/certificate_model/certificate.model.dart';
 import '../../../widgets/k.image.dart';
@@ -24,6 +26,35 @@ class KCertificateCard extends StatefulWidget {
 
 class _KCertificateCardState extends State<KCertificateCard> {
   bool isHovered = false;
+  bool showAnimation = false;
+  Timer? _hoverTimer;
+
+  @override
+  void dispose() {
+    _hoverTimer?.cancel();
+    super.dispose();
+  }
+
+  void _onEnter() {
+    if (widget.isMobile) return;
+    setState(() => isHovered = true);
+
+    // Start timer for animation
+    _hoverTimer = Timer(const Duration(seconds: 1), () {
+      if (mounted && isHovered) {
+        setState(() => showAnimation = true);
+      }
+    });
+  }
+
+  void _onExit() {
+    if (widget.isMobile) return;
+    _hoverTimer?.cancel();
+    setState(() {
+      isHovered = false;
+      showAnimation = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +70,10 @@ class _KCertificateCardState extends State<KCertificateCard> {
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      onEnter: widget.isMobile ? null : (_) => setState(() => isHovered = true),
-      onExit: widget.isMobile ? null : (_) => setState(() => isHovered = false),
+      onEnter: widget.isMobile ? null : (_) => _onEnter(),
+      onExit: widget.isMobile ? null : (_) => _onExit(),
       child: AnimatedScale(
-        scale: (widget.isMobile || !isHovered) ? 1.0 : 1.02,
+        scale: (widget.isMobile || !showAnimation) ? 1.0 : 1.02,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
         child: GestureDetector(
@@ -62,7 +93,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
               ),
               borderRadius: BorderRadius.circular(widget.isMobile ? 16 : 20),
               border: Border.all(
-                color: isHovered
+                color: showAnimation
                     ? const Color(0xFF0A4A8E).withAlpha((0.6 * 255).toInt())
                     : const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
                 width: 1.5,
@@ -70,10 +101,10 @@ class _KCertificateCardState extends State<KCertificateCard> {
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withAlpha((0.3 * 255).toInt()),
-                  blurRadius: isHovered ? 28 : 20,
-                  offset: Offset(0, isHovered ? 10 : 6),
+                  blurRadius: showAnimation ? 28 : 20,
+                  offset: Offset(0, showAnimation ? 10 : 6),
                 ),
-                if (isHovered && !widget.isMobile)
+                if (showAnimation && !widget.isMobile)
                   BoxShadow(
                     color: const Color(
                       0xFF0A4A8E,
@@ -229,7 +260,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                   vertical: 7,
                                 ),
                                 decoration: BoxDecoration(
-                                  gradient: isHovered
+                                  gradient: showAnimation
                                       ? LinearGradient(
                                           colors: [
                                             const Color(

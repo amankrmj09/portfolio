@@ -196,19 +196,19 @@ class InfoFetchController extends GetxController {
 
   Future<void> _fetchAll() async {
     await fetchSocialLinks();
+    await Future.delayed(const Duration(milliseconds: 200));
+    await fetchAboutMeInfo();
+    await Future.delayed(const Duration(milliseconds: 400));
+    await fetchTools();
+    await Future.delayed(const Duration(milliseconds: 400));
+    await fetchProfileLinks();
+    await Future.delayed(const Duration(milliseconds: 1000));
+    await fetchExperiences();
     await Future.delayed(const Duration(milliseconds: 1000));
     await fetchCertificates();
     await Future.delayed(const Duration(milliseconds: 1000));
     await fetchProjects();
     await Future.delayed(const Duration(milliseconds: 1000));
-    await fetchProfileLinks();
-    await Future.delayed(const Duration(milliseconds: 1000));
     await fetchQuotes();
-    await Future.delayed(const Duration(milliseconds: 1000));
-    await fetchAboutMeInfo();
-    await Future.delayed(const Duration(milliseconds: 1000));
-    await fetchTools();
-    await Future.delayed(const Duration(milliseconds: 1000));
-    await fetchExperiences();
   }
 }

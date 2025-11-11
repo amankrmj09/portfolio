@@ -14,6 +14,11 @@ class HomeController extends GetxController {
   final ScrollController scrollController = ScrollController();
   final isScrolling = false.obs;
   Timer? _scrollEndDebouncer;
+  final RxBool _isProgrammaticScroll =
+      false.obs; // Flag to prevent scroll listener interference
+
+  // Public getter for UI to check if scrolling is programmatic
+  bool get isProgrammaticScrolling => _isProgrammaticScroll.value;
 
   final InfoFetchController infoFetchController =
       Get.find<InfoFetchController>();
@@ -29,11 +34,17 @@ class HomeController extends GetxController {
   );
   final GlobalKey aboutMeKey = GlobalKey(debugLabel: 'aboutMeKey');
   final GlobalKey homeKey = GlobalKey(debugLabel: 'homeKey');
+  final GlobalKey scrollKey = GlobalKey(
+    debugLabel: 'scrollKey',
+  ); // Key for the scroll view
 
   // Updated to use instance keys instead of static keys
   late final List<GlobalKey> sectionKeys;
+  List<double> _sectionOffsets = []; // To store calculated offsets
+  bool _offsetsCalculated = false;
 
   // Constructor initializes the keys
+  // Order must match the floating menu bar labels: Home, About Me, Works, Certificates
   HomeController() {
     sectionKeys = [homeKey, aboutMeKey, recentWorksKey, recentCertificatesKey];
   }
@@ -42,16 +53,32 @@ class HomeController extends GetxController {
   List<VoidCallback> get onTapActions => List.generate(
     sectionKeys.length,
     (index) => () {
-      final ctx = sectionKeys[index].currentContext;
-      if (ctx != null) {
-        Scrollable.ensureVisible(
-          ctx,
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.easeInOut,
-          alignment: 0.0,
+      // Set the index immediately to prevent jitter
+      selectedTabIndex.value = index;
+      _isProgrammaticScroll.value = true;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final ctx = sectionKeys[index].currentContext;
+        _logger.i(
+          'Navigation button $index clicked. Context found: ${ctx != null}',
         );
-        selectedTabIndex.value = index;
-      }
+        if (ctx != null) {
+          Scrollable.ensureVisible(
+            ctx,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeInOut,
+            alignment: 0.0,
+          ).then((_) {
+            // Re-enable scroll listener after animation completes
+            Future.delayed(const Duration(milliseconds: 100), () {
+              _isProgrammaticScroll.value = false;
+            });
+          });
+        } else {
+          _logger.w('Context for section $index is null!');
+          _isProgrammaticScroll.value = false;
+        }
+      });
     },
   );
 
@@ -66,9 +93,35 @@ class HomeController extends GetxController {
 
     scrollController.addListener(_onScroll);
     meshGradientController = AnimatedMeshGradientController()..start();
+
+    // Calculate offsets after the first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _calculateSectionOffsets();
+    });
   }
 
   final Logger _logger = Logger();
+
+  void _calculateSectionOffsets() {
+    final scrollContext = scrollKey.currentContext;
+    if (scrollContext == null) return;
+
+    final scrollBox = scrollContext.findRenderObject() as RenderBox;
+    final scrollOffsetOnScreen = scrollBox.localToGlobal(Offset.zero).dy;
+
+    _sectionOffsets = sectionKeys.map((key) {
+      final ctx = key.currentContext;
+      if (ctx == null) return 0.0;
+      final box = ctx.findRenderObject() as RenderBox;
+      // This calculation gives the widget's layout offset from the top of the screen
+      final position = box.localToGlobal(Offset.zero).dy;
+      // We subtract the scroll view's own offset to get the correct offset *within* the scrollable content
+      return position - scrollOffsetOnScreen;
+    }).toList();
+
+    _offsetsCalculated = true;
+    _logger.i('Section offsets calculated: $_sectionOffsets');
+  }
 
   Future<void> _pingOnce() async {
     final PingServerService pingServerService = PingServerService();
@@ -89,30 +142,39 @@ class HomeController extends GetxController {
   }
 
   void _onScroll() {
-    if (!isScrolling.value) {
-      isScrolling.value = true;
+    if (!_offsetsCalculated) {
+      // A fallback in case the post-frame callback didn't run for some reason
+      _calculateSectionOffsets();
     }
-    _scrollEndDebouncer?.cancel();
-    _scrollEndDebouncer = Timer(const Duration(milliseconds: 400), () {
-      isScrolling.value = false;
-    });
 
-    // Get the scroll position
+    // Skip setting isScrolling during programmatic scrolling to prevent bar from hiding
+    if (!_isProgrammaticScroll.value) {
+      if (!isScrolling.value) {
+        isScrolling.value = true;
+      }
+      _scrollEndDebouncer?.cancel();
+      _scrollEndDebouncer = Timer(const Duration(milliseconds: 400), () {
+        isScrolling.value = false;
+      });
+    }
+
+    // Skip index updates during programmatic scrolling to prevent jitter
+    if (_isProgrammaticScroll.value) {
+      return;
+    }
+
     final scrollOffset = scrollController.offset;
-    int newIndex = 0;
-    for (int i = 0; i < sectionKeys.length; i++) {
-      final ctx = sectionKeys[i].currentContext;
-      if (ctx != null) {
-        final box = ctx.findRenderObject() as RenderBox;
-        final position =
-            box.localToGlobal(Offset.zero, ancestor: null).dy +
-            scrollController.offset;
-        // If the scroll offset is past this section, update the index
-        if (scrollOffset >= position - 100) {
-          newIndex = i;
-        }
+    int newIndex = selectedTabIndex.value;
+
+    // Find the index of the last section that is visible
+    for (int i = _sectionOffsets.length - 1; i >= 0; i--) {
+      if (scrollOffset >= _sectionOffsets[i] - 100) {
+        // 100px tolerance
+        newIndex = i;
+        break;
       }
     }
+
     if (selectedTabIndex.value != newIndex) {
       selectedTabIndex.value = newIndex;
     }

@@ -6,7 +6,6 @@ import '../../../widgets/animated.navigate.button.dart';
 
 class HeaderSection extends StatelessWidget {
   final String title;
-  final GlobalKey sectionKey;
   final BuildContext context;
   final String? route;
   final double? height;
@@ -14,7 +13,6 @@ class HeaderSection extends StatelessWidget {
   const HeaderSection({
     super.key,
     required this.title,
-    required this.sectionKey,
     this.route,
     required this.context,
     this.height = 100,
@@ -23,12 +21,12 @@ class HeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final InfoFetchController controller = Get.find<InfoFetchController>();
-    final bool isTablet = controller.currentDevice.value == Device.Tablet;
-    final bool isMobile = controller.currentDevice.value == Device.Mobile;
 
-    return Obx(
-      () => Container(
-        key: sectionKey,
+    return Obx(() {
+      final bool isTablet = controller.currentDevice.value == Device.Tablet;
+      final bool isMobile = controller.currentDevice.value == Device.Mobile;
+
+      return Container(
         height: isMobile ? 40 : height,
         width: double.infinity,
         alignment: Alignment.bottomCenter,
@@ -71,7 +69,7 @@ class HeaderSection extends StatelessWidget {
                   ),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

@@ -58,31 +58,34 @@ class HomeTabletScreen extends GetView<HomeController> {
                       thickness: 8,
                       radius: const Radius.circular(8),
                       interactive: true,
-                      child: ListView(
+                      child: SingleChildScrollView(
+                        key: controller.scrollKey,
+                        // Key for accurate offset calculation
                         controller: controller.scrollController,
-                        padding: EdgeInsets.zero,
-                        children: [
-                          _mainSection(context),
-                          AboutMeScreen(key: controller.aboutMeKey),
-                          HeaderSection(
-                            context: context,
-                            title: 'Recent Works',
-                            route: Routes.ALL_PROJECTS,
-                            sectionKey: controller.recentWorksKey,
-                          ),
-                          const ProjectsScreen(),
-                          HeaderSection(
-                            context: context,
-                            title: 'Recent Certificates',
-                            route: Routes.ALL_CERTIFICATES,
-                            sectionKey: controller.recentCertificatesKey,
-                          ),
-                          const CertificateScreen(),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height,
-                            child: const FooterScreen(),
-                          ),
-                        ],
+                        child: Column(
+                          children: [
+                            _mainSection(context),
+                            AboutMeScreen(key: controller.aboutMeKey),
+                            HeaderSection(
+                              key: controller.recentWorksKey,
+                              context: context,
+                              title: 'Recent Works',
+                              route: Routes.ALL_PROJECTS,
+                            ),
+                            const ProjectsScreen(),
+                            HeaderSection(
+                              key: controller.recentCertificatesKey,
+                              context: context,
+                              title: 'Recent Certificates',
+                              route: Routes.ALL_CERTIFICATES,
+                            ),
+                            const CertificateScreen(),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height,
+                              child: const FooterScreen(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -157,7 +160,9 @@ class HomeTabletScreen extends GetView<HomeController> {
       child: Obx(
         () => AnimatedAlign(
           duration: const Duration(milliseconds: 400),
-          alignment: controller.isScrolling.value
+          alignment:
+              controller.isScrolling.value &&
+                  !controller.isProgrammaticScrolling
               ? const Alignment(0, -5.5)
               : Alignment.bottomCenter,
           child: HomeFloatingMenuBar(),

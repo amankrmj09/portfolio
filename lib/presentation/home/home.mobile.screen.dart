@@ -23,6 +23,7 @@ class HomeMobileScreen extends GetView<HomeController> {
         children: [
           const Positioned.fill(child: SharedMeshBackground()),
           SingleChildScrollView(
+            key: controller.scrollKey, // Key for accurate offset calculation
             controller: controller.scrollController,
             child: Obx(
               () => Scrollbar(
@@ -39,7 +40,7 @@ class HomeMobileScreen extends GetView<HomeController> {
                       context: context,
                       title: 'Recent Works',
                       route: Routes.ALL_PROJECTS,
-                      sectionKey: controller.recentWorksKey,
+                      key: controller.recentWorksKey,
                     ),
                     const SizedBox(height: 10),
                     const ProjectsScreen(),
@@ -48,7 +49,7 @@ class HomeMobileScreen extends GetView<HomeController> {
                       context: context,
                       title: 'Recent Certificates',
                       route: Routes.ALL_CERTIFICATES,
-                      sectionKey: controller.recentCertificatesKey,
+                      key: controller.recentCertificatesKey,
                     ),
                     const SizedBox(height: 10),
                     const CertificateScreen(),

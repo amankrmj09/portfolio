@@ -121,66 +121,32 @@ class AllItemsView<T> extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
       height: 70,
-      decoration: BoxDecoration(
-        // ✅ Glassmorphic gradient
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            const Color(0xFF0A1628).withValues(alpha: 0.85),
-            const Color(0xFF001529).withValues(alpha: 0.75),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: const Color(0xFF0A4A8E).withValues(alpha: 0.3),
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-          BoxShadow(
-            color: const Color(0xFF0A4A8E).withValues(alpha: 0.1),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // ✅ Blur effect
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                // Modern Red-Blackish Back Button
-                _buildModernBackButton(context),
-                const SizedBox(width: 16),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            // Modern Red-Blackish Back Button
+            _buildModernBackButton(context),
+            const SizedBox(width: 16),
 
-                // Title
-                Expanded(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      color: titleColor,
-                      fontFamily: "ShantellSans",
-                      fontWeight: FontWeight.w700,
-                      fontSize: isMobile! ? 20 : 28,
-                      letterSpacing: 0.8,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+            // Title
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: titleColor,
+                  fontFamily: "ShantellSans",
+                  fontWeight: FontWeight.w700,
+                  fontSize: isMobile! ? 20 : 28,
+                  letterSpacing: 0.8,
                 ),
-
-                // Spacer to balance the back button
-                const SizedBox(width: 60),
-              ],
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
+
+            // Spacer to balance the back button
+            const SizedBox(width: 60),
+          ],
         ),
       ),
     );

@@ -151,17 +151,8 @@ Widget navigateButtonAndSocialLinks(HomeController controller) {
             borderRadius: 20,
             label: 'See My Works',
             icon: const Icon(Icons.arrow_forward, size: 24),
-            onTap: () {
-              final ctx = controller.recentWorksKey.currentContext;
-              if (ctx != null) {
-                Scrollable.ensureVisible(
-                  ctx,
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.easeInOut,
-                  alignment: 0.0,
-                );
-              }
-            },
+            onTap: controller.onTapActions[2],
+            // Index 2 is recentWorksKey
             width: 210,
           ),
         ),
