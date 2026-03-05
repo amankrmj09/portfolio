@@ -5,6 +5,5 @@ export 'package:portfolio/infrastructure/navigation/bindings/controllers/cli.con
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/footer.controller.binding.dart';
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/home.controller.binding.dart';
 export 'package:portfolio/presentation/info.fetch.controller.dart';
-export 'package:portfolio/infrastructure/navigation/bindings/controllers/profiles.controller.binding.dart';
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/resume.controller.binding.dart';
 export 'package:portfolio/infrastructure/navigation/bindings/controllers/projects.controller.binding.dart';

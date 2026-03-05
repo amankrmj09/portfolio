@@ -3,6 +3,5 @@ export 'package:portfolio/presentation/certificate/certificate.screen.dart';
 export 'package:portfolio/presentation/cli/cli.screen.dart';
 export 'package:portfolio/presentation/footer/footer.screen.dart';
 export 'package:portfolio/presentation/home/home.desktop.screen.dart';
-export 'package:portfolio/presentation/profiles/profiles.screen.dart';
 export 'package:portfolio/presentation/resume/resume.screen.dart';
 export 'package:portfolio/presentation/projects/projects.screen.dart';

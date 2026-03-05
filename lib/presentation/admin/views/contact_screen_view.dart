@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/domain/models/contact_details_model/contact.details.model.dart';
 import 'package:portfolio/infrastructure/dal/services/fetch.contact.service.dart';
 
-import 'package:velocity_x/velocity_x.dart';
-
 import '../../../widgets/mesh.background.dart';
 import '../widgets/file.card.dart';
 
@@ -91,7 +89,7 @@ class _ContactScreenViewState extends State<ContactScreenView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    20.widthBox,
+                    SizedBox(width: 20),
                     IconButton(
                       icon: const Icon(Atlas.arrow_left, color: Colors.white),
                       tooltip: 'Back',
@@ -115,7 +113,7 @@ class _ContactScreenViewState extends State<ContactScreenView> {
                       tooltip: 'Refresh',
                       onPressed: _refreshFiles,
                     ),
-                    20.widthBox,
+                    SizedBox(width: 20),
                   ],
                 ),
               ),

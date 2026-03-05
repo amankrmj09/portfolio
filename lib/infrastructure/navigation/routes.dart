@@ -17,5 +17,4 @@ class Routes {
   static const HOME = '/home';
   static const RESUME = '/resume';
   static const PROJECTS = '/projects';
-  static const PROFILES = '/profiles';
 }

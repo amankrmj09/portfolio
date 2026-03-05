@@ -98,10 +98,5 @@ class Nav {
       page: () => const ResumeScreen(),
       binding: ResumeControllerBinding(),
     ),
-    GetPage(
-      name: Routes.PROFILES,
-      page: () => const ProfilesScreen(),
-      binding: ProfilesControllerBinding(),
-    ),
   ];
 }
