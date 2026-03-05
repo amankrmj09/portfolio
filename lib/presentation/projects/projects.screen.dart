@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:portfolio/presentation/certificate/views/all_certificates_view.dart';
 import 'package:portfolio/presentation/projects/views/project_mobile_view.dart';
 import 'package:portfolio/presentation/projects/views/project_view.dart';
 import 'package:flutter/material.dart';

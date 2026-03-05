@@ -10,10 +10,4 @@ class ProjectsController extends GetxController {
   RxList<ProjectModel> get projects => infoFetchController.projects;
 
   RxBool get isLoading => infoFetchController.isProjectsLoading;
-
-  @override
-  void onInit() {
-    super.onInit();
-    // infoFetchController.fetchProjects();
-  }
 }

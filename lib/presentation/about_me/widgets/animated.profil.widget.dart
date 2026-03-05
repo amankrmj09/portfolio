@@ -80,7 +80,6 @@ class _AnimatedProfileWidgetState extends State<AnimatedProfileWidget>
   Widget build(BuildContext context) {
     final profile = widget.profiles[_currentIndex];
     final color1 = Color(int.parse(profile.color1));
-    final color2 = Color(int.parse(profile.color2));
     TextStyle textStyle = TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.bold,

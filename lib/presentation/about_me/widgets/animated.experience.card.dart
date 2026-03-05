@@ -32,7 +32,6 @@ class _AnimatedExperienceCardState extends State<AnimatedExperienceCard>
   late AnimationController _controller;
   late AnimationController _controllerLine;
   late Animation<Alignment> _alignmentAnim;
-  late Animation<Alignment> _alignmentAnimLine;
   late Animation<double> _opacityAnim;
 
   @override
@@ -50,13 +49,6 @@ class _AnimatedExperienceCardState extends State<AnimatedExperienceCard>
       begin: Alignment.center,
       end: const Alignment(0, -1),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-    _alignmentAnimLine =
-        Tween<Alignment>(
-          begin: Alignment.center,
-          end: const Alignment(0, -5),
-        ).animate(
-          CurvedAnimation(parent: _controllerLine, curve: Curves.easeInOut),
-        );
     _opacityAnim = Tween<double>(
       begin: 1.0,
       end: 0.0,
