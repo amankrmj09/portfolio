@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:portfolio/presentation/about_me/controllers/about_me.controller.dart';
 import 'package:portfolio/presentation/about_me/widgets/tool.widget.dart';
 
+import '../../../infrastructure/theme/colors.dart';
+
 class ToolsView extends GetView<AboutMeController> {
   const ToolsView({super.key});
 
@@ -28,18 +30,18 @@ class ToolsView extends GetView<AboutMeController> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF0A1628).withAlpha((0.95 * 255).toInt()),
-                  const Color(0xFF001529).withAlpha((0.9 * 255).toInt()),
+                  KColor.darkNavy.withValues(alpha: 0.95),
+                  KColor.deepNavy.withValues(alpha: 0.9),
                 ],
               ),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                color: KColor.accentBlue.withValues(alpha: 0.3),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha((0.5 * 255).toInt()),
+                  color: Colors.black.withValues(alpha: 0.5),
                   blurRadius: 40,
                   offset: const Offset(0, 20),
                 ),
@@ -90,7 +92,7 @@ class ToolsView extends GetView<AboutMeController> {
               fontFamily: 'Poppins',
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: Colors.white.withAlpha((0.95 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.95),
               letterSpacing: 0.5,
             ),
             textAlign: TextAlign.center,
@@ -105,19 +107,19 @@ class ToolsView extends GetView<AboutMeController> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF8B0000).withAlpha((0.5 * 255).toInt()),
-                  const Color(0xFF4B0000).withAlpha((0.4 * 255).toInt()),
+                  KColor.darkRed.withValues(alpha: 0.5),
+                  KColor.darkerRed.withValues(alpha: 0.4),
                 ],
               ),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: const Color(0xFFFF4444).withAlpha((0.4 * 255).toInt()),
+                color: KColor.alertRed.withValues(alpha: 0.4),
                 width: 1.5,
               ),
             ),
             child: Icon(
               Icons.close_rounded,
-              color: Colors.white.withAlpha((0.95 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.95),
               size: 20,
             ),
           ),
