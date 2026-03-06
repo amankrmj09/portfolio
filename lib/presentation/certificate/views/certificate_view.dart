@@ -69,12 +69,9 @@ class CertificateView extends StatelessWidget {
                         PointerDeviceKind.mouse,
                       },
                     ),
-                    child: KSmoothScrollWeb(
-                      controller: scrollController,
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(32.0),
-                        child: _buildContent(),
-                      ),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(32.0),
+                      child: _buildContent(),
                     ),
                   ),
                 ),

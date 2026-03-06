@@ -27,11 +27,11 @@ class AllCertificatesView extends GetView<CertificateController> {
         buildDialog: (certificate) => isMobile
             ? CertificateMobileView(
                 certificate: certificate,
-                onClose: () => Navigator.of(context).maybePop(),
+                onClose: () => Get.back(),
               )
             : CertificateView(
                 certificate: certificate,
-                onClose: () => Navigator.of(context).maybePop(),
+                onClose: () => Get.back(),
               ),
         buildCard: (certificate, onTap) => KCertificateCard(
           certificate: certificate,

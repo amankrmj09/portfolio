@@ -25,14 +25,8 @@ class AllProjectsView extends GetView<ProjectsController> {
         titleColor: Colors.white,
         isMobile: isMobile,
         buildDialog: (project) => isMobile
-            ? WorkMobileView(
-                project: project,
-                onClose: () => Navigator.of(context).maybePop(),
-              )
-            : WorkView(
-                project: project,
-                onClose: () => Navigator.of(context).maybePop(),
-              ),
+            ? WorkMobileView(project: project, onClose: () => Get.back())
+            : WorkView(project: project, onClose: () => Get.back()),
         buildCard: (project, onTap) => KProjectCard(
           project: project,
           onTap: onTap,
@@ -119,9 +113,7 @@ class _KProjectCardState extends State<KProjectCard> {
                 ),
                 if (isHover)
                   BoxShadow(
-                    color: const Color(
-                      0xFF0A4A8E,
-                    ).withValues(alpha: 0.2),
+                    color: const Color(0xFF0A4A8E).withValues(alpha: 0.2),
                     blurRadius: 20,
                     offset: const Offset(0, 0),
                     spreadRadius: 2,
@@ -244,7 +236,8 @@ class _KProjectCardState extends State<KProjectCard> {
                                               child: Text(
                                                 tech,
                                                 style: TextStyle(
-                                                  color: Colors.white.withValues(alpha: 0.9),
+                                                  color: Colors.white
+                                                      .withValues(alpha: 0.9),
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 14,
                                                   fontFamily: "Poppins",
@@ -257,7 +250,9 @@ class _KProjectCardState extends State<KProjectCard> {
                                   : Text(
                                       'No tech stack available',
                                       style: TextStyle(
-                                        color: Colors.white.withValues(alpha: 0.6),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.6,
+                                        ),
                                         fontSize: 14,
                                         fontFamily: "Poppins",
                                       ),

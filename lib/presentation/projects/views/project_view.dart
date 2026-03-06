@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../domain/models/project_model/project.model.dart';
 import '../../../infrastructure/theme/colors.dart';
@@ -23,7 +22,6 @@ class _WorkViewState extends State<WorkView> {
     final screenHeight = MediaQuery.of(context).size.height;
     final double containerHeight =
         (screenHeight > 776 ? screenHeight : 776) - 80;
-    final ScrollController scrollController = ScrollController();
 
     return Center(
       child: Padding(
@@ -64,9 +62,7 @@ class _WorkViewState extends State<WorkView> {
                   color: KColor.accentBlue.withValues(alpha: 0.3),
                 ),
                 Expanded(
-                  child: isMobile
-                      ? _buildMobileLayout(scrollController: scrollController)
-                      : _buildWebLayout(scrollController: scrollController),
+                  child: isMobile ? _buildMobileLayout() : _buildWebLayout(),
                 ),
               ],
             ),
@@ -76,7 +72,7 @@ class _WorkViewState extends State<WorkView> {
     );
   }
 
-  Widget _buildMobileLayout({required ScrollController scrollController}) {
+  Widget _buildMobileLayout() {
     return Row(
       children: [
         Expanded(
@@ -87,10 +83,7 @@ class _WorkViewState extends State<WorkView> {
               behavior: ScrollConfiguration.of(context).copyWith(
                 dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
               ),
-              child: KSmoothScrollWeb(
-                controller: scrollController,
-                child: SingleChildScrollView(child: _buildContent()),
-              ),
+              child: SingleChildScrollView(child: _buildContent()),
             ),
           ),
         ),
@@ -111,23 +104,20 @@ class _WorkViewState extends State<WorkView> {
     );
   }
 
-  Widget _buildWebLayout({required ScrollController scrollController}) {
+  Widget _buildWebLayout() {
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(
         dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
       ),
-      child: KSmoothScrollWeb(
-        controller: scrollController,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildImageSection(),
-              const SizedBox(height: 32),
-              _buildContent(),
-            ],
-          ),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildImageSection(),
+            const SizedBox(height: 32),
+            _buildContent(),
+          ],
         ),
       ),
     );
