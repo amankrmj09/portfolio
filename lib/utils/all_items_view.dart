@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import '../infrastructure/theme/colors.dart';
 import 'axis.count.dart';
 import 'k.showGeneralDialog.dart';
@@ -89,26 +90,29 @@ class AllItemsView<T> extends StatelessWidget {
                         },
                         overscroll: false,
                       ),
-                      child: MasonryGridView.count(
+                      child: KSmoothScrollWeb(
                         controller: scrollController,
-                        crossAxisCount: getCrossAxisCount(context),
-                        mainAxisSpacing: 4,
-                        crossAxisSpacing: 4,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 16,
+                        child: MasonryGridView.count(
+                          controller: scrollController,
+                          crossAxisCount: getCrossAxisCount(context),
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 4,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 16,
+                          ),
+                          itemCount: items.length,
+                          itemBuilder: (context, index) {
+                            final item = items[index];
+                            return buildCard(
+                              item,
+                              () => showBlurredGeneralDialog(
+                                context: context,
+                                builder: (context) => buildDialog(item),
+                              ),
+                            );
+                          },
                         ),
-                        itemCount: items.length,
-                        itemBuilder: (context, index) {
-                          final item = items[index];
-                          return buildCard(
-                            item,
-                            () => showBlurredGeneralDialog(
-                              context: context,
-                              builder: (context) => buildDialog(item),
-                            ),
-                          );
-                        },
                       ),
                     ),
             ),

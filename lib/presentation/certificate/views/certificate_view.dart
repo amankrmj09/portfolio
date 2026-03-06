@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:portfolio/widgets/k.image.dart';
 import '../../../domain/models/certificate_model/certificate.model.dart';
@@ -17,7 +16,6 @@ class CertificateView extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final double containerHeight =
         (screenHeight > 776 ? screenHeight : 776) - 80;
-    final ScrollController scrollController = ScrollController();
 
     return Center(
       child: Padding(
@@ -69,12 +67,9 @@ class CertificateView extends StatelessWidget {
                         PointerDeviceKind.mouse,
                       },
                     ),
-                    child: KSmoothScrollWeb(
-                      controller: scrollController,
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(32.0),
-                        child: _buildContent(),
-                      ),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(32.0),
+                      child: _buildContent(),
                     ),
                   ),
                 ),
