@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/projects/views/project_mobile_view.dart';
 import '../../../domain/models/project_model/project.model.dart';
+import '../../../infrastructure/theme/colors.dart';
 import '../../info.fetch.controller.dart';
 import '../../../utils/all_items_view.dart';
 import '../../../widgets/k.image.dart';
@@ -98,20 +99,20 @@ class _KProjectCardState extends State<KProjectCard> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF0A1628).withAlpha((0.9 * 255).toInt()),
-                  const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
+                  KColor.darkNavy.withValues(alpha: 0.9),
+                  KColor.deepNavy.withValues(alpha: 0.85),
                 ],
               ),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: isHover
-                    ? const Color(0xFF0A4A8E).withAlpha((0.6 * 255).toInt())
-                    : const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                    ? KColor.accentBlue.withValues(alpha: 0.6)
+                    : KColor.accentBlue.withValues(alpha: 0.3),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha((0.3 * 255).toInt()),
+                  color: Colors.black.withValues(alpha: 0.3),
                   blurRadius: isHover ? 32 : 24,
                   offset: Offset(0, isHover ? 12 : 8),
                   spreadRadius: 0,
@@ -120,7 +121,7 @@ class _KProjectCardState extends State<KProjectCard> {
                   BoxShadow(
                     color: const Color(
                       0xFF0A4A8E,
-                    ).withAlpha((0.2 * 255).toInt()),
+                    ).withValues(alpha: 0.2),
                     blurRadius: 20,
                     offset: const Offset(0, 0),
                     spreadRadius: 2,
@@ -167,17 +168,15 @@ class _KProjectCardState extends State<KProjectCard> {
                                 colors: [
                                   const Color(
                                     0xFF0A4A8E,
-                                  ).withAlpha((0.9 * 255).toInt()),
+                                  ).withValues(alpha: 0.9),
                                   const Color(
                                     0xFF001529,
-                                  ).withAlpha((0.8 * 255).toInt()),
+                                  ).withValues(alpha: 0.8),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: Colors.white.withAlpha(
-                                  (0.2 * 255).toInt(),
-                                ),
+                                color: Colors.white.withValues(alpha: 0.2),
                                 width: 1,
                               ),
                             ),
@@ -186,9 +185,7 @@ class _KProjectCardState extends State<KProjectCard> {
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
-                                color: Colors.white.withAlpha(
-                                  (0.95 * 255).toInt(),
-                                ),
+                                color: Colors.white.withValues(alpha: 0.95),
                                 letterSpacing: 1.2,
                                 fontFamily: "Poppins",
                               ),
@@ -206,7 +203,7 @@ class _KProjectCardState extends State<KProjectCard> {
                           decoration: BoxDecoration(
                             color: const Color(
                               0xFF001529,
-                            ).withAlpha((0.92 * 255).toInt()),
+                            ).withValues(alpha: 0.92),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
@@ -230,32 +227,24 @@ class _KProjectCardState extends State<KProjectCard> {
                                                   colors: [
                                                     const Color(
                                                       0xFF0A4A8E,
-                                                    ).withAlpha(
-                                                      (0.3 * 255).toInt(),
-                                                    ),
+                                                    ).withValues(alpha: 0.3),
                                                     const Color(
                                                       0xFF001529,
-                                                    ).withAlpha(
-                                                      (0.2 * 255).toInt(),
-                                                    ),
+                                                    ).withValues(alpha: 0.2),
                                                   ],
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(20),
                                                 border: Border.all(
-                                                  color: const Color(0xFF0A4A8E)
-                                                      .withAlpha(
-                                                        (0.5 * 255).toInt(),
-                                                      ),
+                                                  color: KColor.accentBlue
+                                                      .withValues(alpha: 0.5),
                                                   width: 1,
                                                 ),
                                               ),
                                               child: Text(
                                                 tech,
                                                 style: TextStyle(
-                                                  color: Colors.white.withAlpha(
-                                                    (0.9 * 255).toInt(),
-                                                  ),
+                                                  color: Colors.white.withValues(alpha: 0.9),
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 14,
                                                   fontFamily: "Poppins",
@@ -268,9 +257,7 @@ class _KProjectCardState extends State<KProjectCard> {
                                   : Text(
                                       'No tech stack available',
                                       style: TextStyle(
-                                        color: Colors.white.withAlpha(
-                                          (0.6 * 255).toInt(),
-                                        ),
+                                        color: Colors.white.withValues(alpha: 0.6),
                                         fontSize: 14,
                                         fontFamily: "Poppins",
                                       ),
@@ -300,7 +287,7 @@ class _KProjectCardState extends State<KProjectCard> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                            color: Colors.white.withValues(alpha: 0.95),
                             fontFamily: "Poppins",
                             height: 1.3,
                             letterSpacing: 0.3,
@@ -316,9 +303,7 @@ class _KProjectCardState extends State<KProjectCard> {
                             widget.project.description,
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.white.withAlpha(
-                                (0.6 * 255).toInt(),
-                              ),
+                              color: Colors.white.withValues(alpha: 0.6),
                               fontFamily: "Poppins",
                               fontWeight: FontWeight.w400,
                               height: 1.4,
@@ -362,18 +347,18 @@ class KProjectShimmerCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFF0A1628).withAlpha((0.9 * 255).toInt()),
-            const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
+            KColor.darkNavy.withValues(alpha: 0.9),
+            KColor.deepNavy.withValues(alpha: 0.85),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+          color: KColor.accentBlue.withValues(alpha: 0.3),
           width: 2,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha((0.3 * 255).toInt()),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: 24,
             offset: const Offset(0, 8),
             spreadRadius: 0,
@@ -392,7 +377,7 @@ class KProjectShimmerCard extends StatelessWidget {
               height: double.infinity,
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
@@ -413,14 +398,14 @@ class KProjectShimmerCard extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     height: 24,
-                    color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.1),
                   ),
                   const SizedBox(height: 8),
                   // Shimmer effect for description
                   Container(
                     width: double.infinity,
                     height: 16,
-                    color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.1),
                   ),
                 ],
               ),

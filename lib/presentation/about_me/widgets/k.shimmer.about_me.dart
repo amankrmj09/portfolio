@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../infrastructure/theme/colors.dart';
+
 class KShimmerAboutMe extends StatelessWidget {
   const KShimmerAboutMe({super.key});
 
@@ -9,8 +11,8 @@ class KShimmerAboutMe extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     return Shimmer.fromColors(
-      baseColor: const Color(0xFF0A4A8E).withAlpha((0.2 * 255).toInt()),
-      highlightColor: const Color(0xFF001529).withAlpha((0.4 * 255).toInt()),
+      baseColor: KColor.accentBlue.withValues(alpha: 0.2),
+      highlightColor: KColor.deepNavy.withValues(alpha: 0.4),
       child: width > 1100
           ? SingleChildScrollView(
               child: Row(
@@ -81,10 +83,10 @@ class KShimmerAboutMe extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white.withAlpha((0.1 * 255).toInt()),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
+          color: KColor.accentBlue.withValues(alpha: 0.4),
           width: 1.5,
         ),
       ),
@@ -95,7 +97,7 @@ class KShimmerAboutMe extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: Colors.white.withAlpha((0.2 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
           ),
@@ -109,7 +111,7 @@ class KShimmerAboutMe extends StatelessWidget {
                   width: 180,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: Colors.white.withAlpha((0.2 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -119,7 +121,7 @@ class KShimmerAboutMe extends StatelessWidget {
                   width: 220,
                   height: 14,
                   decoration: BoxDecoration(
-                    color: Colors.white.withAlpha((0.15 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -146,10 +148,10 @@ class KShimmerAboutMe extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withAlpha((0.1 * 255).toInt()),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+          color: KColor.accentBlue.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -161,7 +163,7 @@ class KShimmerAboutMe extends StatelessWidget {
             width: 24,
             height: 24,
             decoration: BoxDecoration(
-              color: Colors.white.withAlpha((0.2 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -171,7 +173,7 @@ class KShimmerAboutMe extends StatelessWidget {
             width: 80,
             height: 12,
             decoration: BoxDecoration(
-              color: Colors.white.withAlpha((0.15 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -181,7 +183,7 @@ class KShimmerAboutMe extends StatelessWidget {
             width: 100,
             height: 16,
             decoration: BoxDecoration(
-              color: Colors.white.withAlpha((0.2 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -201,7 +203,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
+                color: KColor.accentBlue.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -210,7 +212,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 120,
               height: 22,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.2 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -220,10 +222,10 @@ class KShimmerAboutMe extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white.withAlpha((0.1 * 255).toInt()),
+            color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: const Color(0xFF0A4A8E).withAlpha((0.25 * 255).toInt()),
+              color: KColor.accentBlue.withValues(alpha: 0.25),
               width: 1,
             ),
           ),
@@ -234,7 +236,7 @@ class KShimmerAboutMe extends StatelessWidget {
                 width: double.infinity,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: Colors.white.withAlpha((0.15 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -243,7 +245,7 @@ class KShimmerAboutMe extends StatelessWidget {
                 width: double.infinity,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: Colors.white.withAlpha((0.15 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -252,7 +254,7 @@ class KShimmerAboutMe extends StatelessWidget {
                 width: double.infinity,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: Colors.white.withAlpha((0.15 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -261,7 +263,7 @@ class KShimmerAboutMe extends StatelessWidget {
                 width: 200,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: Colors.white.withAlpha((0.15 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -283,7 +285,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
+                color: KColor.accentBlue.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -292,7 +294,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 100,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.2 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -308,10 +310,10 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 80 + (index * 20.0),
               height: 36,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
+                  color: KColor.accentBlue.withValues(alpha: 0.5),
                   width: 1,
                 ),
               ),
@@ -326,7 +328,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
+                color: KColor.accentBlue.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -335,7 +337,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 140,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.2 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -351,10 +353,10 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 90 + (index * 15.0),
               height: 36,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
+                  color: KColor.accentBlue.withValues(alpha: 0.5),
                   width: 1,
                 ),
               ),
@@ -381,7 +383,7 @@ class KShimmerAboutMe extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(
                       0xFF0A4A8E,
-                    ).withAlpha((0.5 * 255).toInt()),
+                    ).withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -390,7 +392,7 @@ class KShimmerAboutMe extends StatelessWidget {
                   width: 80,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.white.withAlpha((0.2 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -400,7 +402,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
@@ -416,10 +418,10 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                  color: KColor.accentBlue.withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),
@@ -446,7 +448,7 @@ class KShimmerAboutMe extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(
                       0xFF0A4A8E,
-                    ).withAlpha((0.5 * 255).toInt()),
+                    ).withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -455,7 +457,7 @@ class KShimmerAboutMe extends StatelessWidget {
                   width: 100,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.white.withAlpha((0.2 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -465,7 +467,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
@@ -481,10 +483,10 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                  color: KColor.accentBlue.withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),
@@ -506,7 +508,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
+                color: KColor.accentBlue.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -515,7 +517,7 @@ class KShimmerAboutMe extends StatelessWidget {
               width: 130,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.2 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -529,10 +531,10 @@ class KShimmerAboutMe extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                  color: KColor.accentBlue.withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),
@@ -545,7 +547,7 @@ class KShimmerAboutMe extends StatelessWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Colors.white.withAlpha((0.15 * 255).toInt()),
+                          color: Colors.white.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
@@ -558,9 +560,7 @@ class KShimmerAboutMe extends StatelessWidget {
                               width: 150,
                               height: 16,
                               decoration: BoxDecoration(
-                                color: Colors.white.withAlpha(
-                                  (0.2 * 255).toInt(),
-                                ),
+                                color: Colors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                             ),
@@ -569,9 +569,7 @@ class KShimmerAboutMe extends StatelessWidget {
                               width: 120,
                               height: 12,
                               decoration: BoxDecoration(
-                                color: Colors.white.withAlpha(
-                                  (0.15 * 255).toInt(),
-                                ),
+                                color: Colors.white.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                             ),
@@ -585,7 +583,7 @@ class KShimmerAboutMe extends StatelessWidget {
                     width: double.infinity,
                     height: 14,
                     decoration: BoxDecoration(
-                      color: Colors.white.withAlpha((0.15 * 255).toInt()),
+                      color: Colors.white.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -594,7 +592,7 @@ class KShimmerAboutMe extends StatelessWidget {
                     width: 180,
                     height: 14,
                     decoration: BoxDecoration(
-                      color: Colors.white.withAlpha((0.15 * 255).toInt()),
+                      color: Colors.white.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -612,10 +610,10 @@ class KShimmerAboutMe extends StatelessWidget {
     return Container(
       height: 56,
       decoration: BoxDecoration(
-        color: Colors.white.withAlpha((0.1 * 255).toInt()),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+          color: KColor.accentBlue.withValues(alpha: 0.3),
           width: 1,
         ),
       ),

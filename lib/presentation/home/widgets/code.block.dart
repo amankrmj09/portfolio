@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../infrastructure/theme/colors.dart';
 import 'animated_typer_text.dart';
 import 'code_block_controller.dart';
 
@@ -57,12 +58,12 @@ class Editor extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     color: const Color(0xFF000000),
                     border: Border.all(
-                      color: Colors.white.withAlpha((0.08 * 255).round()),
+                      color: Colors.white.withValues(alpha: 0.08),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withAlpha((0.12 * 255).round()),
+                        color: Colors.black.withValues(alpha: 0.12),
                         blurRadius: 18,
                         offset: const Offset(0, 8),
                         spreadRadius: 0,
@@ -101,7 +102,7 @@ class Editor extends StatelessWidget {
                                 ],
                                 styles: [
                                   const TextStyle(
-                                    color: Color(0xFF7EC699),
+                                    color: KColor.syntaxGreen,
                                     // Green prompt
                                     fontSize: 15,
                                     fontFamily: 'Courier',
@@ -109,13 +110,13 @@ class Editor extends StatelessWidget {
                                     height: 1.5,
                                   ),
                                   const TextStyle(
-                                    color: Color(0xFFCCAA6E), // Yellow
+                                    color: KColor.syntaxYellow, // Yellow
                                     fontSize: 15,
                                     fontFamily: 'Courier',
                                     height: 1.5,
                                   ),
                                   const TextStyle(
-                                    color: Color(0xFFE86671),
+                                    color: KColor.syntaxRed,
                                     // Red error
                                     fontSize: 15,
                                     fontFamily: 'Courier',
@@ -125,7 +126,7 @@ class Editor extends StatelessWidget {
                                   TextStyle(
                                     color: const Color(
                                       0xFFE86671,
-                                    ).withAlpha((0.9 * 255).round()),
+                                    ).withValues(alpha: 0.9),
                                     fontSize: 15,
                                     fontFamily: 'Courier',
                                     fontStyle: FontStyle.italic,
@@ -163,13 +164,13 @@ class Editor extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.white.withAlpha((0.08 * 255).round()),
-                Colors.white.withAlpha((0.05 * 255).round()),
+                Colors.white.withValues(alpha: 0.08),
+                Colors.white.withValues(alpha: 0.05),
               ],
             ),
             border: Border(
               bottom: BorderSide(
-                color: Colors.white.withAlpha((0.1 * 255).round()),
+                color: Colors.white.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -178,9 +179,9 @@ class Editor extends StatelessWidget {
             children: [
               const SizedBox(width: 12),
               // macOS Traffic Light Buttons
-              _buildTrafficLight(const Color(0xFFED6A5E), Icons.close),
+              _buildTrafficLight(KColor.trafficRedAlt, Icons.close),
               const SizedBox(width: 8),
-              _buildTrafficLight(const Color(0xFFF5BF4F), Icons.minimize),
+              _buildTrafficLight(KColor.trafficYellowAlt, Icons.minimize),
               const SizedBox(width: 8),
               _buildTrafficLight(const Color(0xFF61C554), Icons.fullscreen),
               const SizedBox(width: 16),
@@ -190,7 +191,7 @@ class Editor extends StatelessWidget {
                   child: Text(
                     'Terminal',
                     style: TextStyle(
-                      color: Colors.white.withAlpha((0.9 * 255).round()),
+                      color: Colors.white.withValues(alpha: 0.9),
                       // ✅ Brighter on acrylic
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -217,15 +218,12 @@ class Editor extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: color.withAlpha((0.5 * 255).round()),
+            color: color.withValues(alpha: 0.5),
             blurRadius: 4,
             offset: const Offset(0, 1),
           ),
         ],
-        border: Border.all(
-          color: color.withAlpha((0.5 * 255).round()),
-          width: 0.5,
-        ),
+        border: Border.all(color: color.withValues(alpha: 0.5), width: 0.5),
       ),
     );
   }

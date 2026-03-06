@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/infrastructure/theme/colors.dart';
 
 import '../../infrastructure/navigation/routes.dart';
 import './widgets/export.home.widget.dart';
@@ -15,9 +16,9 @@ class HomeMobileScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: const Color(0xFF1A1A2E)),
+      appBar: AppBar(backgroundColor: KColor.darkScaffold),
       drawer: const HomeSideMenuDrawer(),
-      backgroundColor: const Color(0xFF1A1A2E),
+      backgroundColor: KColor.darkScaffold,
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -96,7 +97,7 @@ class HomeMobileScreen extends GetView<HomeController> {
 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: aboutMeLines(width: screenWidth, height: 150),
+              child: AboutMeLines(width: screenWidth, height: 150),
             ),
 
             // Code block
@@ -117,7 +118,7 @@ class HomeMobileScreen extends GetView<HomeController> {
             // Social links
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: socialLinksRow(),
+              child: SocialLinksRow(),
             ),
           ],
         ),

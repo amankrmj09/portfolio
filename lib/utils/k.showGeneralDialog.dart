@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'package:portfolio/infrastructure/theme/colors.dart';
 
 typedef DialogBuilder = Widget Function(BuildContext context);
 
@@ -7,7 +8,7 @@ Future<T?> showBlurredGeneralDialog<T>({
   required BuildContext context,
   required DialogBuilder builder,
   String barrierLabel = 'Dialog',
-  Color barrierColor = const Color(0x66000000),
+  Color barrierColor = KColor.barrierBlack,
   double blurSigma = 4,
   Duration transitionDuration = const Duration(milliseconds: 400),
   bool barrierDismissible = true,

@@ -1,7 +1,10 @@
 export 'animated.rotate.icon.dart';
 export 'animated_typer_text.dart';
-export 'flicker.once.text.dart';
 export 'hover_animated_button.dart';
 export 'header.section.dart';
 export 'code.block.dart';
-export 'widgets.dart';
+export 'animated_icon.widget.dart';
+export 'vertical_divider.widget.dart';
+export 'social_links_row.widget.dart';
+export 'about_me_lines.widget.dart';
+export 'navigate_button_and_social_links.widget.dart';

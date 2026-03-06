@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/cli/controllers/cli.controller.dart';
 
+import '../../../infrastructure/theme/colors.dart';
+
 class MainScreenView extends GetView<CliController> {
   const MainScreenView({super.key});
 
@@ -19,12 +21,12 @@ class MainScreenView extends GetView<CliController> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha((0.3 * 255).toInt()),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
         ],
-        border: Border.all(color: const Color(0xFF444444), width: 2),
+        border: Border.all(color: KColor.borderGrey, width: 2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,7 +64,7 @@ class _MacDot extends StatelessWidget {
           color: color,
           shape: BoxShape.circle,
           border: Border.all(
-            color: Colors.black.withAlpha((0.15 * 255).toInt()),
+            color: Colors.black.withValues(alpha: 0.15),
             width: 1,
           ),
         ),
@@ -78,9 +80,9 @@ class _CliContent extends StatelessWidget {
     Color getColor(CliHistoryType type) {
       switch (type) {
         case CliHistoryType.user:
-          return const Color(0xFF6A9955); // green for prompt
+          return KColor.cliPromptGreen; // green for prompt
         case CliHistoryType.output:
-          return const Color(0xFFD4D4D4); // normal output
+          return KColor.cliOutputGrey; // normal output
         case CliHistoryType.error:
           return Colors.redAccent;
       }
@@ -113,7 +115,7 @@ class _CliContent extends StatelessWidget {
                         entry.text,
                         style: TextStyle(
                           color: entry.type == CliHistoryType.user
-                              ? const Color(0xFFD4D4D4)
+                              ? KColor.cliOutputGrey
                               : getColor(entry.type),
                           fontFamily: 'monospace',
                           fontSize: 16,
@@ -131,7 +133,7 @@ class _CliContent extends StatelessWidget {
                 () => Text(
                   controller.prompt,
                   style: const TextStyle(
-                    color: Color(0xFF6A9955),
+                    color: KColor.cliPromptGreen,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'monospace',
                     fontSize: 16,
@@ -161,7 +163,7 @@ class _CliContent extends StatelessWidget {
                       hintText: 'Type a command...',
                       hintStyle: TextStyle(color: Colors.white38),
                     ),
-                    cursorColor: Color(0xFF9CDCFE),
+                    cursorColor: KColor.cliCursorBlue,
                     onSubmitted: (value) =>
                         controller.onCommandSubmitted(value, context),
                   ),
@@ -183,9 +185,9 @@ class _MacTerminalAppBar extends StatelessWidget {
     return Container(
       height: 36,
       decoration: const BoxDecoration(
-        color: Color(0xFF232323),
+        color: KColor.cliBg,
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        border: Border(bottom: BorderSide(color: Color(0xFF444444), width: 2)),
+        border: Border(bottom: BorderSide(color: KColor.borderGrey, width: 2)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Stack(
@@ -197,21 +199,21 @@ class _MacTerminalAppBar extends StatelessWidget {
             child: Row(
               children: [
                 _MacDot(
-                  color: Color(0xFFFF5F56),
+                  color: KColor.trafficRed,
                   onTap: () {
                     Get.back();
                   },
                 ),
                 SizedBox(width: 8),
                 _MacDot(
-                  color: Color(0xFFFFBD2E),
+                  color: KColor.trafficYellow,
                   onTap: () {
                     // Minimize action (optional)
                   },
                 ),
                 SizedBox(width: 8),
                 _MacDot(
-                  color: Color(0xFF27C93F),
+                  color: KColor.trafficGreen,
                   onTap: () {
                     // Maximize action (optional)
                   },

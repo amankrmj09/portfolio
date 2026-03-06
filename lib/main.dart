@@ -1,4 +1,5 @@
 import 'package:portfolio/infrastructure/theme/dark_theme.dart';
+import 'package:portfolio/infrastructure/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -35,8 +36,8 @@ class ErrorApp extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFF0A0E27),
-                const Color(0xFF1A1F3A),
+                KColor.darkDeepest,
+                KColor.darkOverlay,
                 Colors.red.withValues(alpha: 0.3),
               ],
               begin: Alignment.topLeft,
@@ -49,7 +50,7 @@ class ErrorApp extends StatelessWidget {
               margin: const EdgeInsets.all(24),
               padding: const EdgeInsets.all(40),
               decoration: BoxDecoration(
-                color: const Color(0xFF1A1F3A).withValues(alpha: 0.95),
+                color: KColor.darkOverlay.withValues(alpha: 0.95),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                   color: Colors.red.withValues(alpha: 0.4),
@@ -122,7 +123,7 @@ class ErrorApp extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF0A0E27),
+                        color: KColor.darkDeepest,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: Colors.red.withValues(alpha: 0.2),

@@ -7,6 +7,7 @@ import 'package:portfolio/domain/models/contact_details_model/contact.details.mo
 import 'package:portfolio/infrastructure/dal/services/add.contact.service.dart';
 import 'package:get/get.dart';
 import '../../../infrastructure/dal/services/ping.server.dart';
+import '../../../infrastructure/theme/colors.dart';
 
 class ContactMeView extends StatefulWidget {
   const ContactMeView({super.key});
@@ -130,43 +131,43 @@ class _ContactMeViewState extends State<ContactMeView> {
     return InputDecoration(
       labelText: label,
       labelStyle: TextStyle(
-        color: Colors.white.withAlpha((0.7 * 255).round()),
+        color: Colors.white.withValues(alpha: 0.7),
         fontSize: 15,
         fontFamily: 'Poppins',
       ),
       floatingLabelBehavior: FloatingLabelBehavior.auto,
       prefixIcon: Icon(
         icon,
-        color: Colors.white.withAlpha((0.8 * 255).round()),
+        color: Colors.white.withValues(alpha: 0.8),
         size: 22,
       ),
       filled: true,
-      fillColor: const Color(0xFF001529).withAlpha((0.4 * 255).round()),
+      fillColor: KColor.deepNavy.withValues(alpha: 0.4),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(
-          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).round()),
+          color: KColor.accentBlue.withValues(alpha: 0.3),
           width: 1.5,
         ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(
-          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).round()),
+          color: KColor.accentBlue.withValues(alpha: 0.3),
           width: 1.5,
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(
-          color: const Color(0xFF0A4A8E).withAlpha((0.7 * 255).round()),
+          color: KColor.accentBlue.withValues(alpha: 0.7),
           width: 2,
         ),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(
-          color: Colors.red.withAlpha((0.5 * 255).round()),
+          color: Colors.red.withValues(alpha: 0.5),
           width: 1.5,
         ),
       ),
@@ -194,7 +195,7 @@ class _ContactMeViewState extends State<ContactMeView> {
     final field = TextFormField(
       controller: controller,
       style: TextStyle(
-        color: Colors.white.withAlpha((0.95 * 255).round()),
+        color: Colors.white.withValues(alpha: 0.95),
         fontSize: 15,
         fontFamily: 'Poppins',
       ),
@@ -219,7 +220,7 @@ class _ContactMeViewState extends State<ContactMeView> {
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: Colors.white.withAlpha((0.95 * 255).round()),
+              color: Colors.white.withValues(alpha: 0.95),
               fontFamily: 'Poppins',
               letterSpacing: 0.5,
             ),
@@ -229,13 +230,13 @@ class _ContactMeViewState extends State<ContactMeView> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFF8B0000).withAlpha((0.4 * 255).round()),
-                const Color(0xFF4B0000).withAlpha((0.3 * 255).round()),
+                KColor.darkRed.withValues(alpha: 0.4),
+                KColor.darkerRed.withValues(alpha: 0.3),
               ],
             ),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: const Color(0xFFFF4444).withAlpha((0.3 * 255).round()),
+              color: KColor.alertRed.withValues(alpha: 0.3),
               width: 1,
             ),
           ),
@@ -243,10 +244,10 @@ class _ContactMeViewState extends State<ContactMeView> {
             icon: const Icon(Icons.close_rounded, size: 24),
             onPressed: () => Navigator.of(context).maybePop(),
             tooltip: 'Close',
-            color: Colors.white.withAlpha((0.95 * 255).round()),
+            color: Colors.white.withValues(alpha: 0.95),
             style: ButtonStyle(
               overlayColor: WidgetStateProperty.all(
-                const Color(0xFFFF4444).withAlpha((0.2 * 255).round()),
+                KColor.alertRed.withValues(alpha: 0.2),
               ),
             ),
           ),
@@ -272,18 +273,18 @@ class _ContactMeViewState extends State<ContactMeView> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF0A1628).withAlpha((0.95 * 255).round()),
-                  const Color(0xFF001529).withAlpha((0.9 * 255).round()),
+                  KColor.darkNavy.withValues(alpha: 0.95),
+                  KColor.deepNavy.withValues(alpha: 0.9),
                 ],
               ),
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).round()),
+                color: KColor.accentBlue.withValues(alpha: 0.3),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha((0.5 * 255).round()),
+                  color: Colors.black.withValues(alpha: 0.5),
                   blurRadius: 40,
                   offset: const Offset(0, 20),
                 ),
@@ -297,7 +298,7 @@ class _ContactMeViewState extends State<ContactMeView> {
                 const SizedBox(height: 8),
                 Divider(
                   height: 1,
-                  color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).round()),
+                  color: KColor.accentBlue.withValues(alpha: 0.3),
                 ),
                 const SizedBox(height: 24),
                 // ✅ REMOVED: Expanded widget that was forcing height
@@ -413,18 +414,18 @@ class _ContactMeViewState extends State<ContactMeView> {
                                       )) {
                                         return const Color(
                                           0xFF0A4A8E,
-                                        ).withAlpha((0.7 * 255).round());
+                                        ).withValues(alpha: 0.7);
                                       }
                                       if (states.contains(
                                         WidgetState.hovered,
                                       )) {
                                         return const Color(
                                           0xFF0A4A8E,
-                                        ).withAlpha((0.6 * 255).round());
+                                        ).withValues(alpha: 0.6);
                                       }
                                       return const Color(
                                         0xFF0A4A8E,
-                                      ).withAlpha((0.5 * 255).round());
+                                      ).withValues(alpha: 0.5);
                                     }),
                               ),
                           child: Container(
@@ -432,8 +433,8 @@ class _ContactMeViewState extends State<ContactMeView> {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  const Color(0xFF0A4A8E).withAlpha(0),
-                                  const Color(0xFF001529).withAlpha(0),
+                                  KColor.accentBlue.withValues(alpha: 0.0),
+                                  KColor.deepNavy.withValues(alpha: 0.0),
                                 ],
                               ),
                             ),
@@ -443,9 +444,7 @@ class _ContactMeViewState extends State<ContactMeView> {
                                 Icon(
                                   Icons.send_rounded,
                                   size: 20,
-                                  color: Colors.white.withAlpha(
-                                    (0.95 * 255).round(),
-                                  ),
+                                  color: Colors.white.withValues(alpha: 0.95),
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
@@ -455,9 +454,7 @@ class _ContactMeViewState extends State<ContactMeView> {
                                     fontWeight: FontWeight.w700,
                                     fontFamily: 'Poppins',
                                     letterSpacing: 0.5,
-                                    color: Colors.white.withAlpha(
-                                      (0.95 * 255).round(),
-                                    ),
+                                    color: Colors.white.withValues(alpha: 0.95),
                                   ),
                                 ),
                               ],

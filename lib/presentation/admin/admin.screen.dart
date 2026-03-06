@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/admin/views/login_form.dart';
 
+import '../../infrastructure/theme/colors.dart';
 import '../../widgets/mesh.background.dart';
 import 'controllers/admin.controller.dart';
 
@@ -12,7 +13,7 @@ class AdminScreen extends GetView<AdminController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A2E),
+      backgroundColor: KColor.darkScaffold,
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,

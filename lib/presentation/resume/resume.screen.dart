@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/resume/widgets/side_bar.dart';
+import '../../infrastructure/theme/colors.dart';
 import '../../widgets/mesh.background.dart';
 import '../../utils/launch.url.dart';
 import '../../utils/k.snackbar.dart';
@@ -22,7 +23,7 @@ class ResumeScreen extends GetView<ResumeController> {
       backgroundColor: Colors.transparent,
       appBar: isMobile
           ? AppBar(
-              backgroundColor: const Color(0xFF0A1628),
+              backgroundColor: KColor.darkNavy,
               elevation: 0,
               leading: Builder(
                 builder: (context) => IconButton(
@@ -33,7 +34,7 @@ class ResumeScreen extends GetView<ResumeController> {
               title: Text(
                 'RESUME',
                 style: TextStyle(
-                  color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.95),
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.5,
@@ -61,8 +62,8 @@ class ResumeScreen extends GetView<ResumeController> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFF0A1628).withAlpha((0.95 * 255).toInt()),
-              const Color(0xFF000108).withAlpha((0.90 * 255).toInt()),
+              KColor.darkNavy.withValues(alpha: 0.95),
+              KColor.nearBlack.withValues(alpha: 0.90),
             ],
           ),
         ),
@@ -76,14 +77,14 @@ class ResumeScreen extends GetView<ResumeController> {
                   children: [
                     Icon(
                       Icons.description,
-                      color: Colors.white.withAlpha((0.9 * 255).toInt()),
+                      color: Colors.white.withValues(alpha: 0.9),
                       size: 32,
                     ),
                     const SizedBox(width: 12),
                     Text(
                       'RESUME',
                       style: TextStyle(
-                        color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                        color: Colors.white.withValues(alpha: 0.95),
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 1.5,
@@ -92,8 +93,8 @@ class ResumeScreen extends GetView<ResumeController> {
                   ],
                 ),
               ),
-              const Divider(
-                color: Color(0xFF0A4A8E),
+              Divider(
+                color: KColor.accentBlue,
                 thickness: 1,
                 indent: 20,
                 endIndent: 20,
@@ -107,7 +108,7 @@ class ResumeScreen extends GetView<ResumeController> {
                   child: Text(
                     'NAVIGATION',
                     style: TextStyle(
-                      color: Colors.white.withAlpha((0.5 * 255).toInt()),
+                      color: Colors.white.withValues(alpha: 0.5),
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 1.5,
@@ -179,15 +180,15 @@ class ResumeScreen extends GetView<ResumeController> {
               gradient: isSelected
                   ? LinearGradient(
                       colors: [
-                        const Color(0xFF0A4A8E).withAlpha((0.5 * 255).toInt()),
-                        const Color(0xFF001529).withAlpha((0.4 * 255).toInt()),
+                        KColor.accentBlue.withValues(alpha: 0.5),
+                        KColor.deepNavy.withValues(alpha: 0.4),
                       ],
                     )
                   : null,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: isSelected
-                    ? const Color(0xFF0A4A8E).withAlpha((0.6 * 255).toInt())
+                    ? KColor.accentBlue.withValues(alpha: 0.6)
                     : Colors.transparent,
                 width: isSelected ? 2 : 1,
               ),
@@ -202,10 +203,10 @@ class ResumeScreen extends GetView<ResumeController> {
                             colors: [
                               const Color(
                                 0xFF0A4A8E,
-                              ).withAlpha((0.3 * 255).toInt()),
+                              ).withValues(alpha: 0.3),
                               const Color(
                                 0xFF0A4A8E,
-                              ).withAlpha((0.1 * 255).toInt()),
+                              ).withValues(alpha: 0.1),
                             ],
                           )
                         : null,
@@ -215,7 +216,7 @@ class ResumeScreen extends GetView<ResumeController> {
                     icon,
                     color: isSelected
                         ? Colors.white
-                        : Colors.white.withAlpha((0.8 * 255).toInt()),
+                        : Colors.white.withValues(alpha: 0.8),
                     size: 22,
                   ),
                 ),
@@ -226,7 +227,7 @@ class ResumeScreen extends GetView<ResumeController> {
                     style: TextStyle(
                       color: isSelected
                           ? Colors.white
-                          : Colors.white.withAlpha((0.85 * 255).toInt()),
+                          : Colors.white.withValues(alpha: 0.85),
                       fontSize: 15,
                       fontWeight: isSelected
                           ? FontWeight.w700
@@ -242,13 +243,13 @@ class ResumeScreen extends GetView<ResumeController> {
                     decoration: BoxDecoration(
                       color: const Color(
                         0xFF0A4A8E,
-                      ).withAlpha((0.8 * 255).toInt()),
+                      ).withValues(alpha: 0.8),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
                           color: const Color(
                             0xFF0A4A8E,
-                          ).withAlpha((0.5 * 255).toInt()),
+                          ).withValues(alpha: 0.5),
                           blurRadius: 6,
                           spreadRadius: 1,
                         ),
@@ -272,13 +273,13 @@ class ResumeScreen extends GetView<ResumeController> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color(0xFF00A843).withAlpha((0.4 * 255).toInt()),
-              const Color(0xFF008833).withAlpha((0.3 * 255).toInt()),
+              KColor.mediumGreen.withValues(alpha: 0.4),
+              KColor.darkGreen.withValues(alpha: 0.3),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: const Color(0xFF00A843).withAlpha((0.4 * 255).toInt()),
+            color: KColor.mediumGreen.withValues(alpha: 0.4),
             width: 1.5,
           ),
         ),
@@ -308,15 +309,15 @@ class ResumeScreen extends GetView<ResumeController> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      const Color(0xFF00C853).withAlpha((0.3 * 255).toInt()),
-                      const Color(0xFF00C853).withAlpha((0.1 * 255).toInt()),
+                      KColor.successGreen.withValues(alpha: 0.3),
+                      KColor.successGreen.withValues(alpha: 0.1),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   Icons.download_rounded,
-                  color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.95),
                   size: 20,
                 ),
               ),
@@ -324,7 +325,7 @@ class ResumeScreen extends GetView<ResumeController> {
               Text(
                 'Download Resume',
                 style: TextStyle(
-                  color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.95),
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.5,
@@ -344,13 +345,13 @@ class ResumeScreen extends GetView<ResumeController> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFF6B0000).withAlpha((0.4 * 255).toInt()),
-            const Color(0xFF3B0000).withAlpha((0.3 * 255).toInt()),
+            KColor.darkRedAlt.withValues(alpha: 0.4),
+            KColor.darkestRed.withValues(alpha: 0.3),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: const Color(0xFF8B0000).withAlpha((0.4 * 255).toInt()),
+          color: KColor.darkRed.withValues(alpha: 0.4),
           width: 1.5,
         ),
       ),
@@ -362,14 +363,14 @@ class ResumeScreen extends GetView<ResumeController> {
           children: [
             Icon(
               Icons.arrow_back_rounded,
-              color: Colors.white.withAlpha((0.95 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.95),
               size: 20,
             ),
             const SizedBox(width: 8),
             Text(
               'Back to Home',
               style: TextStyle(
-                color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.95),
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.5,
@@ -391,18 +392,18 @@ class ResumeScreen extends GetView<ResumeController> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFF0A1628).withAlpha((0.85 * 255).toInt()),
-                const Color(0xFF000108).withAlpha((0.75 * 255).toInt()),
+                KColor.darkNavy.withValues(alpha: 0.85),
+                KColor.nearBlack.withValues(alpha: 0.75),
               ],
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+              color: KColor.accentBlue.withValues(alpha: 0.3),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha((0.4 * 255).toInt()),
+                color: Colors.black.withValues(alpha: 0.4),
                 blurRadius: 24,
                 offset: const Offset(0, 10),
                 spreadRadius: 0,
@@ -475,22 +476,22 @@ class ResumeScreen extends GetView<ResumeController> {
                         colors: [
                           const Color(
                             0xFF0A1628,
-                          ).withAlpha((0.85 * 255).toInt()),
+                          ).withValues(alpha: 0.85),
                           const Color(
                             0xFF000108,
-                          ).withAlpha((0.75 * 255).toInt()),
+                          ).withValues(alpha: 0.75),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(28),
                       border: Border.all(
                         color: const Color(
                           0xFF0A4A8E,
-                        ).withAlpha((0.3 * 255).toInt()),
+                        ).withValues(alpha: 0.3),
                         width: 1.5,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withAlpha((0.4 * 255).toInt()),
+                          color: Colors.black.withValues(alpha: 0.4),
                           blurRadius: 24,
                           offset: const Offset(0, 10),
                           spreadRadius: 0,

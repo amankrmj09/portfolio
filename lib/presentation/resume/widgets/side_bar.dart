@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../infrastructure/theme/colors.dart';
 import '../../../utils/launch.url.dart';
 import '../../../utils/k.snackbar.dart';
 
@@ -26,13 +27,6 @@ class _SideBarState extends State<SideBar> {
   bool isBackButtonHovered = false;
   bool isDownloadButtonHovered = false;
 
-  // Helper to replace deprecated withOpacity with withAlpha
-  Color _withOpacity(Color color, double opacity) {
-    if (opacity >= 1.0) return color;
-    if (opacity <= 0.0) return color.withAlpha(0);
-    return color.withAlpha((opacity * 255).round());
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,18 +35,18 @@ class _SideBarState extends State<SideBar> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            _withOpacity(const Color(0xFF0A1628), 0.85),
-            _withOpacity(const Color(0xFF000108), 0.75),
+            KColor.darkNavy.withValues(alpha: 0.85),
+            KColor.nearBlack.withValues(alpha: 0.75),
           ],
         ),
         borderRadius: BorderRadius.circular(28),
         border: Border.all(
-          color: _withOpacity(const Color(0xFF0A4A8E), 0.3),
+          color: KColor.accentBlue.withValues(alpha: 0.3),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: _withOpacity(Colors.black, 0.4),
+            color: Colors.black.withValues(alpha: 0.4),
             blurRadius: 24,
             offset: const Offset(0, 10),
             spreadRadius: 0,
@@ -76,7 +70,7 @@ class _SideBarState extends State<SideBar> {
             child: Text(
               'NAVIGATION',
               style: TextStyle(
-                color: _withOpacity(Colors.white, 0.5),
+                color: Colors.white.withValues(alpha: 0.5),
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.5,
@@ -122,25 +116,25 @@ class _SideBarState extends State<SideBar> {
             end: Alignment.bottomRight,
             colors: isBackButtonHovered
                 ? [
-                    _withOpacity(const Color(0xFF8B0000), 0.4),
-                    _withOpacity(const Color(0xFF4B0000), 0.3),
+                    KColor.darkRed.withValues(alpha: 0.4),
+                    KColor.darkerRed.withValues(alpha: 0.3),
                   ]
                 : [
-                    _withOpacity(const Color(0xFF6B0000), 0.3),
-                    _withOpacity(const Color(0xFF3B0000), 0.2),
+                    KColor.darkRedAlt.withValues(alpha: 0.3),
+                    KColor.darkestRed.withValues(alpha: 0.2),
                   ],
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isBackButtonHovered
-                ? _withOpacity(const Color(0xFFFF4444), 0.4)
-                : _withOpacity(const Color(0xFF8B0000), 0.3),
+                ? KColor.alertRed.withValues(alpha: 0.4)
+                : KColor.darkRed.withValues(alpha: 0.3),
             width: 1.5,
           ),
           boxShadow: isBackButtonHovered
               ? [
                   BoxShadow(
-                    color: _withOpacity(const Color(0xFFFF4444), 0.2),
+                    color: KColor.alertRed.withValues(alpha: 0.2),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -152,8 +146,8 @@ class _SideBarState extends State<SideBar> {
             Get.back();
           },
           borderRadius: BorderRadius.circular(20),
-          splashColor: _withOpacity(const Color(0xFFFF4444), 0.2),
-          highlightColor: _withOpacity(const Color(0xFFFF4444), 0.1),
+          splashColor: KColor.alertRed.withValues(alpha: 0.2),
+          highlightColor: KColor.alertRed.withValues(alpha: 0.1),
           child: Stack(
             children: [
               // Centered title that shifts right on hover
@@ -170,7 +164,7 @@ class _SideBarState extends State<SideBar> {
                   child: Text(
                     'RESUME',
                     style: TextStyle(
-                      color: _withOpacity(Colors.white, 0.95),
+                      color: Colors.white.withValues(alpha: 0.95),
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1.5,
@@ -196,15 +190,15 @@ class _SideBarState extends State<SideBar> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            _withOpacity(const Color(0xFFFF4444), 0.3),
-                            _withOpacity(const Color(0xFFFF4444), 0.1),
+                            KColor.alertRed.withValues(alpha: 0.3),
+                            KColor.alertRed.withValues(alpha: 0.1),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
                         Icons.arrow_back_rounded,
-                        color: _withOpacity(Colors.white, 0.95),
+                        color: Colors.white.withValues(alpha: 0.95),
                         size: 20,
                       ),
                     ),
@@ -233,25 +227,25 @@ class _SideBarState extends State<SideBar> {
             end: Alignment.bottomRight,
             colors: isDownloadButtonHovered
                 ? [
-                    _withOpacity(const Color(0xFF00C853), 0.5), // Bright green
-                    _withOpacity(const Color(0xFF00A843), 0.4),
+                    KColor.successGreen.withValues(alpha: 0.5), // Bright green
+                    KColor.mediumGreen.withValues(alpha: 0.4),
                   ]
                 : [
-                    _withOpacity(const Color(0xFF00A843), 0.4), // Dark green
-                    _withOpacity(const Color(0xFF008833), 0.3),
+                    KColor.mediumGreen.withValues(alpha: 0.4), // Dark green
+                    KColor.darkGreen.withValues(alpha: 0.3),
                   ],
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isDownloadButtonHovered
-                ? _withOpacity(const Color(0xFF00C853), 0.6)
-                : _withOpacity(const Color(0xFF00A843), 0.4),
+                ? KColor.successGreen.withValues(alpha: 0.6)
+                : KColor.mediumGreen.withValues(alpha: 0.4),
             width: 1.5,
           ),
           boxShadow: isDownloadButtonHovered
               ? [
                   BoxShadow(
-                    color: _withOpacity(const Color(0xFF00C853), 0.3),
+                    color: KColor.successGreen.withValues(alpha: 0.3),
                     blurRadius: 16,
                     offset: const Offset(0, 6),
                   ),
@@ -276,8 +270,8 @@ class _SideBarState extends State<SideBar> {
             }
           },
           borderRadius: BorderRadius.circular(20),
-          splashColor: _withOpacity(const Color(0xFF00C853), 0.2),
-          highlightColor: _withOpacity(const Color(0xFF00C853), 0.1),
+          splashColor: KColor.successGreen.withValues(alpha: 0.2),
+          highlightColor: KColor.successGreen.withValues(alpha: 0.1),
           child: Stack(
             children: [
               // Centered text that shifts right on hover
@@ -294,7 +288,7 @@ class _SideBarState extends State<SideBar> {
                   child: Text(
                     'Download My Resume',
                     style: TextStyle(
-                      color: _withOpacity(Colors.white, 0.95),
+                      color: Colors.white.withValues(alpha: 0.95),
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 0.5,
@@ -321,15 +315,15 @@ class _SideBarState extends State<SideBar> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            _withOpacity(const Color(0xFF00C853), 0.3),
-                            _withOpacity(const Color(0xFF00C853), 0.1),
+                            KColor.successGreen.withValues(alpha: 0.3),
+                            KColor.successGreen.withValues(alpha: 0.1),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
                         Icons.download_rounded,
-                        color: _withOpacity(Colors.white, 0.95),
+                        color: Colors.white.withValues(alpha: 0.95),
                         size: 20,
                       ),
                     ),
@@ -348,7 +342,7 @@ class _SideBarState extends State<SideBar> {
     final bool isHovered = hoverIndex == index;
 
     final TextStyle menuTextStyle = TextStyle(
-      color: isSelected ? Colors.white : _withOpacity(Colors.white, 0.85),
+      color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.85),
       fontSize: 15,
       fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
       letterSpacing: 0.3,
@@ -368,32 +362,32 @@ class _SideBarState extends State<SideBar> {
               end: Alignment.bottomRight,
               colors: isSelected
                   ? [
-                      _withOpacity(const Color(0xFF0A4A8E), 0.5),
-                      _withOpacity(const Color(0xFF001529), 0.4),
+                      KColor.accentBlue.withValues(alpha: 0.5),
+                      KColor.deepNavy.withValues(alpha: 0.4),
                     ]
                   : isHovered
                   ? [
-                      _withOpacity(const Color(0xFF001529), 0.4),
-                      _withOpacity(const Color(0xFF000A1F), 0.3),
+                      KColor.deepNavy.withValues(alpha: 0.4),
+                      KColor.deepestNavy.withValues(alpha: 0.3),
                     ]
                   : [
-                      _withOpacity(const Color(0xFF000A1F), 0.2),
-                      _withOpacity(const Color(0xFF000000), 0.1),
+                      KColor.deepestNavy.withValues(alpha: 0.2),
+                      const Color(0xFF000000).withValues(alpha: 0.1),
                     ],
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: isSelected
-                  ? _withOpacity(const Color(0xFF0A4A8E), 0.6)
+                  ? KColor.accentBlue.withValues(alpha: 0.6)
                   : isHovered
-                  ? _withOpacity(const Color(0xFF0A4A8E), 0.3)
+                  ? KColor.accentBlue.withValues(alpha: 0.3)
                   : Colors.transparent,
               width: isSelected ? 2 : 1,
             ),
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: _withOpacity(const Color(0xFF0A4A8E), 0.3),
+                      color: KColor.accentBlue.withValues(alpha: 0.3),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -410,8 +404,8 @@ class _SideBarState extends State<SideBar> {
                 }
               },
               borderRadius: BorderRadius.circular(20),
-              splashColor: _withOpacity(const Color(0xFF0A4A8E), 0.2),
-              highlightColor: _withOpacity(const Color(0xFF0A4A8E), 0.1),
+              splashColor: KColor.accentBlue.withValues(alpha: 0.2),
+              highlightColor: KColor.accentBlue.withValues(alpha: 0.1),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 16,
@@ -425,8 +419,8 @@ class _SideBarState extends State<SideBar> {
                         gradient: isSelected
                             ? LinearGradient(
                                 colors: [
-                                  _withOpacity(const Color(0xFF0A4A8E), 0.3),
-                                  _withOpacity(const Color(0xFF0A4A8E), 0.1),
+                                  KColor.accentBlue.withValues(alpha: 0.3),
+                                  KColor.accentBlue.withValues(alpha: 0.1),
                                 ],
                               )
                             : null,
@@ -436,7 +430,7 @@ class _SideBarState extends State<SideBar> {
                         icon,
                         color: isSelected
                             ? Colors.white
-                            : _withOpacity(Colors.white, 0.8),
+                            : Colors.white.withValues(alpha: 0.8),
                         size: 24,
                       ),
                     ),
@@ -453,11 +447,11 @@ class _SideBarState extends State<SideBar> {
                         width: 6,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: _withOpacity(const Color(0xFF0A4A8E), 0.8),
+                          color: KColor.accentBlue.withValues(alpha: 0.8),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: _withOpacity(const Color(0xFF0A4A8E), 0.5),
+                              color: KColor.accentBlue.withValues(alpha: 0.5),
                               blurRadius: 6,
                               spreadRadius: 1,
                             ),

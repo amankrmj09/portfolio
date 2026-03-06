@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../infrastructure/theme/colors.dart';
 import 'axis.count.dart';
 import 'k.showGeneralDialog.dart';
 
@@ -31,7 +32,7 @@ class AllItemsView<T> extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0A1628),
+      backgroundColor: KColor.darkNavy,
       extendBodyBehindAppBar: true, // ✅ Makes body go behind app bar
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
@@ -65,7 +66,7 @@ class AllItemsView<T> extends StatelessWidget {
                           )
                         : Center(
                             child: CircularProgressIndicator(
-                              color: const Color(0xFF0A4A8E),
+                              color: KColor.accentBlue,
                             ),
                           ))
                   : items.isEmpty
@@ -73,7 +74,7 @@ class AllItemsView<T> extends StatelessWidget {
                       child: Text(
                         'No items found.',
                         style: TextStyle(
-                          color: Colors.white.withAlpha((0.7 * 255).toInt()),
+                          color: Colors.white.withValues(alpha: 0.7),
                           fontSize: 18,
                           fontFamily: 'Poppins',
                         ),
@@ -165,18 +166,18 @@ class AllItemsView<T> extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFF8B0000).withValues(alpha: 0.5), // Dark red
-                const Color(0xFF4B0000).withValues(alpha: 0.4), // Darker red
+                KColor.darkRed.withValues(alpha: 0.5), // Dark red
+                KColor.darkerRed.withValues(alpha: 0.4), // Darker red
               ],
             ),
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: const Color(0xFFFF4444).withValues(alpha: 0.4),
+              color: KColor.alertRed.withValues(alpha: 0.4),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFFF4444).withValues(alpha: 0.2),
+                color: KColor.alertRed.withValues(alpha: 0.2),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),

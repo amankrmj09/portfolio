@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
+import 'package:portfolio/infrastructure/theme/colors.dart';
 
 class SharedMeshBackground extends StatefulWidget {
   const SharedMeshBackground({super.key});
@@ -34,10 +35,10 @@ class _SharedMeshBackgroundState extends State<SharedMeshBackground> {
             Positioned.fill(
               child: AnimatedMeshGradient(
                 colors: const [
-                  Color(0xFF0F0F23), // Dark blue-black
-                  Color(0xFF1A1A3E), // Dark purple-blue
-                  Color(0xFF0D1B2A), // Dark navy
-                  Color(0xFF1B263B), // Dark slate blue
+                  KColor.meshDark1, // Dark blue-black
+                  KColor.meshDark2, // Dark purple-blue
+                  KColor.meshDark3, // Dark navy
+                  KColor.meshDark4, // Dark slate blue
                 ],
                 controller: _controller,
                 options: AnimatedMeshGradientOptions(
@@ -66,7 +67,7 @@ class _TechGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFF00D9FF).withValues(alpha: 0.05)
+      ..color = KColor.meshGlow.withValues(alpha: 0.05)
       ..strokeWidth = 0.5;
 
     const spacing = 50.0;
@@ -83,7 +84,7 @@ class _TechGridPainter extends CustomPainter {
 
     // Dots at intersections
     final dotPaint = Paint()
-      ..color = const Color(0xFF00D9FF).withValues(alpha: 0.15)
+      ..color = KColor.meshGlow.withValues(alpha: 0.15)
       ..style = PaintingStyle.fill;
 
     for (double x = 0; x < size.width; x += spacing) {

@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/infrastructure/theme/colors.dart';
+import 'package:portfolio/presentation/home/widgets/widgets.dart';
 import './widgets/export.home.widget.dart';
 import '../../infrastructure/navigation/routes.dart';
 import '../../widgets/k.pretty.animated.dart';
@@ -25,7 +27,7 @@ class HomeTabletScreen extends GetView<HomeController> {
     );
 
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A2E),
+      backgroundColor: KColor.darkScaffold,
       body: SafeArea(
         child: Stack(
           alignment: Alignment.center,

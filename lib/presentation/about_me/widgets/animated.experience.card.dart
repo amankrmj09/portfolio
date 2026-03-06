@@ -5,6 +5,7 @@ import 'package:aura_box/aura_box.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/models/experience_model/experience.model.dart';
+import '../../../infrastructure/theme/colors.dart';
 
 class AnimatedExperienceCard extends StatefulWidget {
   final List<ExperienceModel> experiences;
@@ -158,8 +159,8 @@ class _ExperienceCardState extends State<ExperienceCard> {
       Alignment.center,
     ];
     final colors = [
-      const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
-      const Color(0xFF001529).withAlpha((0.3 * 255).toInt()),
+      KColor.accentBlue.withValues(alpha: 0.4),
+      KColor.deepNavy.withValues(alpha: 0.3),
     ];
     return List.generate(colors.length, (i) {
       final double radius =
@@ -187,7 +188,7 @@ class _ExperienceCardState extends State<ExperienceCard> {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
+          color: KColor.accentBlue.withValues(alpha: 0.4),
           width: 1.5,
         ),
       ),
@@ -197,8 +198,8 @@ class _ExperienceCardState extends State<ExperienceCard> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFF0A1628).withAlpha((0.95 * 255).toInt()),
-                const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
+                KColor.darkNavy.withValues(alpha: 0.95),
+                KColor.deepNavy.withValues(alpha: 0.85),
               ],
             ),
             shape: BoxShape.rectangle,
@@ -217,7 +218,7 @@ class _ExperienceCardState extends State<ExperienceCard> {
                       width: 4,
                       height: 24,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF0A4A8E),
+                        color: KColor.accentBlue,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -229,7 +230,7 @@ class _ExperienceCardState extends State<ExperienceCard> {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'ShantellSans',
-                          color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                          color: Colors.white.withValues(alpha: 0.95),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -248,7 +249,7 @@ class _ExperienceCardState extends State<ExperienceCard> {
                           Icon(
                             Icons.business_outlined,
                             size: 16,
-                            color: Colors.white.withAlpha((0.7 * 255).toInt()),
+                            color: Colors.white.withValues(alpha: 0.7),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
@@ -259,9 +260,7 @@ class _ExperienceCardState extends State<ExperienceCard> {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white.withAlpha(
-                                  (0.85 * 255).toInt(),
-                                ),
+                                color: Colors.white.withValues(alpha: 0.85),
                               ),
                             ),
                           ),
@@ -275,16 +274,14 @@ class _ExperienceCardState extends State<ExperienceCard> {
                           Icon(
                             Icons.location_on_outlined,
                             size: 16,
-                            color: Colors.white.withAlpha((0.7 * 255).toInt()),
+                            color: Colors.white.withValues(alpha: 0.7),
                           ),
                           const SizedBox(width: 4),
                           Text(
                             exp.location,
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white.withAlpha(
-                                (0.7 * 255).toInt(),
-                              ),
+                              color: Colors.white.withValues(alpha: 0.7),
                             ),
                           ),
                         ],
@@ -299,14 +296,14 @@ class _ExperienceCardState extends State<ExperienceCard> {
                     Icon(
                       Icons.calendar_today_outlined,
                       size: 14,
-                      color: Colors.white.withAlpha((0.6 * 255).toInt()),
+                      color: Colors.white.withValues(alpha: 0.6),
                     ),
                     const SizedBox(width: 6),
                     Text(
                       '${exp.startDate} - ${exp.endDate}',
                       style: TextStyle(
                         fontSize: 13,
-                        color: Colors.white.withAlpha((0.6 * 255).toInt()),
+                        color: Colors.white.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -320,7 +317,7 @@ class _ExperienceCardState extends State<ExperienceCard> {
                   style: TextStyle(
                     fontSize: 14,
                     height: 1.5,
-                    color: Colors.white.withAlpha((0.85 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.85),
                   ),
                 ),
                 if (exp.technologies.isNotEmpty) ...[
@@ -340,17 +337,17 @@ class _ExperienceCardState extends State<ExperienceCard> {
                             colors: [
                               const Color(
                                 0xFF0A4A8E,
-                              ).withAlpha((0.3 * 255).toInt()),
+                              ).withValues(alpha: 0.3),
                               const Color(
                                 0xFF001529,
-                              ).withAlpha((0.2 * 255).toInt()),
+                              ).withValues(alpha: 0.2),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: const Color(
                               0xFF0A4A8E,
-                            ).withAlpha((0.4 * 255).toInt()),
+                            ).withValues(alpha: 0.4),
                             width: 1,
                           ),
                         ),
@@ -359,7 +356,7 @@ class _ExperienceCardState extends State<ExperienceCard> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white.withAlpha((0.9 * 255).toInt()),
+                            color: Colors.white.withValues(alpha: 0.9),
                           ),
                         ),
                       );

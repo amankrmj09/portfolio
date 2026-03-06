@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/widgets/k.image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../domain/models/project_model/project.model.dart';
+import '../../../infrastructure/theme/colors.dart';
 
 class WorkMobileView extends StatelessWidget {
   final ProjectModel project;
@@ -12,7 +13,7 @@ class WorkMobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0A1628), // ✅ Modern blackish-bluish
+      backgroundColor: KColor.darkNavy, // ✅ Modern blackish-bluish
       extendBodyBehindAppBar: true,
       appBar: _buildModernAppBar(context),
       body: SafeArea(
@@ -63,13 +64,13 @@ class WorkMobileView extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color(0xFF0A1628).withValues(alpha: 0.9),
-              const Color(0xFF001529).withValues(alpha: 0.85),
+              KColor.darkNavy.withValues(alpha: 0.9),
+              KColor.deepNavy.withValues(alpha: 0.85),
             ],
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: const Color(0xFF0A4A8E).withValues(alpha: 0.3),
+            color: KColor.accentBlue.withValues(alpha: 0.3),
             width: 1.5,
           ),
           boxShadow: [
@@ -118,13 +119,13 @@ class WorkMobileView extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color(0xFF8B0000).withValues(alpha: 0.5),
-              const Color(0xFF4B0000).withValues(alpha: 0.4),
+              KColor.darkRed.withValues(alpha: 0.5),
+              KColor.darkerRed.withValues(alpha: 0.4),
             ],
           ),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: const Color(0xFFFF4444).withValues(alpha: 0.4),
+            color: KColor.alertRed.withValues(alpha: 0.4),
             width: 1.5,
           ),
         ),
@@ -154,7 +155,7 @@ class WorkMobileView extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: const Color(0xFF0A4A8E).withValues(alpha: 0.3),
+                  color: KColor.accentBlue.withValues(alpha: 0.3),
                   width: 2,
                 ),
                 boxShadow: [
@@ -214,13 +215,13 @@ class WorkMobileView extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        const Color(0xFF0A4A8E).withValues(alpha: 0.3),
-                        const Color(0xFF001529).withValues(alpha: 0.2),
+                        KColor.accentBlue.withValues(alpha: 0.3),
+                        KColor.deepNavy.withValues(alpha: 0.2),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: const Color(0xFF0A4A8E).withValues(alpha: 0.4),
+                      color: KColor.accentBlue.withValues(alpha: 0.4),
                       width: 1,
                     ),
                   ),
@@ -271,13 +272,13 @@ class WorkMobileView extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color(0xFF0A4A8E).withValues(alpha: 0.3),
-              const Color(0xFF001529).withValues(alpha: 0.2),
+              KColor.accentBlue.withValues(alpha: 0.3),
+              KColor.deepNavy.withValues(alpha: 0.2),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: const Color(0xFF0A4A8E).withValues(alpha: 0.4),
+            color: KColor.accentBlue.withValues(alpha: 0.4),
             width: 1.5,
           ),
         ),
@@ -286,7 +287,7 @@ class WorkMobileView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color(0xFF0A4A8E).withValues(alpha: 0.3),
+                color: KColor.accentBlue.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(

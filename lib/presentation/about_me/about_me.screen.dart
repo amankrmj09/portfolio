@@ -13,6 +13,7 @@ import 'package:portfolio/utils/k.showGeneralDialog.dart';
 import '../../domain/models/experience_model/experience.model.dart';
 import '../../domain/models/profile_links_model/profile.links.model.dart';
 import '../../domain/models/tools_model/tools.model.dart';
+import '../../infrastructure/theme/colors.dart';
 import '../../widgets/animated.navigate.button.dart';
 import '../home/controllers/home.controller.dart';
 import 'controllers/about_me.controller.dart';
@@ -41,18 +42,18 @@ class AboutMeScreen extends GetView<AboutMeController> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFF0A1628).withAlpha((0.85 * 255).toInt()),
-                const Color(0xFF001529).withAlpha((0.75 * 255).toInt()),
-                const Color(0xFF000A1F).withAlpha((0.65 * 255).toInt()),
+                KColor.darkNavy.withValues(alpha: 0.85),
+                KColor.deepNavy.withValues(alpha: 0.75),
+                KColor.deepestNavy.withValues(alpha: 0.65),
               ],
             ),
             border: Border.all(
-              color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+              color: KColor.accentBlue.withValues(alpha: 0.3),
               width: 2,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha((0.4 * 255).toInt()),
+                color: Colors.black.withValues(alpha: 0.4),
                 blurRadius: 24,
                 offset: const Offset(0, 10),
               ),
@@ -190,13 +191,13 @@ class AboutMeScreen extends GetView<AboutMeController> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFF0A4A8E).withAlpha((0.25 * 255).toInt()),
-            const Color(0xFF001529).withAlpha((0.15 * 255).toInt()),
+            KColor.accentBlue.withValues(alpha: 0.25),
+            KColor.deepNavy.withValues(alpha: 0.15),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withAlpha((0.4 * 255).toInt()),
+          color: KColor.accentBlue.withValues(alpha: 0.4),
           width: 1.5,
         ),
       ),
@@ -208,13 +209,13 @@ class AboutMeScreen extends GetView<AboutMeController> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                  color: KColor.accentBlue.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   Icons.person_outline_rounded,
                   size: 28,
-                  color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.95),
                 ),
               ),
               const SizedBox(width: 16),
@@ -228,7 +229,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'ShantellSans',
-                        color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                        color: Colors.white.withValues(alpha: 0.95),
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -238,7 +239,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                           Icon(
                             Icons.email_outlined,
                             size: 14,
-                            color: Colors.white.withAlpha((0.7 * 255).toInt()),
+                            color: Colors.white.withValues(alpha: 0.7),
                           ),
                           const SizedBox(width: 6),
                           Expanded(
@@ -246,9 +247,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                               email,
                               style: TextStyle(
                                 fontSize: 13,
-                                color: Colors.white.withAlpha(
-                                  (0.7 * 255).toInt(),
-                                ),
+                                color: Colors.white.withValues(alpha: 0.7),
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -293,13 +292,13 @@ class AboutMeScreen extends GetView<AboutMeController> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFF0A4A8E).withAlpha((0.2 * 255).toInt()),
-            const Color(0xFF001529).withAlpha((0.1 * 255).toInt()),
+            KColor.accentBlue.withValues(alpha: 0.2),
+            KColor.deepNavy.withValues(alpha: 0.1),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+          color: KColor.accentBlue.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -309,7 +308,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
           Icon(
             icon,
             size: 24,
-            color: Colors.white.withAlpha((0.85 * 255).toInt()),
+            color: Colors.white.withValues(alpha: 0.85),
           ),
           const SizedBox(height: 12),
           Text(
@@ -317,7 +316,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: Colors.white.withAlpha((0.6 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.6),
               letterSpacing: 0.5,
             ),
           ),
@@ -327,7 +326,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.white.withAlpha((0.95 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.95),
             ),
           ),
         ],
@@ -347,7 +346,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: const Color(0xFF0A4A8E),
+                color: KColor.accentBlue,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -358,7 +357,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'ShantellSans',
-                color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.95),
               ),
             ),
           ],
@@ -369,13 +368,13 @@ class AboutMeScreen extends GetView<AboutMeController> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFF0A4A8E).withAlpha((0.15 * 255).toInt()),
-                const Color(0xFF001529).withAlpha((0.08 * 255).toInt()),
+                KColor.accentBlue.withValues(alpha: 0.15),
+                KColor.deepNavy.withValues(alpha: 0.08),
               ],
             ),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: const Color(0xFF0A4A8E).withAlpha((0.25 * 255).toInt()),
+              color: KColor.accentBlue.withValues(alpha: 0.25),
               width: 1,
             ),
           ),
@@ -385,7 +384,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: Colors.white.withAlpha((0.9 * 255).toInt()),
+              color: Colors.white.withValues(alpha: 0.9),
               height: 1.7,
               letterSpacing: 0.2,
             ),
@@ -410,7 +409,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                 width: 4,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0A4A8E),
+                  color: KColor.accentBlue,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -421,7 +420,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'ShantellSans',
-                  color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.95),
                 ),
               ),
             ],
@@ -442,24 +441,24 @@ class AboutMeScreen extends GetView<AboutMeController> {
                         colors: [
                           const Color(
                             0xFF0A4A8E,
-                          ).withAlpha((0.3 * 255).toInt()),
+                          ).withValues(alpha: 0.3),
                           const Color(
                             0xFF001529,
-                          ).withAlpha((0.2 * 255).toInt()),
+                          ).withValues(alpha: 0.2),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                         color: const Color(
                           0xFF0A4A8E,
-                        ).withAlpha((0.5 * 255).toInt()),
+                        ).withValues(alpha: 0.5),
                         width: 1,
                       ),
                     ),
                     child: Text(
                       interest.toString(),
                       style: TextStyle(
-                        color: Colors.white.withAlpha((0.9 * 255).toInt()),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                       ),
@@ -478,7 +477,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                 width: 4,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0A4A8E),
+                  color: KColor.accentBlue,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -489,7 +488,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'ShantellSans',
-                  color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.95),
                 ),
               ),
             ],
@@ -510,24 +509,24 @@ class AboutMeScreen extends GetView<AboutMeController> {
                         colors: [
                           const Color(
                             0xFF0A4A8E,
-                          ).withAlpha((0.3 * 255).toInt()),
+                          ).withValues(alpha: 0.3),
                           const Color(
                             0xFF001529,
-                          ).withAlpha((0.2 * 255).toInt()),
+                          ).withValues(alpha: 0.2),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                         color: const Color(
                           0xFF0A4A8E,
-                        ).withAlpha((0.5 * 255).toInt()),
+                        ).withValues(alpha: 0.5),
                         width: 1,
                       ),
                     ),
                     child: Text(
                       technicalInterest.toString(),
                       style: TextStyle(
-                        color: Colors.white.withAlpha((0.9 * 255).toInt()),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                       ),
@@ -555,7 +554,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                   width: 4,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0A4A8E),
+                    color: KColor.accentBlue,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -566,7 +565,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'ShantellSans',
-                    color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.95),
                   ),
                 ),
               ],
@@ -583,7 +582,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                 icon: Icon(
                   Icons.open_in_new,
                   size: 20,
-                  color: Colors.white.withAlpha((0.8 * 255).toInt()),
+                  color: Colors.white.withValues(alpha: 0.8),
                 ),
               ),
             ),
@@ -609,7 +608,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                   width: 4,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0A4A8E),
+                    color: KColor.accentBlue,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -620,7 +619,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'ShantellSans',
-                    color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.95),
                   ),
                 ),
               ],
@@ -636,7 +635,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
               icon: Icon(
                 Icons.open_in_new,
                 size: 20,
-                color: Colors.white.withAlpha((0.8 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.8),
               ),
             ),
           ],
@@ -658,7 +657,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: const Color(0xFF0A4A8E),
+                color: KColor.accentBlue,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -669,7 +668,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'ShantellSans',
-                color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                color: Colors.white.withValues(alpha: 0.95),
               ),
             ),
           ],

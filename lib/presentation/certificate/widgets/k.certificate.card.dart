@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../../../domain/models/certificate_model/certificate.model.dart';
+import '../../../infrastructure/theme/colors.dart';
 import '../../../widgets/k.image.dart';
 
 class KCertificateCard extends StatefulWidget {
@@ -87,20 +88,20 @@ class _KCertificateCardState extends State<KCertificateCard> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF0A1628).withAlpha((0.9 * 255).toInt()),
-                  const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
+                  KColor.darkNavy.withValues(alpha: 0.9),
+                  KColor.deepNavy.withValues(alpha: 0.85),
                 ],
               ),
               borderRadius: BorderRadius.circular(widget.isMobile ? 16 : 20),
               border: Border.all(
                 color: showAnimation
-                    ? const Color(0xFF0A4A8E).withAlpha((0.6 * 255).toInt())
-                    : const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                    ? KColor.accentBlue.withValues(alpha: 0.6)
+                    : KColor.accentBlue.withValues(alpha: 0.3),
                 width: 1.5,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha((0.3 * 255).toInt()),
+                  color: Colors.black.withValues(alpha: 0.3),
                   blurRadius: showAnimation ? 28 : 20,
                   offset: Offset(0, showAnimation ? 10 : 6),
                 ),
@@ -108,7 +109,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                   BoxShadow(
                     color: const Color(
                       0xFF0A4A8E,
-                    ).withAlpha((0.15 * 255).toInt()),
+                    ).withValues(alpha: 0.15),
                     blurRadius: 16,
                     spreadRadius: 1,
                   ),
@@ -146,7 +147,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                               Colors.transparent,
                               const Color(
                                 0xFF0A1628,
-                              ).withAlpha((0.85 * 255).toInt()),
+                              ).withValues(alpha: 0.85),
                             ],
                           ),
                         ),
@@ -183,7 +184,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                           widget.certificate.description,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withAlpha((0.8 * 255).toInt()),
+                            color: Colors.white.withValues(alpha: 0.8),
                             fontFamily: "Poppins",
                             height: 1.4,
                           ),
@@ -216,26 +217,24 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                           colors: [
                                             const Color(
                                               0xFF0A4A8E,
-                                            ).withAlpha((0.25 * 255).toInt()),
+                                            ).withValues(alpha: 0.25),
                                             const Color(
                                               0xFF001529,
-                                            ).withAlpha((0.15 * 255).toInt()),
+                                            ).withValues(alpha: 0.15),
                                           ],
                                         ),
                                         borderRadius: BorderRadius.circular(7),
                                         border: Border.all(
                                           color: const Color(
                                             0xFF0A4A8E,
-                                          ).withAlpha((0.35 * 255).toInt()),
+                                          ).withValues(alpha: 0.35),
                                           width: 1,
                                         ),
                                       ),
                                       child: Text(
                                         skill,
                                         style: TextStyle(
-                                          color: Colors.white.withAlpha(
-                                            (0.9 * 255).toInt(),
-                                          ),
+                                          color: Colors.white.withValues(alpha: 0.9),
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           fontFamily: "Poppins",
@@ -265,27 +264,27 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                           colors: [
                                             const Color(
                                               0xFF0A4A8E,
-                                            ).withAlpha((0.6 * 255).toInt()),
+                                            ).withValues(alpha: 0.6),
                                             const Color(
                                               0xFF001529,
-                                            ).withAlpha((0.5 * 255).toInt()),
+                                            ).withValues(alpha: 0.5),
                                           ],
                                         )
                                       : LinearGradient(
                                           colors: [
                                             const Color(
                                               0xFF0A4A8E,
-                                            ).withAlpha((0.4 * 255).toInt()),
+                                            ).withValues(alpha: 0.4),
                                             const Color(
                                               0xFF001529,
-                                            ).withAlpha((0.3 * 255).toInt()),
+                                            ).withValues(alpha: 0.3),
                                           ],
                                         ),
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                     color: const Color(
                                       0xFF0A4A8E,
-                                    ).withAlpha((0.45 * 255).toInt()),
+                                    ).withValues(alpha: 0.45),
                                     width: 1,
                                   ),
                                 ),
@@ -295,9 +294,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                     Text(
                                       'View Details',
                                       style: TextStyle(
-                                        color: Colors.white.withAlpha(
-                                          (0.95 * 255).toInt(),
-                                        ),
+                                        color: Colors.white.withValues(alpha: 0.95),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         fontFamily: "Poppins",
@@ -307,9 +304,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                     Icon(
                                       Icons.arrow_forward_rounded,
                                       size: 14,
-                                      color: Colors.white.withAlpha(
-                                        (0.95 * 255).toInt(),
-                                      ),
+                                      color: Colors.white.withValues(alpha: 0.95),
                                     ),
                                   ],
                                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/infrastructure/theme/colors.dart';
 import 'package:portfolio/presentation/footer/footer.screen.dart';
 import '../../../utils/k.showGeneralDialog.dart';
 import '../../../widgets/animated.navigate.button.dart';
@@ -37,8 +38,7 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
     final selectedIndex = controller.selectedTabIndex;
 
     return Drawer(
-      // ✅ Blackish-bluish background
-      backgroundColor: const Color(0xFF0A1628),
+      backgroundColor: KColor.darkNavy,
       width: MediaQuery.of(context).size.width * 0.85,
       child: Container(
         decoration: BoxDecoration(
@@ -46,9 +46,9 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFF0A1628).withAlpha((0.95 * 255).round()),
-              const Color(0xFF001529).withAlpha((0.9 * 255).round()),
-              const Color(0xFF000A1F).withAlpha((0.85 * 255).round()),
+              KColor.darkNavy.withValues(alpha: 0.95),
+              KColor.deepNavy.withValues(alpha: 0.9),
+              KColor.deepestNavy.withValues(alpha: 0.85),
             ],
           ),
         ),
@@ -62,9 +62,7 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: const Color(
-                        0xFF0A4A8E,
-                      ).withAlpha((0.3 * 255).round()),
+                      color: KColor.accentBlue.withValues(alpha: 0.3),
                       width: 1,
                     ),
                   ),
@@ -76,19 +74,15 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            const Color(
-                              0xFF0A4A8E,
-                            ).withAlpha((0.3 * 255).round()),
-                            const Color(
-                              0xFF001529,
-                            ).withAlpha((0.2 * 255).round()),
+                            KColor.accentBlue.withValues(alpha: 0.3),
+                            KColor.deepNavy.withValues(alpha: 0.2),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
                         Icons.menu_rounded,
-                        color: Colors.white.withAlpha((0.9 * 255).round()),
+                        color: Colors.white.withValues(alpha: 0.9),
                         size: 24,
                       ),
                     ),
@@ -96,7 +90,7 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                     Text(
                       'NAVIGATION',
                       style: TextStyle(
-                        color: Colors.white.withAlpha((0.9 * 255).round()),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 1.5,
@@ -133,50 +127,32 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                                 end: Alignment.bottomRight,
                                 colors: isSelected
                                     ? [
-                                        const Color(
-                                          0xFF0A4A8E,
-                                        ).withAlpha((0.5 * 255).round()),
-                                        const Color(
-                                          0xFF001529,
-                                        ).withAlpha((0.4 * 255).round()),
+                                        KColor.accentBlue.withValues(alpha: 0.5),
+                                        KColor.deepNavy.withValues(alpha: 0.4),
                                       ]
                                     : isHovered
                                     ? [
-                                        const Color(
-                                          0xFF001529,
-                                        ).withAlpha((0.4 * 255).round()),
-                                        const Color(
-                                          0xFF000A1F,
-                                        ).withAlpha((0.3 * 255).round()),
+                                        KColor.deepNavy.withValues(alpha: 0.4),
+                                        KColor.deepestNavy.withValues(alpha: 0.3),
                                       ]
                                     : [
-                                        const Color(
-                                          0xFF000A1F,
-                                        ).withAlpha((0.2 * 255).round()),
-                                        const Color(
-                                          0xFF000000,
-                                        ).withAlpha((0.1 * 255).round()),
+                                        KColor.deepestNavy.withValues(alpha: 0.2),
+                                        Colors.black.withValues(alpha: 0.1),
                                       ],
                               ),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
                                 color: isSelected
-                                    ? const Color(
-                                        0xFF0A4A8E,
-                                      ).withAlpha((0.6 * 255).round())
+                                    ? KColor.accentBlue.withValues(alpha: 0.6)
                                     : isHovered
-                                    ? const Color(
-                                        0xFF0A4A8E,
-                                      ).withAlpha((0.3 * 255).round())
+                                    ? KColor.accentBlue.withValues(alpha: 0.3)
                                     : Colors.transparent,
                                 width: isSelected ? 2 : 1,
                               ),
                               boxShadow: isSelected
                                   ? [
                                       BoxShadow(
-                                        color: const Color(
-                                          0xFF0A4A8E,
-                                        ).withAlpha((0.3 * 255).round()),
+                                        color: KColor.accentBlue.withValues(alpha: 0.3),
                                         blurRadius: 12,
                                         offset: const Offset(0, 4),
                                       ),
@@ -196,12 +172,8 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                                   }
                                 },
                                 borderRadius: BorderRadius.circular(16),
-                                splashColor: const Color(
-                                  0xFF0A4A8E,
-                                ).withAlpha((0.2 * 255).round()),
-                                highlightColor: const Color(
-                                  0xFF0A4A8E,
-                                ).withAlpha((0.1 * 255).round()),
+                                splashColor: KColor.accentBlue.withValues(alpha: 0.2),
+                                highlightColor: KColor.accentBlue.withValues(alpha: 0.1),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 16,
@@ -215,16 +187,8 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                                           gradient: isSelected
                                               ? LinearGradient(
                                                   colors: [
-                                                    const Color(
-                                                      0xFF0A4A8E,
-                                                    ).withAlpha(
-                                                      (0.3 * 255).round(),
-                                                    ),
-                                                    const Color(
-                                                      0xFF0A4A8E,
-                                                    ).withAlpha(
-                                                      (0.1 * 255).round(),
-                                                    ),
+                                                    KColor.accentBlue.withValues(alpha: 0.3),
+                                                    KColor.accentBlue.withValues(alpha: 0.1),
                                                   ],
                                                 )
                                               : null,
@@ -236,9 +200,7 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                                           icons[index],
                                           color: isSelected
                                               ? Colors.white
-                                              : Colors.white.withAlpha(
-                                                  (0.8 * 255).round(),
-                                                ),
+                                              : Colors.white.withValues(alpha: 0.8),
                                           size: 24,
                                         ),
                                       ),
@@ -254,9 +216,7 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                                                 : FontWeight.w500,
                                             color: isSelected
                                                 ? Colors.white
-                                                : Colors.white.withAlpha(
-                                                    (0.85 * 255).round(),
-                                                  ),
+                                                : Colors.white.withValues(alpha: 0.85),
                                             letterSpacing: 0.3,
                                           ),
                                         ),
@@ -266,16 +226,12 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                                           width: 6,
                                           height: 6,
                                           decoration: BoxDecoration(
-                                            color: const Color(
-                                              0xFF0A4A8E,
-                                            ).withAlpha((0.8 * 255).round()),
+                                            color: KColor.accentBlue.withValues(alpha: 0.8),
                                             shape: BoxShape.circle,
                                             boxShadow: [
                                               BoxShadow(
-                                                color: const Color(0xFF0A4A8E)
-                                                    .withAlpha(
-                                                      (0.5 * 255).round(),
-                                                    ),
+                                                color: KColor.accentBlue
+                                                    .withValues(alpha: 0.5),
                                                 blurRadius: 6,
                                                 spreadRadius: 1,
                                               ),
@@ -335,16 +291,14 @@ class _HomeSideMenuDrawerState extends State<HomeSideMenuDrawer> {
                   // Divider
                   Divider(
                     height: 1,
-                    color: const Color(
-                      0xFF0A4A8E,
-                    ).withAlpha((0.3 * 255).round()),
+                    color: KColor.accentBlue.withValues(alpha: 0.3),
                   ),
 
                   // Footer
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: FooterWidgets.ccLabel(
-                      Colors.white.withAlpha((0.7 * 255).round()),
+                      Colors.white.withValues(alpha: 0.7),
                     ),
                   ),
                 ],

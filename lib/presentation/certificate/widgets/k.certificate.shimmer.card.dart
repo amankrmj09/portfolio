@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../infrastructure/theme/colors.dart';
+
 class KCertificateShimmerCard extends StatelessWidget {
   final double? width;
   final double? height;
@@ -30,18 +32,18 @@ class KCertificateShimmerCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFF0A1628).withAlpha((0.9 * 255).toInt()),
-            const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
+            KColor.darkNavy.withValues(alpha: 0.9),
+            KColor.deepNavy.withValues(alpha: 0.85),
           ],
         ),
         borderRadius: BorderRadius.circular(isMobile ? 16 : 20),
         border: Border.all(
-          color: const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+          color: KColor.accentBlue.withValues(alpha: 0.3),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha((0.3 * 255).toInt()),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 6),
           ),
@@ -49,8 +51,8 @@ class KCertificateShimmerCard extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: Shimmer.fromColors(
-        baseColor: const Color(0xFF0A4A8E).withAlpha((0.2 * 255).toInt()),
-        highlightColor: const Color(0xFF001529).withAlpha((0.4 * 255).toInt()),
+        baseColor: KColor.accentBlue.withValues(alpha: 0.2),
+        highlightColor: KColor.deepNavy.withValues(alpha: 0.4),
         child: Column(
           mainAxisSize: height != null ? MainAxisSize.max : MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +65,7 @@ class KCertificateShimmerCard extends StatelessWidget {
                   child: Container(
                     height: imageHeight,
                     width: double.infinity,
-                    color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                    color: Colors.white.withValues(alpha: 0.1),
                   ),
                 ),
                 // Gradient overlay
@@ -81,7 +83,7 @@ class KCertificateShimmerCard extends StatelessWidget {
                           Colors.transparent,
                           const Color(
                             0xFF0A1628,
-                          ).withAlpha((0.85 * 255).toInt()),
+                          ).withValues(alpha: 0.85),
                         ],
                       ),
                     ),
@@ -101,7 +103,7 @@ class KCertificateShimmerCard extends StatelessWidget {
                       width: cardWidth * 0.7,
                       height: isMobile ? 18 : 22,
                       decoration: BoxDecoration(
-                        color: Colors.white.withAlpha((0.2 * 255).toInt()),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
@@ -111,7 +113,7 @@ class KCertificateShimmerCard extends StatelessWidget {
                       width: cardWidth * 0.9,
                       height: isMobile ? 14 * 3.5 : 14 * 2.8,
                       decoration: BoxDecoration(
-                        color: Colors.white.withAlpha((0.15 * 255).toInt()),
+                        color: Colors.white.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
@@ -128,14 +130,12 @@ class KCertificateShimmerCard extends StatelessWidget {
                             width: 60,
                             height: 22,
                             decoration: BoxDecoration(
-                              color: Colors.white.withAlpha(
-                                (0.1 * 255).toInt(),
-                              ),
+                              color: Colors.white.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(7),
                               border: Border.all(
                                 color: const Color(
                                   0xFF0A4A8E,
-                                ).withAlpha((0.3 * 255).toInt()),
+                                ).withValues(alpha: 0.3),
                                 width: 1,
                               ),
                             ),
@@ -153,14 +153,12 @@ class KCertificateShimmerCard extends StatelessWidget {
                             width: 110,
                             height: 28,
                             decoration: BoxDecoration(
-                              color: Colors.white.withAlpha(
-                                (0.1 * 255).toInt(),
-                              ),
+                              color: Colors.white.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
                                 color: const Color(
                                   0xFF0A4A8E,
-                                ).withAlpha((0.3 * 255).toInt()),
+                                ).withValues(alpha: 0.3),
                                 width: 1,
                               ),
                             ),

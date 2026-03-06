@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/certificate/widgets/k.certificate.card.dart';
 import '../../../domain/models/certificate_model/certificate.model.dart';
+import '../../../infrastructure/theme/colors.dart';
 import '../../info.fetch.controller.dart';
 import '../../../infrastructure/navigation/routes.dart';
 
@@ -90,13 +91,13 @@ class KCertificateScrollList extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
-                    colors: [Color(0xFF43C6AC), Color(0xFF191654)],
+                    colors: [KColor.gradientTeal, KColor.gradientDeepIndigo],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withAlpha((0.15 * 255).toInt()),
+                      color: Colors.black.withValues(alpha: 0.15),
                       blurRadius: 8,
                       offset: Offset(0, 2),
                     ),

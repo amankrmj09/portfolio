@@ -103,7 +103,7 @@ class _AnimatedProfileWidgetState extends State<AnimatedProfileWidget>
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha((0.08 * 255).toInt()),
+                  color: Colors.black.withValues(alpha: 0.08),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),

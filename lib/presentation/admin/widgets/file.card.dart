@@ -6,6 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfolio/domain/models/contact_details_model/contact.details.model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../infrastructure/theme/colors.dart';
+
 class FileCard extends StatefulWidget {
   final ContactDetailsModel file;
 
@@ -40,11 +42,11 @@ class _FileCardState extends State<FileCard> with TickerProviderStateMixin {
       Alignment.topCenter,
       Alignment.bottomCenter,
     ];
-    const colors = [
-      Color(0xFF7F53AC),
-      Color(0xFF647DEE),
-      Color(0xFF43C6AC),
-      Color(0xFFF7971E),
+    final colors = [
+      KColor.gradientPurple,
+      KColor.gradientIndigo,
+      KColor.gradientTeal,
+      KColor.gradientOrange,
     ];
     return List.generate(
       colors.length,
@@ -73,7 +75,7 @@ class _FileCardState extends State<FileCard> with TickerProviderStateMixin {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
-            color: Colors.white.withAlpha((0.95 * 255).toInt()),
+            color: Colors.white.withValues(alpha: 0.95),
             letterSpacing: 0.2,
           ),
         ),
@@ -82,7 +84,7 @@ class _FileCardState extends State<FileCard> with TickerProviderStateMixin {
           'Phone: ${file.phoneNumber}',
           style: TextStyle(
             fontSize: 14,
-            color: Colors.white.withAlpha((0.85 * 255).toInt()),
+            color: Colors.white.withValues(alpha: 0.85),
             letterSpacing: 0.1,
           ),
         ),
@@ -91,7 +93,7 @@ class _FileCardState extends State<FileCard> with TickerProviderStateMixin {
           'Email: ${file.email}',
           style: TextStyle(
             fontSize: 14,
-            color: Colors.white.withAlpha((0.85 * 255).toInt()),
+            color: Colors.white.withValues(alpha: 0.85),
             letterSpacing: 0.1,
           ),
         ),
@@ -110,7 +112,7 @@ class _FileCardState extends State<FileCard> with TickerProviderStateMixin {
           file.message,
           style: TextStyle(
             fontSize: 14,
-            color: Colors.white.withAlpha((0.92 * 255).toInt()),
+            color: Colors.white.withValues(alpha: 0.92),
             height: 1.5,
           ),
         ),

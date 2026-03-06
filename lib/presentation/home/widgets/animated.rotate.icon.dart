@@ -1,9 +1,5 @@
-// ignore_for_file: unused_import
-
 import 'package:portfolio/infrastructure/theme/colors.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/launch.url.dart';
 

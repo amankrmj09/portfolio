@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../domain/models/certificate_model/certificate.model.dart';
+import '../../../infrastructure/theme/colors.dart';
 import '../../info.fetch.controller.dart';
 import '../../../utils/all_items_view.dart';
 import '../../../widgets/k.image.dart';
@@ -97,29 +98,27 @@ class _KCertificateCardState extends State<KCertificateCard> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF0A1628).withAlpha((0.9 * 255).toInt()),
-                  const Color(0xFF001529).withAlpha((0.85 * 255).toInt()),
+                  KColor.darkNavy.withValues(alpha: 0.9),
+                  KColor.deepNavy.withValues(alpha: 0.85),
                 ],
               ),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: isHover
-                    ? const Color(0xFF0A4A8E).withAlpha((0.6 * 255).toInt())
-                    : const Color(0xFF0A4A8E).withAlpha((0.3 * 255).toInt()),
+                    ? KColor.accentBlue.withValues(alpha: 0.6)
+                    : KColor.accentBlue.withValues(alpha: 0.3),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha((0.3 * 255).toInt()),
+                  color: Colors.black.withValues(alpha: 0.3),
                   blurRadius: isHover ? 32 : 24,
                   offset: Offset(0, isHover ? 12 : 8),
                   spreadRadius: 0,
                 ),
                 if (isHover)
                   BoxShadow(
-                    color: const Color(
-                      0xFF0A4A8E,
-                    ).withAlpha((0.2 * 255).toInt()),
+                    color: const Color(0xFF0A4A8E).withValues(alpha: 0.2),
                     blurRadius: 20,
                     offset: const Offset(0, 0),
                     spreadRadius: 2,
@@ -160,7 +159,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                           decoration: BoxDecoration(
                             color: const Color(
                               0xFF001529,
-                            ).withAlpha((0.92 * 255).toInt()),
+                            ).withValues(alpha: 0.92),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Column(
@@ -183,10 +182,10 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                             colors: [
                                               const Color(
                                                 0xFF0A4A8E,
-                                              ).withAlpha((0.3 * 255).toInt()),
+                                              ).withValues(alpha: 0.3),
                                               const Color(
                                                 0xFF001529,
-                                              ).withAlpha((0.2 * 255).toInt()),
+                                              ).withValues(alpha: 0.2),
                                             ],
                                           ),
                                           borderRadius: BorderRadius.circular(
@@ -195,15 +194,15 @@ class _KCertificateCardState extends State<KCertificateCard> {
                                           border: Border.all(
                                             color: const Color(
                                               0xFF0A4A8E,
-                                            ).withAlpha((0.5 * 255).toInt()),
+                                            ).withValues(alpha: 0.5),
                                             width: 1,
                                           ),
                                         ),
                                         child: Text(
                                           skill,
                                           style: TextStyle(
-                                            color: Colors.white.withAlpha(
-                                              (0.9 * 255).toInt(),
+                                            color: Colors.white.withValues(
+                                              alpha: 0.9,
                                             ),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14,
@@ -218,9 +217,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                               Text(
                                 widget.certificate.description,
                                 style: TextStyle(
-                                  color: Colors.white.withAlpha(
-                                    (0.8 * 255).toInt(),
-                                  ),
+                                  color: Colors.white.withValues(alpha: 0.8),
                                   fontSize: 18,
                                   fontFamily: "Poppins",
                                   height: 1.4,
@@ -254,9 +251,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                             widget.certificate.issuingOrganization,
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.white.withAlpha(
-                                (0.6 * 255).toInt(),
-                              ),
+                              color: Colors.white.withValues(alpha: 0.6),
                               fontFamily: "Poppins",
                               fontWeight: FontWeight.w400,
                             ),
@@ -271,7 +266,7 @@ class _KCertificateCardState extends State<KCertificateCard> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white.withAlpha((0.95 * 255).toInt()),
+                            color: Colors.white.withValues(alpha: 0.95),
                             fontFamily: "Poppins",
                             height: 1.3,
                             letterSpacing: 0.3,
@@ -304,7 +299,7 @@ class KCertificateShimmerCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.black.withAlpha(50),
+        color: Colors.black.withValues(alpha: 0.5),
         borderRadius: borderRadius,
       ),
       child: Column(

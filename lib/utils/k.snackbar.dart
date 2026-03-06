@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/infrastructure/theme/colors.dart';
 
 void kSnackbar({
   required String title,
@@ -43,10 +44,10 @@ void kSnackbar({
       message,
       style: TextStyle(color: messageColor, fontSize: 14),
     ),
-    backgroundColor: backgroundColor.withAlpha((0.3 * 255).round()),
+    backgroundColor: backgroundColor.withValues(alpha: 0.3),
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: const Color(0xFF0A4A8E),
+    borderColor: KColor.accentBlue,
     // blackish blue
     margin: const EdgeInsets.all(16),
     snackPosition: snackPosition,

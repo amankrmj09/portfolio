@@ -34,7 +34,7 @@ class _HoverAnimatedButtonState extends State<HoverAnimatedButton> {
             duration: const Duration(milliseconds: 400),
             decoration: BoxDecoration(
               color: _isHovered
-                  ? KColor.secondaryColor.withAlpha((255 * 0.9).toInt())
+                  ? KColor.secondaryColor.withValues(alpha: 0.9)
                   : Colors.white,
               borderRadius: BorderRadius.circular(50),
             ),

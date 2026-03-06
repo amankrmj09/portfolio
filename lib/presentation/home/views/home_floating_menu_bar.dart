@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/infrastructure/theme/colors.dart';
 import '../controllers/home.controller.dart';
 
 class HomeFloatingMenuBar extends GetView<HomeController> {
@@ -17,12 +18,12 @@ class HomeFloatingMenuBar extends GetView<HomeController> {
       alignment: Alignment.center,
       height: barHeight,
       decoration: BoxDecoration(
-        color: Color.lerp(const Color(0xFF23304A), Colors.transparent, 0.2),
+        color: Color.lerp(KColor.darkSlate, Colors.transparent, 0.2),
         // Brighter than 0xFF16213E
         borderRadius: BorderRadius.circular(50),
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withAlpha((0.08 * 255).toInt()),
+            color: Colors.white.withValues(alpha: 0.08),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
