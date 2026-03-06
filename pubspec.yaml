@@ -2,7 +2,7 @@ name: portfolio
 description: "My Portfolio Website using Flutter"
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 4.0.2+1
 
 environment:
   sdk: ^3.9.0
@@ -64,8 +64,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/
-    - assets/rive/
     - assets/icons/
   fonts:
     - family: Lora
