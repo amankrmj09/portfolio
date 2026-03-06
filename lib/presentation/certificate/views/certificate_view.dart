@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:portfolio/widgets/k.image.dart';
 import '../../../domain/models/certificate_model/certificate.model.dart';
@@ -16,6 +17,7 @@ class CertificateView extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final double containerHeight =
         (screenHeight > 776 ? screenHeight : 776) - 80;
+    final ScrollController scrollController = ScrollController();
 
     return Center(
       child: Padding(
@@ -67,9 +69,12 @@ class CertificateView extends StatelessWidget {
                         PointerDeviceKind.mouse,
                       },
                     ),
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(32.0),
-                      child: _buildContent(),
+                    child: KSmoothScrollWeb(
+                      controller: scrollController,
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(32.0),
+                        child: _buildContent(),
+                      ),
                     ),
                   ),
                 ),
@@ -164,19 +169,13 @@ class CertificateView extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(
-                            0xFF0A4A8E,
-                          ).withValues(alpha: 0.3),
-                          const Color(
-                            0xFF001529,
-                          ).withValues(alpha: 0.2),
+                          const Color(0xFF0A4A8E).withValues(alpha: 0.3),
+                          const Color(0xFF001529).withValues(alpha: 0.2),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: const Color(
-                          0xFF0A4A8E,
-                        ).withValues(alpha: 0.4),
+                        color: const Color(0xFF0A4A8E).withValues(alpha: 0.4),
                         width: 1,
                       ),
                     ),
@@ -243,9 +242,7 @@ class CertificateView extends StatelessWidget {
                 child: Text(
                   certificate.url,
                   style: TextStyle(
-                    color: const Color(
-                      0xFF0A4A8E,
-                    ).withValues(alpha: 0.9),
+                    color: const Color(0xFF0A4A8E).withValues(alpha: 0.9),
                     decoration: TextDecoration.underline,
                     decorationColor: const Color(
                       0xFF0A4A8E,

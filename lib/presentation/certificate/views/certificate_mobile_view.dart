@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:portfolio/widgets/k.image.dart';
 import '../../../domain/models/certificate_model/certificate.model.dart';
@@ -16,51 +17,55 @@ class CertificateMobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController = ScrollController();
     return Scaffold(
       backgroundColor: KColor.darkNavy, // ✅ Modern blackish-bluish
       extendBodyBehindAppBar: true,
       appBar: _buildModernAppBar(context),
       body: SafeArea(
         top: false,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(
-            top: 80,
-            left: 16,
-            right: 16,
-            bottom: 24,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 1. Images
-              _buildImageSection(),
-              const SizedBox(height: 24),
-
-              // 2. Certificate Name
-              _buildTitle(),
-              const SizedBox(height: 12),
-
-              // 3. Organization Name
-              _buildOrganization(),
-              const SizedBox(height: 8),
-
-              // 4. Date
-              _buildDate(),
-              const SizedBox(height: 20),
-
-              // 5. Large Description
-              _buildDescription(),
-              const SizedBox(height: 24),
-
-              // 6. Skills Chips
-              if (certificate.skills.isNotEmpty) ...[
-                _buildSkillsSection(),
+        child: KSmoothScrollWeb(
+          controller: scrollController,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.only(
+              top: 80,
+              left: 16,
+              right: 16,
+              bottom: 24,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 1. Images
+                _buildImageSection(),
                 const SizedBox(height: 24),
-              ],
 
-              // 7. Link
-              if (certificate.url.isNotEmpty) _buildLink(),
-            ],
+                // 2. Certificate Name
+                _buildTitle(),
+                const SizedBox(height: 12),
+
+                // 3. Organization Name
+                _buildOrganization(),
+                const SizedBox(height: 8),
+
+                // 4. Date
+                _buildDate(),
+                const SizedBox(height: 20),
+
+                // 5. Large Description
+                _buildDescription(),
+                const SizedBox(height: 24),
+
+                // 6. Skills Chips
+                if (certificate.skills.isNotEmpty) ...[
+                  _buildSkillsSection(),
+                  const SizedBox(height: 24),
+                ],
+
+                // 7. Link
+                if (certificate.url.isNotEmpty) _buildLink(),
+              ],
+            ),
           ),
         ),
       ),

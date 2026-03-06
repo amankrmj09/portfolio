@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../domain/models/project_model/project.model.dart';
 import '../../../infrastructure/theme/colors.dart';
@@ -22,6 +23,7 @@ class _WorkViewState extends State<WorkView> {
     final screenHeight = MediaQuery.of(context).size.height;
     final double containerHeight =
         (screenHeight > 776 ? screenHeight : 776) - 80;
+    final ScrollController scrollController = ScrollController();
 
     return Center(
       child: Padding(
@@ -62,7 +64,9 @@ class _WorkViewState extends State<WorkView> {
                   color: KColor.accentBlue.withValues(alpha: 0.3),
                 ),
                 Expanded(
-                  child: isMobile ? _buildMobileLayout() : _buildWebLayout(),
+                  child: isMobile
+                      ? _buildMobileLayout(scrollController: scrollController)
+                      : _buildWebLayout(scrollController: scrollController),
                 ),
               ],
             ),
@@ -72,7 +76,7 @@ class _WorkViewState extends State<WorkView> {
     );
   }
 
-  Widget _buildMobileLayout() {
+  Widget _buildMobileLayout({required ScrollController scrollController}) {
     return Row(
       children: [
         Expanded(
@@ -83,14 +87,14 @@ class _WorkViewState extends State<WorkView> {
               behavior: ScrollConfiguration.of(context).copyWith(
                 dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
               ),
-              child: SingleChildScrollView(child: _buildContent()),
+              child: KSmoothScrollWeb(
+                controller: scrollController,
+                child: SingleChildScrollView(child: _buildContent()),
+              ),
             ),
           ),
         ),
-        Container(
-          width: 1,
-          color: KColor.accentBlue.withValues(alpha: 0.2),
-        ),
+        Container(width: 1, color: KColor.accentBlue.withValues(alpha: 0.2)),
         Expanded(
           flex: 1,
           child: SizedBox(
@@ -107,20 +111,23 @@ class _WorkViewState extends State<WorkView> {
     );
   }
 
-  Widget _buildWebLayout() {
+  Widget _buildWebLayout({required ScrollController scrollController}) {
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(
         dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
       ),
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildImageSection(),
-            const SizedBox(height: 32),
-            _buildContent(),
-          ],
+      child: KSmoothScrollWeb(
+        controller: scrollController,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildImageSection(),
+              const SizedBox(height: 32),
+              _buildContent(),
+            ],
+          ),
         ),
       ),
     );
@@ -196,19 +203,13 @@ class _WorkViewState extends State<WorkView> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(
-                            0xFF0A4A8E,
-                          ).withValues(alpha: 0.3),
-                          const Color(
-                            0xFF001529,
-                          ).withValues(alpha: 0.2),
+                          const Color(0xFF0A4A8E).withValues(alpha: 0.3),
+                          const Color(0xFF001529).withValues(alpha: 0.2),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: const Color(
-                          0xFF0A4A8E,
-                        ).withValues(alpha: 0.4),
+                        color: const Color(0xFF0A4A8E).withValues(alpha: 0.4),
                         width: 1,
                       ),
                     ),
@@ -287,9 +288,7 @@ class _WorkViewState extends State<WorkView> {
                 child: Text(
                   widget.project.url,
                   style: TextStyle(
-                    color: const Color(
-                      0xFF0A4A8E,
-                    ).withValues(alpha: 0.9),
+                    color: const Color(0xFF0A4A8E).withValues(alpha: 0.9),
                     decoration: TextDecoration.underline,
                     decorationColor: const Color(
                       0xFF0A4A8E,

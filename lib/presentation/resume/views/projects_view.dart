@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import '../../../domain/models/resume_model/project_model.dart';
 import '../../../infrastructure/theme/colors.dart';
 import '../controllers/resume.controller.dart';
@@ -10,7 +11,8 @@ class ProjectsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ResumeController resumeController = Get.find();
+    final ResumeController resumeController = Get.find<ResumeController>();
+    final ScrollController scrollController = ScrollController();
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Obx(() {
@@ -19,11 +21,16 @@ class ProjectsView extends StatelessWidget {
           return const ShimmerList();
         }
 
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: projects.map((project) => _ProjectCard(project)).toList(),
+        return KSmoothScrollWeb(
+          controller: scrollController,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: projects
+                  .map((project) => _ProjectCard(project))
+                  .toList(),
+            ),
           ),
         );
       }),

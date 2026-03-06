@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/about_me/widgets/k.shimmer.about_me.dart';
 import 'package:portfolio/utils/k.showGeneralDialog.dart';
+import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import '../../domain/models/experience_model/experience.model.dart';
 import '../../domain/models/profile_links_model/profile.links.model.dart';
 import '../../domain/models/tools_model/tools.model.dart';
@@ -63,59 +64,63 @@ class AboutMeScreen extends GetView<AboutMeController> {
             () => (!controller.isAllLoaded)
                 ? const KShimmerAboutMe()
                 : width > 1100
-                ? SingleChildScrollView(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Left Column - Profile Header + Stats
-                        Expanded(
-                          flex: 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _buildProfileHeader(
-                                controller.aboutMeInfo.value?.profession ??
-                                    'Developer',
-                                controller.aboutMeInfo.value?.email ?? '',
-                              ),
-                              const SizedBox(height: 32),
-                              _buildSummarySection(
-                                controller.aboutMeInfo.value?.summary ?? '',
-                              ),
-                              const SizedBox(height: 32),
-                              _buildInterestsSections(
-                                controller.aboutMeInfo.value?.interests ?? [],
-                                controller
-                                        .aboutMeInfo
-                                        .value
-                                        ?.technicalInterests ??
-                                    [],
-                              ),
-                              const SizedBox(height: 24),
-                              _buildResumeButton(),
-                            ],
+                ? KSmoothScrollWeb(
+                    controller: controller.scrollController,
+                    child: SingleChildScrollView(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Left Column - Profile Header + Stats
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildProfileHeader(
+                                  controller.aboutMeInfo.value?.profession ??
+                                      'Developer',
+                                  controller.aboutMeInfo.value?.email ?? '',
+                                ),
+                                const SizedBox(height: 32),
+                                _buildSummarySection(
+                                  controller.aboutMeInfo.value?.summary ?? '',
+                                ),
+                                const SizedBox(height: 32),
+                                _buildInterestsSections(
+                                  controller.aboutMeInfo.value?.interests ?? [],
+                                  controller
+                                          .aboutMeInfo
+                                          .value
+                                          ?.technicalInterests ??
+                                      [],
+                                ),
+                                const SizedBox(height: 24),
+                                _buildResumeButton(),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 48),
-                        // Right Column - Summary + Tools + Experience
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            children: [
-                              _buildStatsCards(
-                                controller.aboutMeInfo.value?.experience ?? '',
-                                controller.aboutMeInfo.value?.education ?? '',
-                              ),
-                              const SizedBox(height: 32),
-                              _buildSocialLinksSection(controller.profiles),
-                              const SizedBox(height: 32),
-                              _buildToolsSection(context, controller.tools),
-                              const SizedBox(height: 32),
-                              _buildExperienceSection(controller.experiences),
-                            ],
+                          const SizedBox(width: 48),
+                          // Right Column - Summary + Tools + Experience
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              children: [
+                                _buildStatsCards(
+                                  controller.aboutMeInfo.value?.experience ??
+                                      '',
+                                  controller.aboutMeInfo.value?.education ?? '',
+                                ),
+                                const SizedBox(height: 32),
+                                _buildSocialLinksSection(controller.profiles),
+                                const SizedBox(height: 32),
+                                _buildToolsSection(context, controller.tools),
+                                const SizedBox(height: 32),
+                                _buildExperienceSection(controller.experiences),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 : ScrollConfiguration(
@@ -136,44 +141,47 @@ class AboutMeScreen extends GetView<AboutMeController> {
                       onPointerDown: (pointerEvent) {
                         controller.handlePointerDown(pointerEvent);
                       },
-                      child: SingleChildScrollView(
-                        physics: const ClampingScrollPhysics(),
+                      child: KSmoothScrollWeb(
                         controller: controller.scrollController,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildProfileHeader(
-                              controller.aboutMeInfo.value?.profession ??
-                                  'Developer',
-                              controller.aboutMeInfo.value?.email ?? '',
-                            ),
-                            const SizedBox(height: 24),
-                            _buildStatsCards(
-                              controller.aboutMeInfo.value?.experience ?? '',
-                              controller.aboutMeInfo.value?.education ?? '',
-                            ),
-                            const SizedBox(height: 24),
-                            _buildSummarySection(
-                              controller.aboutMeInfo.value?.summary ?? '',
-                            ),
-                            const SizedBox(height: 24),
-                            _buildInterestsSections(
-                              controller.aboutMeInfo.value?.interests ?? [],
-                              controller
-                                      .aboutMeInfo
-                                      .value
-                                      ?.technicalInterests ??
-                                  [],
-                            ),
-                            const SizedBox(height: 24),
-                            _buildSocialLinksSection(controller.profiles),
-                            const SizedBox(height: 24),
-                            _buildToolsSection(context, controller.tools),
-                            const SizedBox(height: 24),
-                            _buildExperienceSection(controller.experiences),
-                            const SizedBox(height: 20),
-                            _buildResumeButton(),
-                          ],
+                        child: SingleChildScrollView(
+                          physics: const ClampingScrollPhysics(),
+                          controller: controller.scrollController,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildProfileHeader(
+                                controller.aboutMeInfo.value?.profession ??
+                                    'Developer',
+                                controller.aboutMeInfo.value?.email ?? '',
+                              ),
+                              const SizedBox(height: 24),
+                              _buildStatsCards(
+                                controller.aboutMeInfo.value?.experience ?? '',
+                                controller.aboutMeInfo.value?.education ?? '',
+                              ),
+                              const SizedBox(height: 24),
+                              _buildSummarySection(
+                                controller.aboutMeInfo.value?.summary ?? '',
+                              ),
+                              const SizedBox(height: 24),
+                              _buildInterestsSections(
+                                controller.aboutMeInfo.value?.interests ?? [],
+                                controller
+                                        .aboutMeInfo
+                                        .value
+                                        ?.technicalInterests ??
+                                    [],
+                              ),
+                              const SizedBox(height: 24),
+                              _buildSocialLinksSection(controller.profiles),
+                              const SizedBox(height: 24),
+                              _buildToolsSection(context, controller.tools),
+                              const SizedBox(height: 24),
+                              _buildExperienceSection(controller.experiences),
+                              const SizedBox(height: 20),
+                              _buildResumeButton(),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -305,11 +313,7 @@ class AboutMeScreen extends GetView<AboutMeController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            icon,
-            size: 24,
-            color: Colors.white.withValues(alpha: 0.85),
-          ),
+          Icon(icon, size: 24, color: Colors.white.withValues(alpha: 0.85)),
           const SizedBox(height: 12),
           Text(
             label,
@@ -439,19 +443,13 @@ class AboutMeScreen extends GetView<AboutMeController> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(
-                            0xFF0A4A8E,
-                          ).withValues(alpha: 0.3),
-                          const Color(
-                            0xFF001529,
-                          ).withValues(alpha: 0.2),
+                          const Color(0xFF0A4A8E).withValues(alpha: 0.3),
+                          const Color(0xFF001529).withValues(alpha: 0.2),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: const Color(
-                          0xFF0A4A8E,
-                        ).withValues(alpha: 0.5),
+                        color: const Color(0xFF0A4A8E).withValues(alpha: 0.5),
                         width: 1,
                       ),
                     ),
@@ -507,19 +505,13 @@ class AboutMeScreen extends GetView<AboutMeController> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(
-                            0xFF0A4A8E,
-                          ).withValues(alpha: 0.3),
-                          const Color(
-                            0xFF001529,
-                          ).withValues(alpha: 0.2),
+                          const Color(0xFF0A4A8E).withValues(alpha: 0.3),
+                          const Color(0xFF001529).withValues(alpha: 0.2),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: const Color(
-                          0xFF0A4A8E,
-                        ).withValues(alpha: 0.5),
+                        color: const Color(0xFF0A4A8E).withValues(alpha: 0.5),
                         width: 1,
                       ),
                     ),

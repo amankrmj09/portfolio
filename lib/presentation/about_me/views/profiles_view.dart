@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/presentation/about_me/controllers/about_me.controller.dart';
+import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import '../../../infrastructure/theme/colors.dart';
 import '../widgets/profile.widget.dart';
 
@@ -10,6 +11,7 @@ class ProfilesView extends GetView<AboutMeController> {
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 900;
+    final scrollController = ScrollController();
 
     return Center(
       child: Padding(
@@ -55,20 +57,24 @@ class ProfilesView extends GetView<AboutMeController> {
 
                 // Profiles content
                 Flexible(
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      spacing: isMobile ? 16 : 24,
-                      runSpacing: isMobile ? 16 : 24,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      alignment: WrapAlignment.center,
-                      children: [
-                        ...(List.from(controller.profiles)..shuffle()).map(
-                          (profile) => ProfileWidget(
-                            profile: profile,
-                            disableHover: isMobile, // ✅ Disable hover on mobile
+                  child: KSmoothScrollWeb(
+                    controller: scrollController,
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        spacing: isMobile ? 16 : 24,
+                        runSpacing: isMobile ? 16 : 24,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          ...(List.from(controller.profiles)..shuffle()).map(
+                            (profile) => ProfileWidget(
+                              profile: profile,
+                              disableHover:
+                                  isMobile, // ✅ Disable hover on mobile
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
