@@ -36,8 +36,8 @@ class _SharedMeshBackgroundState extends State<SharedMeshBackground>
     final next = widget.mouseOffset;
     if (next != _targetTilt) _targetTilt = next;
     // Lerp: ~8% per frame → smooth lag
-    final dx = _currentTilt.dx + (_targetTilt.dx - _currentTilt.dx) * 0.06;
-    final dy = _currentTilt.dy + (_targetTilt.dy - _currentTilt.dy) * 0.06;
+    final dx = _currentTilt.dx + (_targetTilt.dx - _currentTilt.dx) * 0.03;
+    final dy = _currentTilt.dy + (_targetTilt.dy - _currentTilt.dy) * 0.03;
     if ((dx - _currentTilt.dx).abs() > 0.0001 ||
         (dy - _currentTilt.dy).abs() > 0.0001) {
       setState(() => _currentTilt = Offset(dx, dy));
