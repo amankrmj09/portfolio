@@ -501,25 +501,6 @@ class _CopyrightLabel extends StatelessWidget {
   }
 }
 
-// Terminal-style text
-class _TerminalText extends StatelessWidget {
-  final String text;
-
-  const _TerminalText({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(
-        color: Color(0xFF00FF88),
-        fontSize: 13,
-        fontFamily: 'monospace',
-      ),
-    );
-  }
-}
-
 // Status badge
 class _StatusBadge extends StatelessWidget {
   final String label;
