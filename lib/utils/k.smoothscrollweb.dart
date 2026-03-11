@@ -44,7 +44,7 @@ class _KSmoothScrollWebState extends State<KSmoothScrollWeb> {
       controller: _controller,
       config: SmoothScrollConfig.lenis(
         scrollSpeed: 1.2, // Distance multiplier
-        damping: 0.08, // Lower = smoother/heavier
+        damping: 0.04, // Lower = smoother/heavier
         enableMomentum: true, // Enable throw scrolling
         momentumFactor: 0.5, // Throw distance factor
       ),

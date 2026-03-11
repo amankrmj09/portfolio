@@ -169,7 +169,7 @@ class HomeTabletScreen extends GetView<HomeController> {
           alignment:
               controller.isScrolling.value &&
                   !controller.isProgrammaticScrolling
-              ? const Alignment(0, -5.5)
+              ? const Alignment(0, -7.5)
               : Alignment.bottomCenter,
           child: HomeFloatingMenuBar(),
         ),
