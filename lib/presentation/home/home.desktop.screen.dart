@@ -6,10 +6,10 @@ import 'package:portfolio/infrastructure/navigation/routes.dart';
 import 'package:portfolio/presentation/about_me/about_me.screen.dart';
 import 'package:portfolio/presentation/home/views/home_floating_menu_bar.dart';
 import 'package:portfolio/utils/k.smoothscrollweb.dart';
+import 'package:portfolio/widgets/export.common.widgets.dart';
 
+import '../widgets/export.presentation.widgets.dart';
 import './widgets/export.home.widget.dart';
-import '../../widgets/k.pretty.animated.dart';
-import '../../widgets/mesh.background.dart';
 import '../certificate/certificate.screen.dart';
 import '../footer/footer.screen.dart';
 import '../projects/projects.screen.dart';
@@ -20,6 +20,34 @@ class HomeDesktopScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    return const _HomeDesktopScreenBody();
+  }
+}
+
+class _HomeDesktopScreenBody extends StatefulWidget {
+  const _HomeDesktopScreenBody();
+
+  @override
+  State<_HomeDesktopScreenBody> createState() => _HomeDesktopScreenBodyState();
+}
+
+class _HomeDesktopScreenBodyState extends State<_HomeDesktopScreenBody> {
+  HomeController get controller => Get.find<HomeController>();
+
+  // ValueNotifiers — updates never trigger setState on this widget
+  final _mousePos = ValueNotifier<Offset?>(null);
+  final _containerSz = ValueNotifier<Size>(Size.zero);
+
+  @override
+  void dispose() {
+    _mousePos.dispose();
+    _containerSz.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final dpr = MediaQuery.of(context).devicePixelRatio;
     final theme = Theme.of(context).copyWith(
       scrollbarTheme: ScrollbarThemeData(
         thumbColor: WidgetStateProperty.all(Colors.black54),
@@ -31,70 +59,127 @@ class HomeDesktopScreen extends GetView<HomeController> {
 
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned.fill(child: const SharedMeshBackground()),
-            Theme(
-              data: theme,
-              child: ScrollConfiguration(
-                behavior: ScrollConfiguration.of(context).copyWith(
-                  dragDevices: {
-                    PointerDeviceKind.touch,
-                    PointerDeviceKind.mouse,
-                  },
-                ),
-                child: Obx(
-                  () => Scrollbar(
-                    controller: controller.scrollController,
-                    thumbVisibility: controller.isScrolling.value,
-                    thickness: 8,
-                    radius: const Radius.circular(8),
-                    interactive: true,
-                    child: KSmoothScrollWeb(
-                      controller: controller.scrollController,
-                      child: SingleChildScrollView(
-                        key: controller.scrollKey,
-                        // Key for accurate offset calculation
-                        controller: controller.scrollController,
-                        child: Column(
-                          children: [
-                            _mainSection(context),
-                            AboutMeScreen(key: controller.aboutMeKey),
-                            HeaderSection(
-                              key: controller.recentWorksKey,
-                              context: context,
-                              title: 'Recent Works',
-                              route: Routes.ALL_PROJECTS,
-                            ),
-                            const ProjectsScreen(),
-                            HeaderSection(
-                              key: controller.recentCertificatesKey,
-                              context: context,
-                              title: 'Recent Certificates',
-                              route: Routes.ALL_CERTIFICATES,
-                            ),
-                            const CertificateScreen(),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height,
-                              child: const FooterScreen(),
-                            ),
-                          ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Store size without triggering a rebuild
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _containerSz.value = Size(
+                constraints.maxWidth,
+                constraints.maxHeight,
+              );
+            });
+
+            return MouseRegion(
+              onHover: (event) => _mousePos.value = event.localPosition,
+              onExit: (_) => _mousePos.value = null,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // ── Background: listens to mouse independently ────────────
+                  Positioned.fill(
+                    child: ValueListenableBuilder<Offset?>(
+                      valueListenable: _mousePos,
+                      builder: (_, pos, __) => ValueListenableBuilder<Size>(
+                        valueListenable: _containerSz,
+                        builder: (_, sz, __) => SharedMeshBackground(
+                          mouseOffset: (pos == null || sz == Size.zero)
+                              ? null
+                              : Offset(
+                                  (pos.dx / sz.width) * 2 - 1,
+                                  (pos.dy / sz.height) * 2 - 1,
+                                ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                  // ── Scroll content: completely isolated, never rebuilds ───
+                  Theme(
+                    data: theme,
+                    child: ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context).copyWith(
+                        dragDevices: {
+                          PointerDeviceKind.touch,
+                          PointerDeviceKind.mouse,
+                        },
+                      ),
+                      child: Obx(
+                        () => Scrollbar(
+                          controller: controller.scrollController,
+                          thumbVisibility: controller.isScrolling.value,
+                          thickness: 8,
+                          radius: const Radius.circular(8),
+                          interactive: true,
+                          child: KSmoothScrollWeb(
+                            controller: controller.scrollController,
+                            child: SingleChildScrollView(
+                              key: controller.scrollKey,
+                              controller: controller.scrollController,
+                              child: Column(
+                                children: [
+                                  _mainSection(context),
+                                  AboutMeScreen(key: controller.aboutMeKey),
+                                  HeaderSection(
+                                    key: controller.recentWorksKey,
+                                    context: context,
+                                    title: 'Recent Works',
+                                    route: Routes.ALL_PROJECTS,
+                                  ),
+                                  const ProjectsScreen(),
+                                  HeaderSection(
+                                    key: controller.recentCertificatesKey,
+                                    context: context,
+                                    title: 'Recent Certificates',
+                                    route: Routes.ALL_CERTIFICATES,
+                                  ),
+                                  const CertificateScreen(),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height,
+                                    child: const FooterScreen(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: _topFloatingBar(),
+                    ),
+                  ),
+                  Positioned(right: 32, bottom: 32, child: KTerminalText()),
+                  // ── Overlay: listens to mouse independently ───────────────
+                  Positioned(
+                    top: 12,
+                    right: 16,
+                    child: IgnorePointer(
+                      child: ValueListenableBuilder<Offset?>(
+                        valueListenable: _mousePos,
+                        builder: (_, pos, __) => ValueListenableBuilder<Size>(
+                          valueListenable: _containerSz,
+                          builder: (_, sz, __) {
+                            if (pos == null || sz == Size.zero) {
+                              return const SizedBox.shrink();
+                            }
+                            return CoordinatesOverlay(
+                              position: pos,
+                              devicePixelRatio: dpr,
+                              containerHeight: sz.height,
+                              containerWidth: sz.width,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Positioned(
-              top: 0,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: _topFloatingBar(),
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

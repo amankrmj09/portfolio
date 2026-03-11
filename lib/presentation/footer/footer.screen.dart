@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../infrastructure/theme/colors.dart';
 import '../../utils/k.showGeneralDialog.dart';
+import '../../widgets/export.common.widgets.dart';
 import 'controllers/footer.controller.dart';
 
 class FooterScreen extends GetView<FooterController> {
@@ -500,45 +501,6 @@ class _CopyrightLabel extends StatelessWidget {
   }
 }
 
-// Bottom bar
-class _BottomBar extends StatelessWidget {
-  final bool isMobile;
-
-  const _BottomBar({required this.isMobile});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: isMobile ? 20 : 50,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          if (!isMobile)
-            Row(
-              children: [
-                const _TerminalText(text: '~/portfolio'),
-                const SizedBox(width: 8),
-                const _BlinkingCursor(),
-              ],
-            ),
-          if (isMobile) _CopyrightLabel(),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const _StatusBadge(label: 'v4.0.6', color: KColor.meshGlow),
-              const SizedBox(width: 12),
-              const _StatusBadge(label: 'Flutter', color: Color(0xFF02569B)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 // Terminal-style text
 class _TerminalText extends StatelessWidget {
   final String text;
@@ -554,51 +516,6 @@ class _TerminalText extends StatelessWidget {
         fontSize: 13,
         fontFamily: 'monospace',
       ),
-    );
-  }
-}
-
-// Blinking cursor
-class _BlinkingCursor extends StatefulWidget {
-  const _BlinkingCursor();
-
-  @override
-  State<_BlinkingCursor> createState() => _BlinkingCursorState();
-}
-
-class _BlinkingCursorState extends State<_BlinkingCursor>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    )..repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Opacity(
-          opacity: _controller.value,
-          child: Container(
-            width: 8,
-            height: 16,
-            color: const Color(0xFF00FF88),
-          ),
-        );
-      },
     );
   }
 }
