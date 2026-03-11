@@ -42,10 +42,11 @@ class _KSmoothScrollWebState extends State<KSmoothScrollWeb> {
   Widget build(BuildContext context) {
     return SmoothScrollWeb(
       controller: _controller,
-      config: SmoothScrollConfig.native(
-        scrollSpeed: 1.0,
-        enableMomentum: true,
-        momentumFactor: 0.6,
+      config: SmoothScrollConfig.lenis(
+        scrollSpeed: 1.2, // Distance multiplier
+        damping: 0.08, // Lower = smoother/heavier
+        enableMomentum: true, // Enable throw scrolling
+        momentumFactor: 0.5, // Throw distance factor
       ),
       child: widget.child,
     );

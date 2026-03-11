@@ -3,11 +3,10 @@ import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:portfolio/infrastructure/theme/colors.dart';
 
 class SharedMeshBackground extends StatefulWidget {
-  const SharedMeshBackground({super.key, this.mouseOffset});
+  const SharedMeshBackground({super.key, this.mouseOffset = Offset.zero});
 
   /// Normalised mouse offset in -1..1 on both axes (0,0 = center).
-  /// When null the grid stays centered.
-  final Offset? mouseOffset;
+  final Offset mouseOffset;
 
   @override
   State<SharedMeshBackground> createState() => _SharedMeshBackgroundState();
@@ -34,7 +33,7 @@ class _SharedMeshBackgroundState extends State<SharedMeshBackground>
   }
 
   void _smoothTilt() {
-    final next = widget.mouseOffset ?? Offset.zero;
+    final next = widget.mouseOffset;
     if (next != _targetTilt) _targetTilt = next;
     // Lerp: ~8% per frame → smooth lag
     final dx = _currentTilt.dx + (_targetTilt.dx - _currentTilt.dx) * 0.06;
@@ -95,91 +94,95 @@ class _SharedMeshBackgroundState extends State<SharedMeshBackground>
 class _TechGridPainter extends CustomPainter {
   const _TechGridPainter({this.tilt = Offset.zero});
 
-  final Offset tilt;
+  final Offset tilt; // -1..1 on both axes, (0,0) = center
 
   @override
   void paint(Canvas canvas, Size size) {
-    final cx = size.width / 2;
-    final cy = size.height / 2;
+    final w = size.width;
+    final h = size.height;
 
-    // VP shifts with mouse — everything is relative to VP, not cx/cy
-    final vpx = cx + tilt.dx * cx * 0.3;
-    final vpy = cy + tilt.dy * cy * 0.3;
+    // ── Vanishing point (cursor center) — shifts subtly ─────────────────
+    final vpx = w / 2 + tilt.dx * w * 0.08;
+    final vpy = h / 2 + tilt.dy * h * 0.08;
 
     final linePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 0.5;
 
-    // ── 1. PARABOLIC VERTICAL LINES ──────────────────────────────────────────
-    // Edges are placed relative to vpx so they fan out from the shifted VP
-    const vLineCount = 7;
-    for (int i = 1; i <= vLineCount; i++) {
-      final n = (i / (vLineCount + 1)) * (i / (vLineCount + 1));
+    // ── Grid shift: move parabolas slightly in cursor direction ────────
+    // tilt is -1..1; shift lines by a fraction of screen size
+    final gridShiftX = tilt.dx * w * 0.06;
+    final gridShiftY = tilt.dy * h * 0.06;
 
-      // Right side: from vpx → right edge, left side: from vpx → left edge
-      final edgeX_right = vpx + n * (size.width - vpx);
-      final edgeX_left = vpx - n * vpx;
+    // ── 1. VERTICAL PARABOLIC LINES ─────────────────────────────────────
+    // Each vertical line runs from y=0 to y=h (full height).
+    // At the VP's y-level the line sits at its base x-position.
+    // As y moves away from vpy, the line bows outward (away from vpx)
+    // following a parabola: x = baseX + bow * (normalised_distance²).
+    //
+    // Lines on the LEFT of vpx bow further left.
+    // Lines on the RIGHT of vpx bow further right.
+    const vCount = 8; // lines per side
+    for (int side = -1; side <= 1; side += 2) {
+      for (int i = 1; i <= vCount; i++) {
+        // Normalised 0..1 where 0 = at VP, 1 = at edge
+        final n = i / (vCount + 1);
 
-      // Bow pulls inward toward vpx
-      final bow_right = (edgeX_right - vpx) * n * 0.45;
-      final bow_left = (vpx - edgeX_left) * n * 0.45;
+        // Base x: evenly spaced between vpx and the edge
+        final edgeDist = side == 1 ? (w - vpx) : vpx;
+        final baseX = vpx + side * n * edgeDist + gridShiftX;
 
-      _drawParabolicVLine(
-        canvas,
-        size,
-        vpy,
-        edgeX_right,
-        -bow_right,
-        _lineAlpha(n),
-        linePaint,
-      );
-      _drawParabolicVLine(
-        canvas,
-        size,
-        vpy,
-        edgeX_left,
-        bow_left,
-        _lineAlpha(n),
-        linePaint,
-      );
+        // Bow strength: lines further from center bow more (quadratic)
+        final bow = side * n * n * edgeDist * 0.55;
+
+        final alpha = _alphaForDist(n);
+
+        _drawVerticalParabola(
+          canvas,
+          w,
+          h,
+          vpx,
+          vpy,
+          baseX,
+          bow,
+          alpha,
+          linePaint,
+        );
+      }
     }
 
-    // ── 2. PARABOLIC HORIZONTAL LINES ────────────────────────────────────────
-    // Edges are placed relative to vpy so they fan out from the shifted VP
-    const hLineCount = 5;
-    for (int i = 1; i <= hLineCount; i++) {
-      final n = (i / (hLineCount + 1)) * (i / (hLineCount + 1));
+    // ── 2. HORIZONTAL PARABOLIC LINES ───────────────────────────────────
+    // Same idea but rotated 90°: each line runs from x=0 to x=w.
+    // At the VP's x-level the line sits at its base y-position.
+    // As x moves away from vpx, the line bows outward (away from vpy).
+    const hCount = 6; // lines per side
+    for (int side = -1; side <= 1; side += 2) {
+      for (int i = 1; i <= hCount; i++) {
+        final n = i / (hCount + 1);
 
-      // Bottom side: from vpy → bottom edge, top side: from vpy → top edge
-      final edgeY_bottom = vpy + n * (size.height - vpy);
-      final edgeY_top = vpy - n * vpy;
+        final edgeDist = side == 1 ? (h - vpy) : vpy;
+        final baseY = vpy + side * n * edgeDist + gridShiftY;
 
-      // Bow pulls inward toward vpy
-      final bow_bottom = (edgeY_bottom - vpy) * n * 0.40;
-      final bow_top = (vpy - edgeY_top) * n * 0.40;
+        final bow = side * n * n * edgeDist * 0.55;
 
-      _drawParabolicHLine(
-        canvas,
-        size,
-        vpx,
-        edgeY_bottom,
-        -bow_bottom,
-        _lineAlpha(n),
-        linePaint,
-      );
-      _drawParabolicHLine(
-        canvas,
-        size,
-        vpx,
-        edgeY_top,
-        bow_top,
-        _lineAlpha(n),
-        linePaint,
-      );
+        final alpha = _alphaForDist(n);
+
+        _drawHorizontalParabola(
+          canvas,
+          w,
+          h,
+          vpx,
+          vpy,
+          baseY,
+          bow,
+          alpha,
+          linePaint,
+        );
+      }
     }
 
-    // ── 3. CENTER GLOW at VP ─────────────────────────────────────────────────
+    // ── 3. CENTER GLOW ──────────────────────────────────────────────────
     final vp = Offset(vpx, vpy);
     for (final (r, a) in [
       (28.0, 0.03),
@@ -200,22 +203,27 @@ class _TechGridPainter extends CustomPainter {
     }
   }
 
-  void _drawParabolicVLine(
+  // ── Vertical parabola (full height, bows on x-axis) ──────────────────
+  void _drawVerticalParabola(
     Canvas canvas,
-    Size size,
-    double vpY,
-    double edgeX,
+    double w,
+    double h,
+    double vpx,
+    double vpy,
+    double baseX,
     double bow,
     double alpha,
     Paint p,
   ) {
     final path = Path();
-    const steps = 60;
+    const steps = 64;
     for (int s = 0; s <= steps; s++) {
       final t = s / steps;
-      final y = t * size.height;
-      final u = (y - vpY) / (size.height / 2);
-      final x = edgeX + bow * (1 - u * u);
+      final y = t * h;
+      // u = normalised distance from VP on the y-axis, -1..1
+      final u = (y - vpy) / (h / 2);
+      // Parabola: offset = bow * u²  (maximum bow at top/bottom edges)
+      final x = baseX + bow * u * u;
       s == 0 ? path.moveTo(x, y) : path.lineTo(x, y);
     }
     p
@@ -224,22 +232,27 @@ class _TechGridPainter extends CustomPainter {
     canvas.drawPath(path, p);
   }
 
-  void _drawParabolicHLine(
+  // ── Horizontal parabola (full width, bows on y-axis) ─────────────────
+  void _drawHorizontalParabola(
     Canvas canvas,
-    Size size,
-    double vpX,
-    double edgeY,
+    double w,
+    double h,
+    double vpx,
+    double vpy,
+    double baseY,
     double bow,
     double alpha,
     Paint p,
   ) {
     final path = Path();
-    const steps = 60;
+    const steps = 64;
     for (int s = 0; s <= steps; s++) {
       final t = s / steps;
-      final x = t * size.width;
-      final u = (x - vpX) / (size.width / 2);
-      final y = edgeY + bow * (1 - u * u);
+      final x = t * w;
+      // u = normalised distance from VP on the x-axis, -1..1
+      final u = (x - vpx) / (w / 2);
+      // Parabola: offset = bow * u²
+      final y = baseY + bow * u * u;
       s == 0 ? path.moveTo(x, y) : path.lineTo(x, y);
     }
     p
@@ -248,7 +261,8 @@ class _TechGridPainter extends CustomPainter {
     canvas.drawPath(path, p);
   }
 
-  double _lineAlpha(double n) => (0.04 + 0.10 * n).clamp(0.0, 1.0);
+  /// Closer to center → more transparent; further → slightly brighter.
+  double _alphaForDist(double n) => (0.03 + 0.09 * n).clamp(0.0, 1.0);
 
   @override
   bool shouldRepaint(_TechGridPainter old) => old.tilt != tilt;

@@ -79,15 +79,51 @@ class _HomeDesktopScreenBodyState extends State<_HomeDesktopScreenBody> {
                   Positioned.fill(
                     child: ValueListenableBuilder<Offset?>(
                       valueListenable: _mousePos,
-                      builder: (_, pos, __) => ValueListenableBuilder<Size>(
+                      builder: (_, pos, _) => ValueListenableBuilder<Size>(
                         valueListenable: _containerSz,
-                        builder: (_, sz, __) => SharedMeshBackground(
-                          mouseOffset: (pos == null || sz == Size.zero)
-                              ? null
-                              : Offset(
-                                  (pos.dx / sz.width) * 2 - 1,
-                                  (pos.dy / sz.height) * 2 - 1,
-                                ),
+                        builder: (_, sz, _) {
+                          final pos = _mousePos.value;
+                          if (pos == null || sz == Size.zero) {
+                            return const SharedMeshBackground();
+                          }
+                          return SharedMeshBackground(
+                            mouseOffset: Offset(
+                              (pos.dx / sz.width) * 2 - 1,
+                              (pos.dy / sz.height) * 2 - 1,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Positioned(right: 32, bottom: 32, child: KTerminalText()),
+                  // ── Overlay: listens to mouse independently ───────────────
+                  Positioned(
+                    top: 12,
+                    right: 16,
+                    child: IgnorePointer(
+                      child: ValueListenableBuilder<Offset?>(
+                        valueListenable: _mousePos,
+                        builder: (_, pos, _) => ValueListenableBuilder<Size>(
+                          valueListenable: _containerSz,
+                          builder: (_, sz, _) {
+                            final pos = _mousePos.value;
+                            final resolvedSz = sz == Size.zero
+                                ? const Size(1, 1)
+                                : sz;
+                            final resolvedPos =
+                                pos ??
+                                Offset(
+                                  resolvedSz.width / 2,
+                                  resolvedSz.height / 2,
+                                );
+                            return CoordinatesOverlay(
+                              position: resolvedPos,
+                              devicePixelRatio: dpr,
+                              containerHeight: resolvedSz.height,
+                              containerWidth: resolvedSz.width,
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -149,31 +185,6 @@ class _HomeDesktopScreenBodyState extends State<_HomeDesktopScreenBody> {
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: _topFloatingBar(),
-                    ),
-                  ),
-                  Positioned(right: 32, bottom: 32, child: KTerminalText()),
-                  // ── Overlay: listens to mouse independently ───────────────
-                  Positioned(
-                    top: 12,
-                    right: 16,
-                    child: IgnorePointer(
-                      child: ValueListenableBuilder<Offset?>(
-                        valueListenable: _mousePos,
-                        builder: (_, pos, __) => ValueListenableBuilder<Size>(
-                          valueListenable: _containerSz,
-                          builder: (_, sz, __) {
-                            if (pos == null || sz == Size.zero) {
-                              return const SizedBox.shrink();
-                            }
-                            return CoordinatesOverlay(
-                              position: pos,
-                              devicePixelRatio: dpr,
-                              containerHeight: sz.height,
-                              containerWidth: sz.width,
-                            );
-                          },
-                        ),
-                      ),
                     ),
                   ),
                 ],
