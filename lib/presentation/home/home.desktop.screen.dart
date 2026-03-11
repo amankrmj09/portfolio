@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:portfolio/infrastructure/navigation/routes.dart';
 import 'package:portfolio/presentation/about_me/about_me.screen.dart';
 import 'package:portfolio/presentation/home/views/home_floating_menu_bar.dart';
-import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import 'package:portfolio/widgets/export.common.widgets.dart';
 
 import './widgets/export.home.widget.dart';
@@ -144,35 +143,32 @@ class _HomeDesktopScreenBodyState extends State<_HomeDesktopScreenBody> {
                           thickness: 8,
                           radius: const Radius.circular(8),
                           interactive: true,
-                          child: KSmoothScrollWeb(
+                          child: SingleChildScrollView(
+                            key: controller.scrollKey,
                             controller: controller.scrollController,
-                            child: SingleChildScrollView(
-                              key: controller.scrollKey,
-                              controller: controller.scrollController,
-                              child: Column(
-                                children: [
-                                  _mainSection(context),
-                                  AboutMeScreen(key: controller.aboutMeKey),
-                                  HeaderSection(
-                                    key: controller.recentWorksKey,
-                                    context: context,
-                                    title: 'Recent Works',
-                                    route: Routes.ALL_PROJECTS,
-                                  ),
-                                  const ProjectsScreen(),
-                                  HeaderSection(
-                                    key: controller.recentCertificatesKey,
-                                    context: context,
-                                    title: 'Recent Certificates',
-                                    route: Routes.ALL_CERTIFICATES,
-                                  ),
-                                  const CertificateScreen(),
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height,
-                                    child: const FooterScreen(),
-                                  ),
-                                ],
-                              ),
+                            child: Column(
+                              children: [
+                                _mainSection(context),
+                                AboutMeScreen(key: controller.aboutMeKey),
+                                HeaderSection(
+                                  key: controller.recentWorksKey,
+                                  context: context,
+                                  title: 'Recent Works',
+                                  route: Routes.ALL_PROJECTS,
+                                ),
+                                const ProjectsScreen(),
+                                HeaderSection(
+                                  key: controller.recentCertificatesKey,
+                                  context: context,
+                                  title: 'Recent Certificates',
+                                  route: Routes.ALL_CERTIFICATES,
+                                ),
+                                const CertificateScreen(),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: const FooterScreen(),
+                                ),
+                              ],
                             ),
                           ),
                         ),

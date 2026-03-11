@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../domain/models/resume_model/education_model.dart';
 import '../../../infrastructure/theme/colors.dart';
-import '../../../utils/k.smoothscrollweb.dart';
 import '../controllers/resume.controller.dart';
 import '../widgets/shimmer_cards.dart';
 
@@ -12,7 +11,6 @@ class EducationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ResumeController resumeController = Get.find<ResumeController>();
-    final ScrollController scrollController = ScrollController();
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Obx(() {
@@ -22,16 +20,13 @@ class EducationView extends StatelessWidget {
           return const ShimmerList();
         }
 
-        return KSmoothScrollWeb(
-          controller: scrollController,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: educationList
-                  .map((education) => _EducationCard(education))
-                  .toList(),
-            ),
+        return SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: educationList
+                .map((education) => _EducationCard(education))
+                .toList(),
           ),
         );
       }),

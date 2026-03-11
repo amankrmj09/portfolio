@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/utils/k.smoothscrollweb.dart';
 import '../../../domain/models/resume_model/achievement_model.dart';
 import '../../../infrastructure/theme/colors.dart';
 import '../controllers/resume.controller.dart';
@@ -12,7 +11,6 @@ class AchievementsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ResumeController resumeController = Get.find<ResumeController>();
-    final ScrollController scrollController = ScrollController();
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Obx(() {
@@ -22,16 +20,13 @@ class AchievementsView extends StatelessWidget {
           return const ShimmerList();
         }
 
-        return KSmoothScrollWeb(
-          controller: scrollController,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: achievements
-                  .map((achievement) => _AchievementCard(achievement))
-                  .toList(),
-            ),
+        return SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: achievements
+                .map((achievement) => _AchievementCard(achievement))
+                .toList(),
           ),
         );
       }),
