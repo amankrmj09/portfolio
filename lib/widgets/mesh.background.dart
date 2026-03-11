@@ -183,24 +183,24 @@ class _TechGridPainter extends CustomPainter {
     }
 
     // ── 3. CENTER GLOW ──────────────────────────────────────────────────
-    final vp = Offset(vpx, vpy);
-    for (final (r, a) in [
-      (28.0, 0.03),
-      (10.0, 0.06),
-      (3.5, 0.18),
-      (1.2, 0.55),
-    ]) {
-      canvas.drawCircle(
-        vp,
-        r,
-        Paint()
-          ..style = PaintingStyle.fill
-          ..color = KColor.meshGlow.withValues(alpha: a)
-          ..maskFilter = r > 5
-              ? const MaskFilter.blur(BlurStyle.normal, 8)
-              : null,
-      );
-    }
+    // final vp = Offset(vpx, vpy);
+    // for (final (r, a) in [
+    //   (28.0, 0.03),
+    //   (10.0, 0.06),
+    //   (3.5, 0.18),
+    //   (1.2, 0.55),
+    // ]) {
+    //   canvas.drawCircle(
+    //     vp,
+    //     r,
+    //     Paint()
+    //       ..style = PaintingStyle.fill
+    //       ..color = KColor.meshGlow.withValues(alpha: a)
+    //       ..maskFilter = r > 5
+    //           ? const MaskFilter.blur(BlurStyle.normal, 8)
+    //           : null,
+    //   );
+    // }
   }
 
   // ── Vertical parabola (full height, bows on x-axis) ──────────────────
