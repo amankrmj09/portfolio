@@ -20,7 +20,7 @@
 
     <!-- Open Graph / Facebook -->
     <meta content="website" property="og:type">
-    <meta content="https://amankrmj01.github.io/portfolio/" property="og:url">
+    <meta content="https://amankrmj09.github.io/portfolio/" property="og:url">
     <meta content="Aman Kumar - Portfolio" property="og:title">
     <meta content="Portfolio website of Aman Kumar showcasing projects, skills, and experience"
           property="og:description">
@@ -28,7 +28,7 @@
 
     <!-- Twitter -->
     <meta content="summary_large_image" property="twitter:card">
-    <meta content="https://amankrmj01.github.io/portfolio/" property="twitter:url">
+    <meta content="https://amankrmj09.github.io/portfolio/" property="twitter:url">
     <meta content="Aman Kumar - Portfolio" property="twitter:title">
     <meta content="Portfolio website of Aman Kumar showcasing projects, skills, and experience"
           property="twitter:description">
@@ -40,162 +40,8 @@
     <title>Aman Kumar</title>
     <link href="manifest.json" rel="manifest">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #loading-container {
-            text-align: center;
-            opacity: 0;
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Minimal spinner */
-        .spinner {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 30px;
-            position: relative;
-        }
-
-        .spinner-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 3px solid rgba(79, 70, 229, 0.15);
-            border-top-color: #4f46e5;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        .spinner-ring:nth-child(2) {
-            width: 80%;
-            height: 80%;
-            top: 10%;
-            left: 10%;
-            border-width: 2px;
-            border-color: rgba(124, 58, 237, 0.15);
-            border-top-color: #7c3aed;
-            animation-duration: 1.5s;
-            animation-direction: reverse;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Text */
-        .loading-text {
-            font-size: 28px;
-            font-weight: 300;
-            letter-spacing: 8px;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-
-        /* Subtle line */
-        .loading-line {
-            width: 100px;
-            height: 1px;
-            margin: 0 auto 20px;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                #4f46e5 50%,
-                transparent 100%
-            );
-            opacity: 0.8;
-        }
-
-        /* Animated dots */
-        .loading-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .dot {
-            width: 6px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: dotPulse 1.4s ease-in-out infinite;
-        }
-
-        .dot:nth-child(1) {
-            animation-delay: 0s;
-        }
-
-        .dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes dotPulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: scale(1.5);
-                opacity: 1;
-            }
-        }
-
-        /* Fade out when Flutter loads */
-        .fade-out {
-            animation: fadeOut 0.4s ease-out forwards;
-        }
-
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-        }
-
-        /* Hide Flutter loading indicator */
-        #flt-glass-pane, #app-container {
-            width: 100vw !important;
-            min-width: 0;
-        }
-    </style>
+    <!-- Custom Loader CSS -->
+    <link href="loader.css" rel="stylesheet">
 </head>
 <body>
 <div id="loading-container">
@@ -212,46 +58,13 @@
     <div class="loading-line"></div>
 
     <!-- Animated Dots -->
-    <div class="loading-dots">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-    </div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
 </div>
 
-<script>
-    // Random loading messages
-    const messages = [
-        'Filling the gas',
-        'Building it',
-        'Brewing coffee',
-        'Loading assets',
-        'Warming up',
-        'Getting ready',
-        'Initializing',
-        'Compiling magic',
-        'Almost there',
-        'Polishing pixels',
-        'Starting engines',
-        'Waking up servers',
-        'Loading awesomeness',
-        'Preparing portfolio'
-    ];
-
-    // Pick a random message
-    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    document.getElementById('loading-text').textContent = randomMessage;
-
-    // Smooth fade out when Flutter is ready
-    window.addEventListener('flutter-first-frame', function() {
-        const loader = document.getElementById('loading-container');
-        loader.classList.add('fade-out');
-        setTimeout(function() {
-            loader.style.display = 'none';
-        }, 400);
-    });
-</script>
-
+<!-- Custom Loader JS -->
+<script src="loader.js"></script>
 <script async src="flutter_bootstrap.js"></script>
 </body>
 </html>
