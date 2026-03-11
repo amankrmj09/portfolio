@@ -35,10 +35,10 @@ class _SharedMeshBackgroundState extends State<SharedMeshBackground> {
             Positioned.fill(
               child: AnimatedMeshGradient(
                 colors: const [
-                  KColor.meshDark1, // Dark blue-black
-                  KColor.meshDark2, // Dark purple-blue
-                  KColor.meshDark3, // Dark navy
-                  KColor.meshDark4, // Dark slate blue
+                  KColor.meshDark1,
+                  KColor.meshDark2,
+                  KColor.meshDark3,
+                  KColor.meshDark4,
                 ],
                 controller: _controller,
                 options: AnimatedMeshGradientOptions(
@@ -67,7 +67,7 @@ class _TechGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = KColor.meshGlow.withValues(alpha: 0.05)
+      ..color = KColor.meshDark2.withValues(alpha: 1)
       ..strokeWidth = 0.5;
 
     const spacing = 50.0;
@@ -84,7 +84,7 @@ class _TechGridPainter extends CustomPainter {
 
     // Dots at intersections
     final dotPaint = Paint()
-      ..color = KColor.meshGlow.withValues(alpha: 0.15)
+      ..color = KColor.meshDark2.withValues(alpha: 1)
       ..style = PaintingStyle.fill;
 
     for (double x = 0; x < size.width; x += spacing) {
